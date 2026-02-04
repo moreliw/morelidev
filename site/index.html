@@ -3,34 +3,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Moreli Dev</title>
+  <title>Moreli Dev | Soluções Digitais</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <header class="top">
+    <div class="brand">Moreli Dev</div>
+    <nav class="nav">
+      <a href="#servicos">Serviços</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
   <main class="page">
     <section class="hero">
-      <p class="eyebrow">Moreli Dev</p>
-      <h1>Seu site está no ar</h1>
-      <p class="subtitle">Base inicial para o novo site. Atualize este conteúdo no repositório.</p>
-      <div class="actions">
-        <a class="primary" href="mailto:contato@morelidev.com">Falar comigo</a>
-        <a class="secondary" href="https://morelidev.com">morelidev.com</a>
+      <div>
+        <p class="eyebrow">Tecnologia e crescimento</p>
+        <h1>Sites rápidos, modernos e com deploy automático</h1>
+        <p class="subtitle">Construo experiências digitais focadas em performance, clareza e conversão. Seu site no ar com infraestrutura confiável e pronta para escalar.</p>
+        <div class="actions">
+          <a class="primary" href="#contato">Solicitar proposta</a>
+          <a class="secondary" href="mailto:contato@morelidev.com">contato@morelidev.com</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Entrega em etapas</h3>
+        <ul>
+          <li>Descoberta e briefing</li>
+          <li>Design funcional</li>
+          <li>Implementação e deploy</li>
+          <li>Suporte e evolução</li>
+        </ul>
       </div>
     </section>
-    <section class="features">
+
+    <section id="servicos" class="grid">
+      <article>
+        <h2>Sites institucionais</h2>
+        <p>Estrutura clara, conteúdo organizado e foco em credibilidade.</p>
+      </article>
+      <article>
+        <h2>Landing pages</h2>
+        <p>Páginas enxutas para campanhas, lançamentos e captação.</p>
+      </article>
+      <article>
+        <h2>Manutenção contínua</h2>
+        <p>Atualizações rápidas, ajustes finos e melhorias constantes.</p>
+      </article>
+    </section>
+
+    <section id="sobre" class="about">
       <div>
-        <h2>Entrega rápida</h2>
-        <p>Estrutura simples e pronta para evoluir com páginas novas.</p>
+        <h2>Sobre</h2>
+        <p>Sou Vinícius Moreli, desenvolvedor focado em arquitetura sólida e entregas rápidas. Trabalho com boas práticas, desempenho e automação para manter seu site sempre disponível.</p>
       </div>
-      <div>
-        <h2>Performance</h2>
-        <p>Conteúdo estático servido por Nginx.</p>
+      <div class="about-box">
+        <p><strong>Stack:</strong> Nginx + Docker + Portainer + GitHub Actions</p>
+        <p><strong>Infra:</strong> VPS com TLS automático e deploy via webhook</p>
       </div>
-      <div>
-        <h2>Automação</h2>
-        <p>Deploy automático a cada push na main.</p>
+    </section>
+
+    <section id="projetos" class="projects">
+      <h2>Projetos em destaque</h2>
+      <div class="project-grid">
+        <div>
+          <h3>LegalReports</h3>
+          <p>Plataforma jurídica com autenticação e painel administrativo.</p>
+        </div>
+        <div>
+          <h3>Mais soluções</h3>
+          <p>Sites, dashboards e integrações sob medida.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="contact">
+      <h2>Vamos conversar?</h2>
+      <p>Envie um resumo do seu projeto e eu retorno com uma proposta objetiva.</p>
+      <div class="actions">
+        <a class="primary" href="mailto:contato@morelidev.com">Enviar e-mail</a>
+        <a class="secondary" href="https://wa.me/5500000000000">WhatsApp</a>
       </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <p>© 2026 Moreli Dev. Todos os direitos reservados.</p>
+  </footer>
 </body>
 </html>
