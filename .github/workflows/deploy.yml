@@ -16,4 +16,4 @@ jobs:
             echo "PORTAINER_WEBHOOK_URL not set; skipping"
             exit 0
           fi
-          curl -fsSL -X POST "$PORTAINER_WEBHOOK_URL"
+          curl -fsSL -k -X POST "$PORTAINER_WEBHOOK_URL"
