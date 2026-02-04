@@ -8,9 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Portainer redeploy (webhook)
-        if: ${{ secrets.PORTAINER_WEBHOOK_URL != '' }}
         env:
           PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
         run: |
           set -e
+          if [ -z "$PORTAINER_WEBHOOK_URL" ]; then
+            echo "PORTAINER_WEBHOOK_URL not set; skipping"
+            exit 0
+          fi
           curl -fsSL -X POST "$PORTAINER_WEBHOOK_URL"
