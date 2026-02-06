@@ -1,44 +1,90 @@
 "use client";
 import { motion } from "framer-motion";
+import { GradientMesh } from "./GradientMesh";
+import { MagneticButton } from "./MagneticButton";
+import { PortraitHighlight } from "./PortraitHighlight";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Hero() {
+  const { language } = useLanguage();
+  const copy =
+    language === "pt"
+      ? {
+          intro: "Olá, eu sou William Moreli",
+          headline: "Software Engineer | Full Stack Developer",
+          desc: "Construo aplicações web escaláveis com .NET, Angular, React e arquiteturas modernas.",
+          ctaPrimary: "Fale comigo",
+          ctaSecondary: "Ver projetos",
+        }
+      : {
+          intro: "Hi, I’m William Moreli",
+          headline: "Software Engineer | Full Stack Developer",
+          desc: "Building scalable web applications with .NET, Angular, React and modern architectures.",
+          ctaPrimary: "Contact me",
+          ctaSecondary: "View projects",
+        };
+
   return (
     <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-40 left-1/2 h-96 w-[120rem] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-400/10 to-cyan-300/10 blur-3xl" />
-      </div>
+      <GradientMesh />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mx-auto max-w-6xl px-6 pt-36 pb-24 text-center sm:text-left"
-      >
-        <p className="uppercase tracking-widest text-xs text-zinc-500">
-          Engenharia + Design + Performance
-        </p>
-        <h1 className="mt-4 text-4xl sm:text-6xl font-semibold tracking-tight">
-          Construo produtos digitais escaláveis, performáticos e prontos para o futuro.
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          Full Stack Developer com foco em arquitetura, frontend moderno e entrega profissional.
-        </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <a
-            href="#contact"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-black text-white px-6 dark:bg-white dark:text-black hover:opacity-90 transition"
+      <div className="mx-auto max-w-6xl px-6 pt-36 pb-24">
+        <div className="grid gap-10 sm:grid-cols-2 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="order-2 sm:order-1 text-center sm:text-left"
           >
-            Solicitar proposta
-          </a>
-          <a
-            href="#projects"
-            className="inline-flex h-12 items-center justify-center rounded-full border px-6 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            <p className="text-[var(--accent)] font-medium">{copy.intro}</p>
+            <h1 className="mt-2 text-4xl sm:text-6xl font-semibold tracking-tight text-zinc-100">
+              {copy.headline}
+            </h1>
+            <p className="mt-4 text-base sm:text-lg text-zinc-300 leading-relaxed">
+              {copy.desc}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2 text-xs">
+              {[
+                ".NET",
+                "ASP.NET Core",
+                "Angular",
+                "React",
+                "Node.js",
+                "PHP",
+              ].map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full px-3 py-1 border border-white/10 text-zinc-300"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
+              <MagneticButton
+                href="#contact"
+                className="btn-accent shadow-[0_12px_24px_rgba(255,122,0,0.25)]"
+              >
+                {copy.ctaPrimary}
+              </MagneticButton>
+              <MagneticButton href="#portfolio" className="btn-outline hover:bg-white/5">
+                {copy.ctaSecondary}
+              </MagneticButton>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="order-1 sm:order-2 flex justify-center"
           >
-            Ver projetos
-          </a>
+            <div className="relative">
+              <div className="absolute inset-0 -z-10 h-[540px] w-[540px] rounded-full border border-white/10" />
+              <PortraitHighlight src="/my.jpeg" />
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
-

@@ -1,6 +1,7 @@
 "use client";
 import { Section } from "./Section";
 import { motion } from "framer-motion";
+import { TiltCard } from "./TiltCard";
 
 const projects = [
   {
@@ -25,25 +26,26 @@ export function Projects() {
     <Section id="projects" title="Projetos (Case Studies)">
       <div className="grid gap-6 sm:grid-cols-2">
         {projects.map((p, i) => (
-          <motion.article
-            key={i}
-            whileHover={{ scale: 1.01 }}
-            className="rounded-xl border overflow-hidden bg-white/50 dark:bg-black/30"
-          >
-            <div className="p-6">
-              <h3 className="text-lg font-semibold">{p.name}</h3>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Problema: {p.problem}
-              </p>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Solução: {p.solution}
-              </p>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Tecnologias: {p.tech.join(", ")}
-              </p>
-              <p className="mt-3 font-medium">Impacto: {p.impact}</p>
-            </div>
-          </motion.article>
+          <TiltCard key={i} className="bg-white/50 dark:bg-black/30">
+            <motion.article
+              whileHover={{ scale: 1.005 }}
+              className="rounded-xl overflow-hidden"
+            >
+              <div className="p-6">
+                <h3 className="text-lg font-semibold">{p.name}</h3>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  Problema: {p.problem}
+                </p>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  Solução: {p.solution}
+                </p>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  Tecnologias: {p.tech.join(", ")}
+                </p>
+                <p className="mt-3 font-medium">Impacto: {p.impact}</p>
+              </div>
+            </motion.article>
+          </TiltCard>
         ))}
       </div>
     </Section>

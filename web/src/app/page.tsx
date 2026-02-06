@@ -1,29 +1,33 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { Section } from "@/components/Section";
 import { About } from "@/components/About";
-import { Experience } from "@/components/Experience";
-import { Stack } from "@/components/Stack";
-import { Projects } from "@/components/Projects";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
+import { Stats } from "@/components/Stats";
+import { Portfolio } from "@/components/Portfolio";
+import { PersonalInfo } from "@/components/PersonalInfo";
+import { Headline } from "@/components/Headline";
+import { Stack } from "@/components/Stack";
+import { Experience } from "@/components/Experience";
+import { Languages } from "@/components/Languages";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
     <div className="font-sans">
       <Navbar />
       <Hero />
-      <Section id="about" title="Sobre mim">
-        <About />
-      </Section>
-      <Experience />
-      <Stack />
-      <Projects />
+      <PersonalInfo />
+      <Headline />
       <Services />
+      <About />
+      <Stack />
+      <Experience />
+      <Stats />
+      <Portfolio />
+      <Languages />
       <Contact />
-      <footer className="mx-auto max-w-6xl px-6 py-16 text-sm text-zinc-500">
-        © {new Date().getFullYear()} Moreli Dev — Qualidade, performance e design.
-      </footer>
+      <Footer />
     </div>
   );
 }
