@@ -10,7 +10,7 @@ export function Hero() {
   const copy =
     language === "pt"
       ? {
-          intro: "Olá, eu sou William Moreli",
+          intro: "William Moreli",
           headline: "Software Engineer | Full Stack Developer",
           desc: "Construo aplicações web escaláveis com .NET, Angular, React e arquiteturas modernas.",
           ctaPrimary: "Fale comigo",
