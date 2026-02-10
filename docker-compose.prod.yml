@@ -2,8 +2,9 @@ version: "3.9"
 
 services:
   web:
-    image: ${MORELIDEV_IMAGE:-ghcr.io/moreliw/morelidev:latest}
-    pull_policy: always
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: morelidev-web
     labels:
       - "traefik.enable=true"
