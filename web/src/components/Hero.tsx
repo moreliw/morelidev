@@ -67,7 +67,10 @@ export function Hero() {
               >
                 {copy.ctaPrimary}
               </MagneticButton>
-              <MagneticButton href="#portfolio" className="btn-outline hover:bg-white/5">
+              <MagneticButton
+                href="#portfolio"
+                className="btn-outline hover:bg-white/5"
+              >
                 {copy.ctaSecondary}
               </MagneticButton>
             </div>
@@ -80,7 +83,7 @@ export function Hero() {
           >
             <div className="relative">
               <div className="absolute inset-0 -z-10 h-[540px] w-[540px] rounded-full border border-white/10" />
-              <PortraitHighlight src="/my.jpeg" />
+              <PortraitHighlight src="/picture.png" />
             </div>
           </motion.div>
         </div>
