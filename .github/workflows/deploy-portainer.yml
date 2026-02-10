@@ -17,6 +17,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
+  PORTAINER_WEBHOOK_INSECURE: ${{ secrets.PORTAINER_WEBHOOK_INSECURE }}
 
 jobs:
   build-and-push:
@@ -49,5 +50,10 @@ jobs:
 
       - name: Trigger Portainer webhook
         if: ${{ env.PORTAINER_WEBHOOK_URL != '' }}
+        continue-on-error: true
         run: |
-          curl -fsS -X POST "$PORTAINER_WEBHOOK_URL"
+          if [ "$PORTAINER_WEBHOOK_INSECURE" = "true" ]; then
+            curl -fsS -k -X POST "$PORTAINER_WEBHOOK_URL"
+          else
+            curl -fsS -X POST "$PORTAINER_WEBHOOK_URL"
+          fi
