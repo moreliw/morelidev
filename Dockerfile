@@ -12,9 +12,12 @@ RUN npm run build
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 COPY web/package*.json ./
 RUN npm ci --omit=dev
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.ts ./next.config.ts
 EXPOSE 3000
-CMD ["npm","run","start"]
+CMD ["npm","run","start","--","-H","0.0.0.0","-p","3000"]
