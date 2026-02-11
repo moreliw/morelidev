@@ -9,12 +9,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=legalreports_public"
-      - "traefik.http.routers.morelidev.rule=Host(`morelidev.com`,`www.morelidev.com`)"
-      - "traefik.http.routers.morelidev.entrypoints=websecure"
-      - "traefik.http.routers.morelidev.tls=true"
-      - "traefik.http.routers.morelidev.tls.certresolver=le"
-      - "traefik.http.routers.morelidev.service=morelidev-svc"
-      - "traefik.http.services.morelidev-svc.loadbalancer.server.port=3000"
+      - "traefik.http.routers.morelidev-web.rule=Host(`morelidev.com`,`www.morelidev.com`)"
+      - "traefik.http.routers.morelidev-web.entrypoints=websecure"
+      - "traefik.http.routers.morelidev-web.tls=true"
+      - "traefik.http.routers.morelidev-web.tls.certresolver=le"
+      - "traefik.http.routers.morelidev-web.service=morelidev-web-svc"
+      - "traefik.http.services.morelidev-web-svc.loadbalancer.server.port=3000"
     networks:
       - public
     restart: unless-stopped
