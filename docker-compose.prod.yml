@@ -9,8 +9,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=legalreports_public"
-      - "traefik.http.routers.morelidev-web.rule=Host(`morelidev.com`,`www.morelidev.com`)"
-      - "traefik.http.routers.morelidev-web.priority=100"
+      - "traefik.http.routers.morelidev-web.rule=Host(`morelidev.com`)"
+      - "traefik.http.routers.morelidev-web.priority=10000"
       - "traefik.http.routers.morelidev-web.entrypoints=websecure"
       - "traefik.http.routers.morelidev-web.tls=true"
       - "traefik.http.routers.morelidev-web.tls.certresolver=le"
