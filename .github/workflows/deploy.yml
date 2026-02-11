@@ -14,6 +14,7 @@ jobs:
       DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
       DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
       PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
     steps:
       - name: Start SSH agent
@@ -30,19 +31,27 @@ jobs:
             echo "DEPLOY_HOST not set"
             exit 1
           fi
+          if [ -z "$DEPLOY_PORT" ]; then
+            DEPLOY_PORT=22
+          fi
           mkdir -p ~/.ssh
-          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH (git pull + docker compose)
         if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
+        id: ssh_deploy
+        continue-on-error: true
         run: |
           set -e
           if [ -z "$DEPLOY_HOST" ] || [ -z "$DEPLOY_USER" ]; then
             echo "DEPLOY_HOST/DEPLOY_USER not set"
             exit 1
           fi
+          if [ -z "$DEPLOY_PORT" ]; then
+            DEPLOY_PORT=22
+          fi
 
-          ssh -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" '
+          ssh -p "$DEPLOY_PORT" -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" '
             set -e
             cd /opt/morelidev
             git fetch --all
@@ -51,7 +60,15 @@ jobs:
           '
 
       - name: Trigger Portainer redeploy (webhook)
-        if: ${{ env.PORTAINER_WEBHOOK_URL != '' && env.DEPLOY_SSH_PRIVATE_KEY == '' }}
+        if: ${{ env.PORTAINER_WEBHOOK_URL != '' && (env.DEPLOY_SSH_PRIVATE_KEY == '' || steps.ssh_deploy.outcome != 'success') }}
+        id: portainer_deploy
+        continue-on-error: true
         run: |
           set -e
           curl -fsSL -k --retry 5 --retry-all-errors --max-time 30 -X POST "$PORTAINER_WEBHOOK_URL"
+
+      - name: Fail if deploy did not succeed
+        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' && steps.ssh_deploy.outcome != 'success' && (env.PORTAINER_WEBHOOK_URL == '' || steps.portainer_deploy.outcome != 'success') }}
+        run: |
+          echo "Deploy failed: SSH deploy failed and Portainer fallback was not successful."
+          exit 1

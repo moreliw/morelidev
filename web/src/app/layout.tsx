@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   title: "Moreli Dev — Engenharia, Design e Performance",
   description:
     "Portfolio profissional com foco em arquitetura, frontend moderno e entrega de alto padrão.",
+  icons: {
+    icon: [{ url: "/icon-dev.png", type: "image/png" }],
+    shortcut: ["/icon-dev.png"],
+    apple: [{ url: "/icon-dev.png", type: "image/png" }],
+  },
   openGraph: {
     title: "Moreli Dev — Engenharia, Design e Performance",
     description:
