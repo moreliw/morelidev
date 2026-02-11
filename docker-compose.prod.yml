@@ -13,7 +13,8 @@ services:
       - "traefik.http.routers.morelidev.entrypoints=websecure"
       - "traefik.http.routers.morelidev.tls=true"
       - "traefik.http.routers.morelidev.tls.certresolver=le"
-      - "traefik.http.services.morelidev.loadbalancer.server.port=3000"
+      - "traefik.http.routers.morelidev.service=morelidev-svc"
+      - "traefik.http.services.morelidev-svc.loadbalancer.server.port=3000"
     networks:
       - public
     restart: unless-stopped
