@@ -10,17 +10,20 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
     steps:
       - name: Start SSH agent
-        if: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY != '' }}
+        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ env.DEPLOY_SSH_PRIVATE_KEY }}
 
       - name: Add server to known_hosts
-        if: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY != '' }}
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         run: |
           set -e
           if [ -z "$DEPLOY_HOST" ]; then
@@ -31,10 +34,7 @@ jobs:
           ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH (git pull + docker compose)
-        if: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY != '' }}
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         run: |
           set -e
           if [ -z "$DEPLOY_HOST" ] || [ -z "$DEPLOY_USER" ]; then
@@ -51,9 +51,7 @@ jobs:
           '
 
       - name: Trigger Portainer redeploy (webhook)
-        if: ${{ secrets.PORTAINER_WEBHOOK_URL != '' && secrets.DEPLOY_SSH_PRIVATE_KEY == '' }}
-        env:
-          PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
+        if: ${{ env.PORTAINER_WEBHOOK_URL != '' && env.DEPLOY_SSH_PRIVATE_KEY == '' }}
         run: |
           set -e
           curl -fsSL -k --retry 5 --retry-all-errors --max-time 30 -X POST "$PORTAINER_WEBHOOK_URL"
