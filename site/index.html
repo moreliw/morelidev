@@ -33,6 +33,7 @@
         </div>
       </div>
     </header>
+    <div class="scroll-progress" aria-hidden="true"></div>
 
     <main class="page" id="inicio">
       <section class="hero section">
@@ -49,11 +50,10 @@
           </p>
           <div class="chips">
             <span>.NET</span>
-            <span>ASP.NET Core</span>
             <span>Angular</span>
             <span>React</span>
-            <span>Node.js</span>
             <span>PHP</span>
+            <span>SQL</span>
           </div>
           <div class="actions">
             <a class="primary" href="#contato" data-i18n="hero.ctaPrimary"
@@ -68,15 +68,6 @@
           <figure class="hero-visual card">
             <img src="picture.png" alt="William Moreli trabalhando" />
           </figure>
-          <div class="hero-card card">
-            <h3 data-i18n="hero.stepTitle">Entrega em etapas</h3>
-            <ul>
-              <li data-i18n="hero.step1">Descoberta e briefing</li>
-              <li data-i18n="hero.step2">Design funcional</li>
-              <li data-i18n="hero.step3">Implementação e deploy</li>
-              <li data-i18n="hero.step4">Suporte e evolução</li>
-            </ul>
-          </div>
         </div>
       </section>
 
@@ -94,8 +85,8 @@
           </article>
           <article class="card">
             <p>
-              <strong data-i18n="about.stackLabel">Stack:</strong> Nginx +
-              Docker + Portainer + GitHub Actions
+              <strong data-i18n="about.stackLabel">Stack:</strong> .NET +
+              Angular + React + PHP + SQL
             </p>
             <p>
               <strong data-i18n="about.infraLabel">Infra:</strong> VPS com TLS
@@ -123,7 +114,13 @@
             ><span>Software Engineer</span>
           </article>
           <article class="card">
-            <strong>LinkedIn</strong><span>linkedin.com/in/william-moreli</span>
+            <strong>LinkedIn</strong>
+            <a
+              href="https://www.linkedin.com/in/william-moreli/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >linkedin.com/in/william-moreli</a
+            >
           </article>
         </div>
       </section>
@@ -135,7 +132,7 @@
         <article class="card">
           <h3>Software Engineer | Full Stack Developer</h3>
           <p data-i18n="headline.text">
-            Especialista em .NET, Angular, React, Node.js, ASP.NET Core e PHP.
+            Especialista em .NET, Angular, React, PHP e SQL.
           </p>
         </article>
       </section>
@@ -179,21 +176,15 @@
         <div class="grid">
           <article class="card">
             <h3>Frontend</h3>
-            <p>Angular, React, TypeScript, RxJS, HTML5/CSS3, Webpack.</p>
+            <p>Angular, React.</p>
           </article>
           <article class="card">
             <h3>Backend</h3>
-            <p>.NET Core, ASP.NET Core, Node.js, PHP, Laravel (Blade).</p>
+            <p>.NET, PHP.</p>
           </article>
           <article class="card">
             <h3 data-i18n="stack.db">Banco de dados</h3>
-            <p>SQL Server, MySQL, Oracle.</p>
-          </article>
-          <article class="card">
-            <h3 data-i18n="stack.practices">Práticas</h3>
-            <p data-i18n="stack.practicesDesc">
-              APIs REST, Git/GitHub, Arquitetura em camadas, Clean Code.
-            </p>
+            <p>SQL.</p>
           </article>
         </div>
       </section>
@@ -226,20 +217,12 @@
         </div>
         <div class="stats-grid">
           <article class="card">
-            <strong>+40</strong
+            <strong>+10</strong
             ><span data-i18n="metrics.m1">Projetos entregues</span>
           </article>
           <article class="card">
-            <strong>99.9%</strong
-            ><span data-i18n="metrics.m2">Disponibilidade de infra</span>
-          </article>
-          <article class="card">
-            <strong>+10</strong
+            <strong>+5</strong
             ><span data-i18n="metrics.m3">Anos de experiência prática</span>
-          </article>
-          <article class="card">
-            <strong>100%</strong
-            ><span data-i18n="metrics.m4">Deploy automatizado</span>
           </article>
         </div>
       </section>
@@ -277,6 +260,39 @@
               <span>UX</span>
               <span>Marketplace</span>
             </div>
+            <div class="actions">
+              <a
+                class="secondary"
+                href="https://takki.ao/"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-i18n="projects.visit"
+                >Acessar projeto</a
+              >
+            </div>
+          </article>
+          <article class="project-card card">
+            <img src="projetos/kimaudi.png" alt="Site empresarial KimaudiDigital" />
+            <h3>KimaudiDigital</h3>
+            <p data-i18n="projects.p3d">
+              Site empresarial com foco em desenvolvimento de produtos digitais e
+              outsourcing de programadores.
+            </p>
+            <div class="chips">
+              <span>Website</span>
+              <span>Institucional</span>
+              <span>Negócios</span>
+            </div>
+            <div class="actions">
+              <a
+                class="secondary"
+                href="https://kimaudidigital.ao/"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-i18n="projects.visit"
+                >Acessar projeto</a
+              >
+            </div>
           </article>
         </div>
       </section>
@@ -311,14 +327,15 @@
               <a class="primary" href="mailto:contato@morelidev.com">Email</a>
               <a
                 class="secondary"
-                href="https://wa.me/5500000000000"
+                href="https://wa.me/5527999552024"
                 target="_blank"
                 rel="noopener noreferrer"
-                >WhatsApp</a
+                data-i18n="contact.whatsapp"
+                >WhatsApp +55 27 99955-2024</a
               >
               <a
                 class="secondary"
-                href="https://www.linkedin.com/in/william-moreli"
+                href="https://www.linkedin.com/in/william-moreli/"
                 target="_blank"
                 rel="noopener noreferrer"
                 >LinkedIn</a
@@ -397,7 +414,7 @@
           "info.roleLabel": "Cargo atual",
           "headline.title": "Título profissional",
           "headline.text":
-            "Especialista em .NET, Angular, React, Node.js, ASP.NET Core e PHP.",
+            "Especialista em .NET, Angular, React, PHP e SQL.",
           "services.title": "Serviços",
           "services.s1t": "Sites institucionais",
           "services.s1d":
@@ -412,9 +429,6 @@
             "Ajustes rápidos, melhorias constantes e monitoramento.",
           "stack.title": "Stack tecnológica",
           "stack.db": "Banco de dados",
-          "stack.practices": "Práticas",
-          "stack.practicesDesc":
-            "APIs REST, Git/GitHub, Arquitetura em camadas, Clean Code.",
           "exp.title": "Experiência",
           "exp.e1t": "Projetos corporativos",
           "exp.e1d":
@@ -424,14 +438,15 @@
             "Integração com APIs externas, automação de fluxos e governança de dados operacionais.",
           "metrics.title": "Métricas de entrega",
           "metrics.m1": "Projetos entregues",
-          "metrics.m2": "Disponibilidade de infra",
           "metrics.m3": "Anos de experiência prática",
-          "metrics.m4": "Deploy automatizado",
           "projects.title": "Projetos em destaque",
           "projects.p1d":
             "Sistema de gestão empresarial com monitoramento operacional e relatórios.",
           "projects.p2d":
             "Plataforma de serviços de Angola para descoberta de ofertas e anúncios locais.",
+          "projects.p3d":
+            "Site empresarial com foco em desenvolvimento de produtos digitais e outsourcing de programadores.",
+          "projects.visit": "Acessar projeto",
           "languages.title": "Idiomas",
           "languages.pt": "Português",
           "languages.ptLevel": "Nativo",
@@ -445,6 +460,7 @@
           "contact.budget": "Orçamento",
           "contact.subject": "Assunto",
           "contact.message": "Mensagem",
+          "contact.whatsapp": "WhatsApp +55 27 99955-2024",
           "contact.send": "Enviar",
           "footer.text": "© 2026 Moreli Dev — Qualidade, performance e design.",
         },
@@ -478,7 +494,7 @@
           "info.roleLabel": "Current role",
           "headline.title": "Professional headline",
           "headline.text":
-            "Specialist in .NET, Angular, React, Node.js, ASP.NET Core and PHP.",
+            "Specialist in .NET, Angular, React, PHP and SQL.",
           "services.title": "Services",
           "services.s1t": "Institutional websites",
           "services.s1d":
@@ -494,9 +510,6 @@
             "Fast adjustments, continuous improvements and monitoring.",
           "stack.title": "Tech stack",
           "stack.db": "Databases",
-          "stack.practices": "Practices",
-          "stack.practicesDesc":
-            "REST APIs, Git/GitHub, layered architecture, Clean Code.",
           "exp.title": "Experience",
           "exp.e1t": "Corporate projects",
           "exp.e1d":
@@ -506,14 +519,15 @@
             "Integration with external APIs, workflow automation and operational data governance.",
           "metrics.title": "Delivery metrics",
           "metrics.m1": "Projects delivered",
-          "metrics.m2": "Infrastructure availability",
           "metrics.m3": "Years of hands-on experience",
-          "metrics.m4": "Automated deployment",
           "projects.title": "Featured projects",
           "projects.p1d":
             "Business management system with operational monitoring and reports.",
           "projects.p2d":
             "Angolan services platform focused on local offers discovery and ads.",
+          "projects.p3d":
+            "Corporate website focused on digital product development and developer outsourcing.",
+          "projects.visit": "Visit project",
           "languages.title": "Languages",
           "languages.pt": "Portuguese",
           "languages.ptLevel": "Native",
@@ -527,12 +541,14 @@
           "contact.budget": "Budget",
           "contact.subject": "Subject",
           "contact.message": "Message",
+          "contact.whatsapp": "WhatsApp +55 27 99955-2024",
           "contact.send": "Send",
           "footer.text": "© 2026 Moreli Dev — Quality, performance and design.",
         },
       };
 
       const languageButtons = [...document.querySelectorAll(".lang-btn")];
+      const progressBar = document.querySelector(".scroll-progress");
 
       function applyLanguage(lang) {
         const dict = translations[lang] || translations.pt;
@@ -559,6 +575,52 @@
         localStorage.setItem("morelidev-language", lang);
       }
 
+      function initScrollProgress() {
+        const updateProgress = () => {
+          if (!progressBar) {
+            return;
+          }
+          const scrollTop = window.scrollY;
+          const scrollHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const progress =
+            scrollHeight > 0 ? Math.min(scrollTop / scrollHeight, 1) : 0;
+          progressBar.style.transform = `scaleX(${progress})`;
+        };
+        updateProgress();
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress);
+      }
+
+      function initRevealAnimations() {
+        const targets = [
+          ...document.querySelectorAll(".hero > div"),
+          ...document.querySelectorAll(".section"),
+          ...document.querySelectorAll(".card"),
+        ];
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          targets.forEach((element) => element.classList.add("in-view"));
+          return;
+        }
+
+        targets.forEach((element) => element.classList.add("reveal"));
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
+        );
+
+        targets.forEach((element) => observer.observe(element));
+      }
+
       languageButtons.forEach((button) => {
         button.addEventListener("click", () => {
           const lang = button.getAttribute("data-lang");
@@ -567,6 +629,8 @@
       });
 
       applyLanguage(localStorage.getItem("morelidev-language") || "pt");
+      initScrollProgress();
+      initRevealAnimations();
     </script>
   </body>
 </html>
