@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -35,6 +36,15 @@ export default function RootLayout({
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <body className={`${poppins.variable} antialiased`}>
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID &&
+          process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL && (
+            <Script
+              defer
+              src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL}
+              data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+              strategy="afterInteractive"
+            />
+          )}
         <Providers>{children}</Providers>
       </body>
     </html>
