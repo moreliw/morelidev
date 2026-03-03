@@ -1,98 +1,313 @@
 <!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Moreli Dev</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header class="top">
-    <div class="brand">Moreli Dev</div>
-    <nav class="nav">
-      <a href="#servicos">Serviços</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#contato">Contato</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moreli Dev</title>
+    <meta name="theme-color" content="#09090b" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <a class="brand" href="#inicio">Moreli Dev</a>
+      <nav class="nav">
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#stack">Stack</a>
+        <a href="#experiencia">Experiência</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </header>
 
-  <main class="page">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">Tecnologia e crescimento</p>
-        <h1>Sites rápidos, modernos e com deploy automático</h1>
-        <p class="subtitle">Construo experiências digitais focadas em performance, clareza e conversão. Seu site no ar com infraestrutura confiável e pronta para escalar.</p>
-        <div class="actions">
-          <a class="primary" href="#contato">Solicitar proposta</a>
-          <a class="secondary" href="mailto:contato@morelidev.com">contato@morelidev.com</a>
+    <main class="page" id="inicio">
+      <section class="hero section">
+        <div>
+          <p class="eyebrow">Tecnologia e crescimento</p>
+          <h1>Software Engineer | Full Stack Developer</h1>
+          <p class="subtitle">
+            Construo aplicações web escaláveis com .NET, Angular, React e
+            arquiteturas modernas.
+          </p>
+          <div class="chips">
+            <span>.NET</span>
+            <span>ASP.NET Core</span>
+            <span>Angular</span>
+            <span>React</span>
+            <span>Node.js</span>
+            <span>PHP</span>
+          </div>
+          <div class="actions">
+            <a class="primary" href="#contato">Fale comigo</a>
+            <a class="secondary" href="#projetos">Ver projetos</a>
+          </div>
         </div>
-      </div>
-      <div class="hero-card">
-        <h3>Entrega em etapas</h3>
-        <ul>
-          <li>Descoberta e briefing</li>
-          <li>Design funcional</li>
-          <li>Implementação e deploy</li>
-          <li>Suporte e evolução</li>
-        </ul>
-      </div>
-    </section>
+        <div class="hero-card card">
+          <h3>Entrega em etapas</h3>
+          <ul>
+            <li>Descoberta e briefing</li>
+            <li>Design funcional</li>
+            <li>Implementação e deploy</li>
+            <li>Suporte e evolução</li>
+          </ul>
+        </div>
+      </section>
 
-    <section id="servicos" class="grid">
-      <article>
-        <h2>Sites institucionais</h2>
-        <p>Estrutura clara, conteúdo organizado e foco em credibilidade.</p>
-      </article>
-      <article>
-        <h2>Landing pages</h2>
-        <p>Páginas enxutas para campanhas, lançamentos e captação.</p>
-      </article>
-      <article>
-        <h2>Manutenção contínua</h2>
-        <p>Atualizações rápidas, ajustes finos e melhorias constantes.</p>
-      </article>
-    </section>
+      <section class="section" id="sobre">
+        <div class="section-head">
+          <h2>Sobre</h2>
+        </div>
+        <div class="about">
+          <article class="card">
+            <p>
+              Sou Vinícius Moreli, desenvolvedor focado em arquitetura sólida e
+              entregas rápidas. Trabalho com boas práticas, desempenho e
+              automação para manter seu site sempre disponível.
+            </p>
+          </article>
+          <article class="card">
+            <p>
+              <strong>Stack:</strong> Nginx + Docker + Portainer + GitHub
+              Actions
+            </p>
+            <p>
+              <strong>Infra:</strong> VPS com TLS automático e deploy via
+              webhook
+            </p>
+          </article>
+        </div>
+      </section>
 
-    <section id="sobre" class="about">
-      <div>
-        <h2>Sobre</h2>
-        <p>Sou Vinícius Moreli, desenvolvedor focado em arquitetura sólida e entregas rápidas. Trabalho com boas práticas, desempenho e automação para manter seu site sempre disponível.</p>
-      </div>
-      <div class="about-box">
-        <p><strong>Stack:</strong> Nginx + Docker + Portainer + GitHub Actions</p>
-        <p><strong>Infra:</strong> VPS com TLS automático e deploy via webhook</p>
-      </div>
-    </section>
+      <section class="section">
+        <div class="section-head">
+          <h2>Informações pessoais</h2>
+        </div>
+        <div class="info-grid">
+          <article class="card">
+            <strong>Nome</strong><span>William Moreli</span>
+          </article>
+          <article class="card">
+            <strong>Localização</strong><span>Brasil</span>
+          </article>
+          <article class="card">
+            <strong>Cargo atual</strong><span>Software Engineer</span>
+          </article>
+          <article class="card">
+            <strong>LinkedIn</strong><span>linkedin.com/in/william-moreli</span>
+          </article>
+        </div>
+      </section>
 
-    <section id="projetos" class="projects">
-      <h2>Projetos em destaque</h2>
-      <div class="project-grid">
-        <article class="project-card">
-          <img src="projetos/empresa-capixaba.png" alt="Sistema Empresa Capixaba" />
-          <h3>Empresa Capixaba</h3>
-          <p>Sistema de gestão empresarial com monitoramento operacional e relatórios.</p>
+      <section class="section">
+        <div class="section-head">
+          <h2>Título profissional</h2>
+        </div>
+        <article class="card">
+          <h3>Software Engineer | Full Stack Developer</h3>
+          <p>
+            Especialista em .NET, Angular, React, Node.js, ASP.NET Core e PHP.
+          </p>
         </article>
-        <article class="project-card">
-          <img src="projetos/takki.png" alt="Plataforma Takki.ao" />
-          <h3>Takki.ao</h3>
-          <p>Plataforma de serviços de Angola para descoberta de ofertas e anúncios locais.</p>
-        </article>
-      </div>
-    </section>
+      </section>
 
-    <section id="contato" class="contact">
-      <h2>Vamos conversar?</h2>
-      <p>Envie um resumo do seu projeto e eu retorno com uma proposta objetiva.</p>
-      <div class="actions">
-        <a class="primary" href="mailto:contato@morelidev.com">Enviar e-mail</a>
-        <a class="secondary" href="https://wa.me/5500000000000">WhatsApp</a>
-      </div>
-    </section>
-  </main>
+      <section class="section" id="servicos">
+        <div class="section-head">
+          <h2>Serviços</h2>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Sites institucionais</h3>
+            <p>Estrutura clara, conteúdo organizado e foco em credibilidade.</p>
+          </article>
+          <article class="card">
+            <h3>Landing pages</h3>
+            <p>Páginas enxutas para campanhas, lançamentos e captação.</p>
+          </article>
+          <article class="card">
+            <h3>Implementação moderna</h3>
+            <p>Frontend performático com SEO técnico e automações.</p>
+          </article>
+          <article class="card">
+            <h3>Manutenção contínua</h3>
+            <p>Ajustes rápidos, melhorias constantes e monitoramento.</p>
+          </article>
+        </div>
+      </section>
 
-  <footer class="footer">
-    <p>© 2026 Moreli Dev. Todos os direitos reservados.</p>
-  </footer>
-</body>
+      <section class="section" id="stack">
+        <div class="section-head">
+          <h2>Stack tecnológica</h2>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Frontend</h3>
+            <p>Angular, React, TypeScript, RxJS, HTML5/CSS3, Webpack.</p>
+          </article>
+          <article class="card">
+            <h3>Backend</h3>
+            <p>.NET Core, ASP.NET Core, Node.js, PHP, Laravel (Blade).</p>
+          </article>
+          <article class="card">
+            <h3>Banco de dados</h3>
+            <p>SQL Server, MySQL, Oracle.</p>
+          </article>
+          <article class="card">
+            <h3>Práticas</h3>
+            <p>APIs REST, Git/GitHub, Arquitetura em camadas, Clean Code.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="experiencia">
+        <div class="section-head">
+          <h2>Experiência</h2>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Projetos corporativos</h3>
+            <p>
+              Desenvolvimento de sistemas de gestão e backoffice com foco em
+              escala e previsibilidade.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Integrações</h3>
+            <p>
+              Integração com APIs externas, automação de fluxos e governança de
+              dados operacionais.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Métricas de entrega</h2>
+        </div>
+        <div class="stats-grid">
+          <article class="card">
+            <strong>+40</strong><span>Projetos entregues</span>
+          </article>
+          <article class="card">
+            <strong>99.9%</strong><span>Disponibilidade de infra</span>
+          </article>
+          <article class="card">
+            <strong>+10</strong><span>Anos de experiência prática</span>
+          </article>
+          <article class="card">
+            <strong>100%</strong><span>Deploy automatizado</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="projetos">
+        <div class="section-head">
+          <h2>Projetos em destaque</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card card">
+            <img
+              src="projetos/empresa-capixaba.png"
+              alt="Sistema Empresa Capixaba"
+            />
+            <h3>Empresa Capixaba</h3>
+            <p>
+              Sistema de gestão empresarial com monitoramento operacional e
+              relatórios.
+            </p>
+            <div class="chips">
+              <span>Laravel</span>
+              <span>Blade</span>
+              <span>MySQL</span>
+            </div>
+          </article>
+          <article class="project-card card">
+            <img src="projetos/takki.png" alt="Plataforma Takki.ao" />
+            <h3>Takki.ao</h3>
+            <p>
+              Plataforma de serviços de Angola para descoberta de ofertas e
+              anúncios locais.
+            </p>
+            <div class="chips">
+              <span>React</span>
+              <span>UX</span>
+              <span>Marketplace</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Idiomas</h2>
+        </div>
+        <div class="info-grid">
+          <article class="card">
+            <strong>Português</strong><span>Nativo</span>
+          </article>
+          <article class="card">
+            <strong>Inglês</strong><span>Profissional</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="contato" class="section">
+        <div class="section-head">
+          <h2>Contato</h2>
+        </div>
+        <div class="contact">
+          <article class="card">
+            <p>
+              Pronto para levar seu projeto ao próximo nível? Envie um resumo e
+              receba uma proposta objetiva.
+            </p>
+            <div class="actions">
+              <a class="primary" href="mailto:contato@morelidev.com">Email</a>
+              <a
+                class="secondary"
+                href="https://wa.me/5500000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+                >WhatsApp</a
+              >
+              <a
+                class="secondary"
+                href="https://www.linkedin.com/in/william-moreli"
+                target="_blank"
+                rel="noopener noreferrer"
+                >LinkedIn</a
+              >
+            </div>
+          </article>
+          <form class="card form-grid">
+            <input placeholder="Nome" aria-label="Nome" />
+            <input placeholder="Email" aria-label="Email" />
+            <select aria-label="Orçamento">
+              <option>Orçamento</option>
+              <option>R$ 2k–R$ 5k</option>
+              <option>R$ 5k–R$ 10k</option>
+              <option>R$ 10k+</option>
+            </select>
+            <input placeholder="Assunto" aria-label="Assunto" />
+            <textarea
+              rows="4"
+              placeholder="Mensagem"
+              aria-label="Mensagem"
+            ></textarea>
+            <button type="button">Enviar</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Moreli Dev — Qualidade, performance e design.</p>
+    </footer>
+  </body>
 </html>
