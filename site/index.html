@@ -16,22 +16,34 @@
   <body>
     <header class="top">
       <a class="brand" href="#inicio">Moreli Dev</a>
-      <nav class="nav">
-        <a href="#sobre">Sobre</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#stack">Stack</a>
-        <a href="#experiencia">Experiência</a>
-        <a href="#projetos">Projetos</a>
-        <a href="#contato">Contato</a>
-      </nav>
+      <div class="header-controls">
+        <nav class="nav">
+          <a href="#sobre" data-i18n="nav.about">Sobre</a>
+          <a href="#servicos" data-i18n="nav.services">Serviços</a>
+          <a href="#stack" data-i18n="nav.stack">Stack</a>
+          <a href="#experiencia" data-i18n="nav.experience">Experiência</a>
+          <a href="#projetos" data-i18n="nav.projects">Projetos</a>
+          <a href="#contato" data-i18n="nav.contact">Contato</a>
+        </nav>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn active" type="button" data-lang="pt">
+            PT
+          </button>
+          <button class="lang-btn" type="button" data-lang="en">EN</button>
+        </div>
+      </div>
     </header>
 
     <main class="page" id="inicio">
       <section class="hero section">
         <div>
-          <p class="eyebrow">Tecnologia e crescimento</p>
-          <h1>Software Engineer | Full Stack Developer</h1>
-          <p class="subtitle">
+          <p class="eyebrow" data-i18n="hero.eyebrow">
+            Tecnologia e crescimento
+          </p>
+          <h1 data-i18n="hero.title">
+            Software Engineer | Full Stack Developer
+          </h1>
+          <p class="subtitle" data-i18n="hero.subtitle">
             Construo aplicações web escaláveis com .NET, Angular, React e
             arquiteturas modernas.
           </p>
@@ -44,41 +56,50 @@
             <span>PHP</span>
           </div>
           <div class="actions">
-            <a class="primary" href="#contato">Fale comigo</a>
-            <a class="secondary" href="#projetos">Ver projetos</a>
+            <a class="primary" href="#contato" data-i18n="hero.ctaPrimary"
+              >Fale comigo</a
+            >
+            <a class="secondary" href="#projetos" data-i18n="hero.ctaSecondary"
+              >Ver projetos</a
+            >
           </div>
         </div>
-        <div class="hero-card card">
-          <h3>Entrega em etapas</h3>
-          <ul>
-            <li>Descoberta e briefing</li>
-            <li>Design funcional</li>
-            <li>Implementação e deploy</li>
-            <li>Suporte e evolução</li>
-          </ul>
+        <div class="hero-side">
+          <figure class="hero-visual card">
+            <img src="picture.png" alt="William Moreli trabalhando" />
+          </figure>
+          <div class="hero-card card">
+            <h3 data-i18n="hero.stepTitle">Entrega em etapas</h3>
+            <ul>
+              <li data-i18n="hero.step1">Descoberta e briefing</li>
+              <li data-i18n="hero.step2">Design funcional</li>
+              <li data-i18n="hero.step3">Implementação e deploy</li>
+              <li data-i18n="hero.step4">Suporte e evolução</li>
+            </ul>
+          </div>
         </div>
       </section>
 
       <section class="section" id="sobre">
         <div class="section-head">
-          <h2>Sobre</h2>
+          <h2 data-i18n="about.title">Sobre</h2>
         </div>
         <div class="about">
           <article class="card">
-            <p>
-              Sou Vinícius Moreli, desenvolvedor focado em arquitetura sólida e
+            <p data-i18n="about.text">
+              Sou William Moreli, desenvolvedor focado em arquitetura sólida e
               entregas rápidas. Trabalho com boas práticas, desempenho e
               automação para manter seu site sempre disponível.
             </p>
           </article>
           <article class="card">
             <p>
-              <strong>Stack:</strong> Nginx + Docker + Portainer + GitHub
-              Actions
+              <strong data-i18n="about.stackLabel">Stack:</strong> Nginx +
+              Docker + Portainer + GitHub Actions
             </p>
             <p>
-              <strong>Infra:</strong> VPS com TLS automático e deploy via
-              webhook
+              <strong data-i18n="about.infraLabel">Infra:</strong> VPS com TLS
+              automático e deploy via webhook
             </p>
           </article>
         </div>
@@ -86,17 +107,20 @@
 
       <section class="section">
         <div class="section-head">
-          <h2>Informações pessoais</h2>
+          <h2 data-i18n="info.title">Informações pessoais</h2>
         </div>
         <div class="info-grid">
           <article class="card">
-            <strong>Nome</strong><span>William Moreli</span>
+            <strong data-i18n="info.nameLabel">Nome</strong
+            ><span>William Moreli</span>
           </article>
           <article class="card">
-            <strong>Localização</strong><span>Brasil</span>
+            <strong data-i18n="info.locationLabel">Localização</strong
+            ><span data-i18n="info.locationValue">Brasil</span>
           </article>
           <article class="card">
-            <strong>Cargo atual</strong><span>Software Engineer</span>
+            <strong data-i18n="info.roleLabel">Cargo atual</strong
+            ><span>Software Engineer</span>
           </article>
           <article class="card">
             <strong>LinkedIn</strong><span>linkedin.com/in/william-moreli</span>
@@ -106,11 +130,11 @@
 
       <section class="section">
         <div class="section-head">
-          <h2>Título profissional</h2>
+          <h2 data-i18n="headline.title">Título profissional</h2>
         </div>
         <article class="card">
           <h3>Software Engineer | Full Stack Developer</h3>
-          <p>
+          <p data-i18n="headline.text">
             Especialista em .NET, Angular, React, Node.js, ASP.NET Core e PHP.
           </p>
         </article>
@@ -118,31 +142,39 @@
 
       <section class="section" id="servicos">
         <div class="section-head">
-          <h2>Serviços</h2>
+          <h2 data-i18n="services.title">Serviços</h2>
         </div>
         <div class="grid">
           <article class="card">
-            <h3>Sites institucionais</h3>
-            <p>Estrutura clara, conteúdo organizado e foco em credibilidade.</p>
+            <h3 data-i18n="services.s1t">Sites institucionais</h3>
+            <p data-i18n="services.s1d">
+              Estrutura clara, conteúdo organizado e foco em credibilidade.
+            </p>
           </article>
           <article class="card">
-            <h3>Landing pages</h3>
-            <p>Páginas enxutas para campanhas, lançamentos e captação.</p>
+            <h3 data-i18n="services.s2t">Landing pages</h3>
+            <p data-i18n="services.s2d">
+              Páginas enxutas para campanhas, lançamentos e captação.
+            </p>
           </article>
           <article class="card">
-            <h3>Implementação moderna</h3>
-            <p>Frontend performático com SEO técnico e automações.</p>
+            <h3 data-i18n="services.s3t">Implementação moderna</h3>
+            <p data-i18n="services.s3d">
+              Frontend performático com SEO técnico e automações.
+            </p>
           </article>
           <article class="card">
-            <h3>Manutenção contínua</h3>
-            <p>Ajustes rápidos, melhorias constantes e monitoramento.</p>
+            <h3 data-i18n="services.s4t">Manutenção contínua</h3>
+            <p data-i18n="services.s4d">
+              Ajustes rápidos, melhorias constantes e monitoramento.
+            </p>
           </article>
         </div>
       </section>
 
       <section class="section" id="stack">
         <div class="section-head">
-          <h2>Stack tecnológica</h2>
+          <h2 data-i18n="stack.title">Stack tecnológica</h2>
         </div>
         <div class="grid">
           <article class="card">
@@ -154,31 +186,33 @@
             <p>.NET Core, ASP.NET Core, Node.js, PHP, Laravel (Blade).</p>
           </article>
           <article class="card">
-            <h3>Banco de dados</h3>
+            <h3 data-i18n="stack.db">Banco de dados</h3>
             <p>SQL Server, MySQL, Oracle.</p>
           </article>
           <article class="card">
-            <h3>Práticas</h3>
-            <p>APIs REST, Git/GitHub, Arquitetura em camadas, Clean Code.</p>
+            <h3 data-i18n="stack.practices">Práticas</h3>
+            <p data-i18n="stack.practicesDesc">
+              APIs REST, Git/GitHub, Arquitetura em camadas, Clean Code.
+            </p>
           </article>
         </div>
       </section>
 
       <section class="section" id="experiencia">
         <div class="section-head">
-          <h2>Experiência</h2>
+          <h2 data-i18n="exp.title">Experiência</h2>
         </div>
         <div class="grid">
           <article class="card">
-            <h3>Projetos corporativos</h3>
-            <p>
+            <h3 data-i18n="exp.e1t">Projetos corporativos</h3>
+            <p data-i18n="exp.e1d">
               Desenvolvimento de sistemas de gestão e backoffice com foco em
               escala e previsibilidade.
             </p>
           </article>
           <article class="card">
-            <h3>Integrações</h3>
-            <p>
+            <h3 data-i18n="exp.e2t">Integrações</h3>
+            <p data-i18n="exp.e2d">
               Integração com APIs externas, automação de fluxos e governança de
               dados operacionais.
             </p>
@@ -188,27 +222,31 @@
 
       <section class="section">
         <div class="section-head">
-          <h2>Métricas de entrega</h2>
+          <h2 data-i18n="metrics.title">Métricas de entrega</h2>
         </div>
         <div class="stats-grid">
           <article class="card">
-            <strong>+40</strong><span>Projetos entregues</span>
+            <strong>+40</strong
+            ><span data-i18n="metrics.m1">Projetos entregues</span>
           </article>
           <article class="card">
-            <strong>99.9%</strong><span>Disponibilidade de infra</span>
+            <strong>99.9%</strong
+            ><span data-i18n="metrics.m2">Disponibilidade de infra</span>
           </article>
           <article class="card">
-            <strong>+10</strong><span>Anos de experiência prática</span>
+            <strong>+10</strong
+            ><span data-i18n="metrics.m3">Anos de experiência prática</span>
           </article>
           <article class="card">
-            <strong>100%</strong><span>Deploy automatizado</span>
+            <strong>100%</strong
+            ><span data-i18n="metrics.m4">Deploy automatizado</span>
           </article>
         </div>
       </section>
 
       <section class="section" id="projetos">
         <div class="section-head">
-          <h2>Projetos em destaque</h2>
+          <h2 data-i18n="projects.title">Projetos em destaque</h2>
         </div>
         <div class="project-grid">
           <article class="project-card card">
@@ -217,7 +255,7 @@
               alt="Sistema Empresa Capixaba"
             />
             <h3>Empresa Capixaba</h3>
-            <p>
+            <p data-i18n="projects.p1d">
               Sistema de gestão empresarial com monitoramento operacional e
               relatórios.
             </p>
@@ -230,7 +268,7 @@
           <article class="project-card card">
             <img src="projetos/takki.png" alt="Plataforma Takki.ao" />
             <h3>Takki.ao</h3>
-            <p>
+            <p data-i18n="projects.p2d">
               Plataforma de serviços de Angola para descoberta de ofertas e
               anúncios locais.
             </p>
@@ -245,25 +283,27 @@
 
       <section class="section">
         <div class="section-head">
-          <h2>Idiomas</h2>
+          <h2 data-i18n="languages.title">Idiomas</h2>
         </div>
         <div class="info-grid">
           <article class="card">
-            <strong>Português</strong><span>Nativo</span>
+            <strong data-i18n="languages.pt">Português</strong
+            ><span data-i18n="languages.ptLevel">Nativo</span>
           </article>
           <article class="card">
-            <strong>Inglês</strong><span>Profissional</span>
+            <strong data-i18n="languages.en">Inglês</strong
+            ><span data-i18n="languages.enLevel">Profissional</span>
           </article>
         </div>
       </section>
 
       <section id="contato" class="section">
         <div class="section-head">
-          <h2>Contato</h2>
+          <h2 data-i18n="contact.title">Contato</h2>
         </div>
         <div class="contact">
           <article class="card">
-            <p>
+            <p data-i18n="contact.intro">
               Pronto para levar seu projeto ao próximo nível? Envie um resumo e
               receba uma proposta objetiva.
             </p>
@@ -286,28 +326,247 @@
             </div>
           </article>
           <form class="card form-grid">
-            <input placeholder="Nome" aria-label="Nome" />
-            <input placeholder="Email" aria-label="Email" />
+            <input
+              data-i18n-placeholder="contact.name"
+              placeholder="Nome"
+              aria-label="Nome"
+            />
+            <input
+              data-i18n-placeholder="contact.email"
+              placeholder="Email"
+              aria-label="Email"
+            />
             <select aria-label="Orçamento">
-              <option>Orçamento</option>
+              <option data-i18n="contact.budget">Orçamento</option>
               <option>R$ 2k–R$ 5k</option>
               <option>R$ 5k–R$ 10k</option>
               <option>R$ 10k+</option>
             </select>
-            <input placeholder="Assunto" aria-label="Assunto" />
+            <input
+              data-i18n-placeholder="contact.subject"
+              placeholder="Assunto"
+              aria-label="Assunto"
+            />
             <textarea
               rows="4"
+              data-i18n-placeholder="contact.message"
               placeholder="Mensagem"
               aria-label="Mensagem"
             ></textarea>
-            <button type="button">Enviar</button>
+            <button type="button" data-i18n="contact.send">Enviar</button>
           </form>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>© 2026 Moreli Dev — Qualidade, performance e design.</p>
+      <p data-i18n="footer.text">
+        © 2026 Moreli Dev — Qualidade, performance e design.
+      </p>
     </footer>
+
+    <script>
+      const translations = {
+        pt: {
+          "nav.about": "Sobre",
+          "nav.services": "Serviços",
+          "nav.stack": "Stack",
+          "nav.experience": "Experiência",
+          "nav.projects": "Projetos",
+          "nav.contact": "Contato",
+          "hero.eyebrow": "Tecnologia e crescimento",
+          "hero.title": "Software Engineer | Full Stack Developer",
+          "hero.subtitle":
+            "Construo aplicações web escaláveis com .NET, Angular, React e arquiteturas modernas.",
+          "hero.ctaPrimary": "Fale comigo",
+          "hero.ctaSecondary": "Ver projetos",
+          "hero.stepTitle": "Entrega em etapas",
+          "hero.step1": "Descoberta e briefing",
+          "hero.step2": "Design funcional",
+          "hero.step3": "Implementação e deploy",
+          "hero.step4": "Suporte e evolução",
+          "about.title": "Sobre",
+          "about.text":
+            "Sou William Moreli, desenvolvedor focado em arquitetura sólida e entregas rápidas. Trabalho com boas práticas, desempenho e automação para manter seu site sempre disponível.",
+          "about.stackLabel": "Stack:",
+          "about.infraLabel": "Infra:",
+          "info.title": "Informações pessoais",
+          "info.nameLabel": "Nome",
+          "info.locationLabel": "Localização",
+          "info.locationValue": "Brasil",
+          "info.roleLabel": "Cargo atual",
+          "headline.title": "Título profissional",
+          "headline.text":
+            "Especialista em .NET, Angular, React, Node.js, ASP.NET Core e PHP.",
+          "services.title": "Serviços",
+          "services.s1t": "Sites institucionais",
+          "services.s1d":
+            "Estrutura clara, conteúdo organizado e foco em credibilidade.",
+          "services.s2t": "Landing pages",
+          "services.s2d":
+            "Páginas enxutas para campanhas, lançamentos e captação.",
+          "services.s3t": "Implementação moderna",
+          "services.s3d": "Frontend performático com SEO técnico e automações.",
+          "services.s4t": "Manutenção contínua",
+          "services.s4d":
+            "Ajustes rápidos, melhorias constantes e monitoramento.",
+          "stack.title": "Stack tecnológica",
+          "stack.db": "Banco de dados",
+          "stack.practices": "Práticas",
+          "stack.practicesDesc":
+            "APIs REST, Git/GitHub, Arquitetura em camadas, Clean Code.",
+          "exp.title": "Experiência",
+          "exp.e1t": "Projetos corporativos",
+          "exp.e1d":
+            "Desenvolvimento de sistemas de gestão e backoffice com foco em escala e previsibilidade.",
+          "exp.e2t": "Integrações",
+          "exp.e2d":
+            "Integração com APIs externas, automação de fluxos e governança de dados operacionais.",
+          "metrics.title": "Métricas de entrega",
+          "metrics.m1": "Projetos entregues",
+          "metrics.m2": "Disponibilidade de infra",
+          "metrics.m3": "Anos de experiência prática",
+          "metrics.m4": "Deploy automatizado",
+          "projects.title": "Projetos em destaque",
+          "projects.p1d":
+            "Sistema de gestão empresarial com monitoramento operacional e relatórios.",
+          "projects.p2d":
+            "Plataforma de serviços de Angola para descoberta de ofertas e anúncios locais.",
+          "languages.title": "Idiomas",
+          "languages.pt": "Português",
+          "languages.ptLevel": "Nativo",
+          "languages.en": "Inglês",
+          "languages.enLevel": "Profissional",
+          "contact.title": "Contato",
+          "contact.intro":
+            "Pronto para levar seu projeto ao próximo nível? Envie um resumo e receba uma proposta objetiva.",
+          "contact.name": "Nome",
+          "contact.email": "Email",
+          "contact.budget": "Orçamento",
+          "contact.subject": "Assunto",
+          "contact.message": "Mensagem",
+          "contact.send": "Enviar",
+          "footer.text": "© 2026 Moreli Dev — Qualidade, performance e design.",
+        },
+        en: {
+          "nav.about": "About",
+          "nav.services": "Services",
+          "nav.stack": "Stack",
+          "nav.experience": "Experience",
+          "nav.projects": "Projects",
+          "nav.contact": "Contact",
+          "hero.eyebrow": "Technology and growth",
+          "hero.title": "Software Engineer | Full Stack Developer",
+          "hero.subtitle":
+            "I build scalable web applications with .NET, Angular, React and modern architectures.",
+          "hero.ctaPrimary": "Get in touch",
+          "hero.ctaSecondary": "View projects",
+          "hero.stepTitle": "Delivery phases",
+          "hero.step1": "Discovery and briefing",
+          "hero.step2": "Functional design",
+          "hero.step3": "Implementation and deployment",
+          "hero.step4": "Support and evolution",
+          "about.title": "About",
+          "about.text":
+            "I'm William Moreli, a developer focused on solid architecture and fast delivery. I work with best practices, performance and automation to keep your website always available.",
+          "about.stackLabel": "Stack:",
+          "about.infraLabel": "Infrastructure:",
+          "info.title": "Personal info",
+          "info.nameLabel": "Name",
+          "info.locationLabel": "Location",
+          "info.locationValue": "Brazil",
+          "info.roleLabel": "Current role",
+          "headline.title": "Professional headline",
+          "headline.text":
+            "Specialist in .NET, Angular, React, Node.js, ASP.NET Core and PHP.",
+          "services.title": "Services",
+          "services.s1t": "Institutional websites",
+          "services.s1d":
+            "Clear structure, organized content and strong credibility.",
+          "services.s2t": "Landing pages",
+          "services.s2d":
+            "Lean pages for campaigns, launches and lead generation.",
+          "services.s3t": "Modern implementation",
+          "services.s3d":
+            "High-performance frontend with technical SEO and automation.",
+          "services.s4t": "Ongoing maintenance",
+          "services.s4d":
+            "Fast adjustments, continuous improvements and monitoring.",
+          "stack.title": "Tech stack",
+          "stack.db": "Databases",
+          "stack.practices": "Practices",
+          "stack.practicesDesc":
+            "REST APIs, Git/GitHub, layered architecture, Clean Code.",
+          "exp.title": "Experience",
+          "exp.e1t": "Corporate projects",
+          "exp.e1d":
+            "Development of management and backoffice systems focused on scale and predictability.",
+          "exp.e2t": "Integrations",
+          "exp.e2d":
+            "Integration with external APIs, workflow automation and operational data governance.",
+          "metrics.title": "Delivery metrics",
+          "metrics.m1": "Projects delivered",
+          "metrics.m2": "Infrastructure availability",
+          "metrics.m3": "Years of hands-on experience",
+          "metrics.m4": "Automated deployment",
+          "projects.title": "Featured projects",
+          "projects.p1d":
+            "Business management system with operational monitoring and reports.",
+          "projects.p2d":
+            "Angolan services platform focused on local offers discovery and ads.",
+          "languages.title": "Languages",
+          "languages.pt": "Portuguese",
+          "languages.ptLevel": "Native",
+          "languages.en": "English",
+          "languages.enLevel": "Professional",
+          "contact.title": "Contact",
+          "contact.intro":
+            "Ready to take your project to the next level? Share a brief and get an objective proposal.",
+          "contact.name": "Name",
+          "contact.email": "Email",
+          "contact.budget": "Budget",
+          "contact.subject": "Subject",
+          "contact.message": "Message",
+          "contact.send": "Send",
+          "footer.text": "© 2026 Moreli Dev — Quality, performance and design.",
+        },
+      };
+
+      const languageButtons = [...document.querySelectorAll(".lang-btn")];
+
+      function applyLanguage(lang) {
+        const dict = translations[lang] || translations.pt;
+        document.documentElement.lang = lang === "en" ? "en" : "pt-br";
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.getAttribute("data-i18n");
+          if (dict[key]) {
+            node.textContent = dict[key];
+          }
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+          const key = node.getAttribute("data-i18n-placeholder");
+          if (dict[key]) {
+            node.setAttribute("placeholder", dict[key]);
+            node.setAttribute("aria-label", dict[key]);
+          }
+        });
+        languageButtons.forEach((btn) => {
+          btn.classList.toggle(
+            "active",
+            btn.getAttribute("data-lang") === lang,
+          );
+        });
+        localStorage.setItem("morelidev-language", lang);
+      }
+
+      languageButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const lang = button.getAttribute("data-lang");
+          applyLanguage(lang);
+        });
+      });
+
+      applyLanguage(localStorage.getItem("morelidev-language") || "pt");
+    </script>
   </body>
 </html>
