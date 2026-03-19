@@ -37,7 +37,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
-      - name: Deploy via SSH (git pull + docker compose)
+      - name: Deploy via SSH (git pull + docker compose + static publish)
         if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         id: ssh_deploy
         continue-on-error: true
@@ -51,13 +51,40 @@ jobs:
             DEPLOY_PORT=22
           fi
 
-          ssh -p "$DEPLOY_PORT" -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" '
+          ssh -p "$DEPLOY_PORT" -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" <<'SSH'
             set -e
             cd /opt/morelidev
             git fetch --all
             git reset --hard origin/main
             docker compose -p morelidev -f docker-compose.prod.yml up -d --build --force-recreate
-          '
+
+            WEB_ROOT=$(nginx -T 2>/dev/null | awk '
+              $1 == "server_name" && $0 ~ /morelidev\.com/ { in_server = 1 }
+              in_server && $1 == "root" { gsub(";", "", $2); print $2; exit }
+              $1 == "}" { in_server = 0 }
+            ')
+
+            if [ -n "$WEB_ROOT" ] && [ -d "$WEB_ROOT" ] && [ "$WEB_ROOT" != "/" ]; then
+              echo "Detected nginx root for morelidev.com: $WEB_ROOT"
+              find "$WEB_ROOT" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+              cp -a /opt/morelidev/site/. "$WEB_ROOT"/
+
+              if command -v systemctl >/dev/null 2>&1; then
+                sudo -n systemctl reload nginx 2>/dev/null || systemctl reload nginx 2>/dev/null || nginx -s reload || true
+              else
+                nginx -s reload || true
+              fi
+
+              SRC_SHA=$(sha256sum /opt/morelidev/site/styles.css | awk '{print $1}')
+              DST_SHA=$(sha256sum "$WEB_ROOT/styles.css" | awk '{print $1}')
+              if [ "$SRC_SHA" != "$DST_SHA" ]; then
+                echo "Static publish failed: styles.css hash mismatch after copy."
+                exit 1
+              fi
+            else
+              echo "No valid nginx root found for morelidev.com. Static publish skipped."
+            fi
+          SSH
 
       - name: Trigger Portainer redeploy (webhook)
         if: ${{ env.PORTAINER_WEBHOOK_URL != '' && (env.DEPLOY_SSH_PRIVATE_KEY == '' || steps.ssh_deploy.outcome != 'success') }}
@@ -72,3 +99,15 @@ jobs:
         run: |
           echo "Deploy failed: SSH deploy failed and Portainer fallback was not successful."
           exit 1
+
+      - name: Smoke test live publication
+        run: |
+          set -e
+          EXPECTED_SHA=$(sha256sum site/styles.css | awk '{print $1}')
+          LIVE_SHA=$(curl -fsSL --retry 5 --retry-all-errors --max-time 30 "https://morelidev.com/styles.css?v=${GITHUB_SHA}" | sha256sum | awk '{print $1}')
+          if [ "$EXPECTED_SHA" != "$LIVE_SHA" ]; then
+            echo "Publication mismatch: live styles.css differs from repository."
+            echo "expected=$EXPECTED_SHA"
+            echo "live=$LIVE_SHA"
+            exit 1
+          fi
