@@ -66,11 +66,18 @@ jobs:
               in_server && $1 == "root" { gsub(";", "", $2); print $2; exit }
               $1 == "}" { in_server = 0 }
             ')
+            SRC_DIR=/opt/morelidev/site
 
-            if [ -n "$WEB_ROOT" ] && [ -d "$WEB_ROOT" ] && [ "$WEB_ROOT" != "/" ]; then
+            if [ -n "$WEB_ROOT" ] && [ "$WEB_ROOT" != "/" ] && [ -d "$SRC_DIR" ]; then
               echo "Detected nginx root for morelidev.com: $WEB_ROOT"
-              find "$WEB_ROOT" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-              cp -a /opt/morelidev/site/. "$WEB_ROOT"/
+              mkdir -p "$WEB_ROOT"
+              cp -a "$SRC_DIR"/. "$WEB_ROOT"/
+              chmod -R a+rX "$WEB_ROOT" || true
+
+              if [ ! -f "$WEB_ROOT/index.html" ] || [ ! -f "$WEB_ROOT/styles.css" ]; then
+                echo "Static publish failed: required files were not copied."
+                exit 1
+              fi
 
               if command -v systemctl >/dev/null 2>&1; then
                 sudo -n systemctl reload nginx 2>/dev/null || systemctl reload nginx 2>/dev/null || nginx -s reload || true
@@ -78,14 +85,27 @@ jobs:
                 nginx -s reload || true
               fi
 
-              SRC_SHA=$(sha256sum /opt/morelidev/site/styles.css | awk '{print $1}')
+              SRC_SHA=$(sha256sum "$SRC_DIR/styles.css" | awk '{print $1}')
               DST_SHA=$(sha256sum "$WEB_ROOT/styles.css" | awk '{print $1}')
               if [ "$SRC_SHA" != "$DST_SHA" ]; then
                 echo "Static publish failed: styles.css hash mismatch after copy."
                 exit 1
               fi
+
+              LIVE_HTTP=$(curl -ksS -o /tmp/morelidev-live-styles.css -w "%{http_code}" --resolve "morelidev.com:443:127.0.0.1" https://morelidev.com/styles.css || true)
+              if [ "$LIVE_HTTP" != "200" ]; then
+                echo "Static publish failed: nginx returned HTTP $LIVE_HTTP for /styles.css."
+                exit 1
+              fi
+
+              LIVE_SHA=$(sha256sum /tmp/morelidev-live-styles.css | awk '{print $1}')
+              if [ "$SRC_SHA" != "$LIVE_SHA" ]; then
+                echo "Static publish failed: live styles.css hash mismatch after reload."
+                exit 1
+              fi
             else
-              echo "No valid nginx root found for morelidev.com. Static publish skipped."
+              echo "Static publish failed: nginx root or source directory is invalid."
+              exit 1
             fi
           SSH
 
@@ -104,6 +124,7 @@ jobs:
           exit 1
 
       - name: Smoke test live publication
+        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY == '' }}
         run: |
           set -euo pipefail
           if [ ! -f site/styles.css ]; then
