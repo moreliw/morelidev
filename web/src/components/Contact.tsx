@@ -33,19 +33,21 @@ export function Contact() {
 
   return (
     <Section id="contact" title={copy.title}>
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <p className="text-lg text-zinc-300">{copy.intro}</p>
-          <div className="mt-6 flex gap-4 flex-wrap">
+          <p className="text-lg leading-relaxed text-zinc-300">
+            {copy.intro}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="mailto:contato@morelidev.com"
-              className="inline-flex h-10 items-center justify-center rounded-full btn-accent px-5 hover:opacity-90 transition"
+              className="btn-accent inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold"
             >
               Email
             </a>
             <a
               href="https://wa.me/5500000000000"
-              className="inline-flex h-10 items-center justify-center rounded-full border border-white/10 px-5 hover:bg-white/5 transition"
+              className="btn-outline inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-medium"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -53,7 +55,7 @@ export function Contact() {
             </a>
             <a
               href="https://www.linkedin.com/in/william-moreli"
-              className="inline-flex h-10 items-center justify-center rounded-full border border-white/10 px-5 hover:bg-white/5 transition"
+              className="btn-outline inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-medium"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -62,17 +64,38 @@ export function Contact() {
           </div>
         </div>
         <form className="grid gap-4 sm:grid-cols-2">
-          <input className="w-full rounded-lg px-4 py-2 card" placeholder={copy.name} aria-label={copy.name} />
-          <input className="w-full rounded-lg px-4 py-2 card" placeholder={copy.email} aria-label={copy.email} />
-          <select className="w-full rounded-lg px-4 py-2 card">
+          <input
+            className="w-full rounded-xl px-4 py-3 card text-sm"
+            placeholder={copy.name}
+            aria-label={copy.name}
+          />
+          <input
+            className="w-full rounded-xl px-4 py-3 card text-sm"
+            placeholder={copy.email}
+            aria-label={copy.email}
+            type="email"
+          />
+          <select className="w-full rounded-xl px-4 py-3 card text-sm sm:col-span-2">
             <option>{copy.budget}</option>
             {copy.budgetOptions.map((option) => (
               <option key={option}>{option}</option>
             ))}
           </select>
-          <input className="w-full rounded-lg px-4 py-2 card" placeholder={copy.subject} aria-label={copy.subject} />
-          <textarea className="sm:col-span-2 w-full rounded-lg px-4 py-2 card" rows={4} placeholder={copy.message} aria-label={copy.message} />
-          <button className="sm:col-span-2 btn-accent rounded-full px-6 py-2 font-medium" type="submit">
+          <input
+            className="w-full rounded-xl px-4 py-3 card text-sm sm:col-span-2"
+            placeholder={copy.subject}
+            aria-label={copy.subject}
+          />
+          <textarea
+            className="sm:col-span-2 w-full rounded-xl px-4 py-3 card text-sm resize-none"
+            rows={4}
+            placeholder={copy.message}
+            aria-label={copy.message}
+          />
+          <button
+            className="btn-accent sm:col-span-2 rounded-full px-6 py-3 text-sm font-semibold"
+            type="submit"
+          >
             {copy.send}
           </button>
         </form>

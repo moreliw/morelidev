@@ -1,6 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
-import { Brush, Code2, MonitorSmartphone, PenTool, Rocket, Settings2 } from "lucide-react";
+import {
+  Brush,
+  Code2,
+  MonitorSmartphone,
+  PenTool,
+  Rocket,
+  Settings2,
+} from "lucide-react";
 import { Section } from "./Section";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -65,19 +72,23 @@ export function Services() {
         {services.map((s, i) => (
           <motion.article
             key={s.title.en}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: i * 0.05 }}
-            className="card rounded-xl p-6 hover:-translate-y-0.5 transition"
+            transition={{
+              delay: i * 0.05,
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="group card rounded-2xl p-6 lg:p-7"
           >
-            <div className="h-10 w-10 rounded-full bg-[var(--accent)]/90 text-black flex items-center justify-center">
-              <s.icon className="size-5" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent/90 to-accent-dark text-zinc-950 shadow-[0_4px_14px_-2px_rgba(249,115,22,0.25)] transition-transform group-hover:scale-105">
+              <s.icon className="size-6" strokeWidth={2} />
             </div>
-            <h3 className="mt-4 font-semibold text-zinc-50">
+            <h3 className="mt-5 font-display text-lg font-semibold text-zinc-100">
               {language === "pt" ? s.title.pt : s.title.en}
             </h3>
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-3 text-sm leading-relaxed text-zinc-400">
               {language === "pt" ? s.desc.pt : s.desc.en}
             </p>
           </motion.article>

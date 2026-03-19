@@ -19,9 +19,13 @@ export function Headline() {
 
   return (
     <Section id="headline" title={copy.title}>
-      <div className="card rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-zinc-100">{copy.headline}</h3>
-        <p className="mt-3 text-sm text-zinc-400 leading-relaxed">{copy.desc}</p>
+      <div className="card rounded-2xl p-6 lg:p-8">
+        <h3 className="font-display text-xl font-semibold text-zinc-100">
+          {copy.headline}
+        </h3>
+        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
+          {copy.desc}
+        </p>
       </div>
     </Section>
   );

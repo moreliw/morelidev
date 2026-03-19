@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Section } from "./Section";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -98,48 +99,56 @@ export function Portfolio() {
 
   return (
     <Section id="portfolio" title={title}>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-zinc-400">{subtitle}</p>
-        <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-300">
+        <span className="inline-flex w-fit items-center rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-xs font-medium uppercase tracking-wider text-zinc-400">
           {badge}
-        </div>
+        </span>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((it) => (
-          <article key={it.title} className="card overflow-hidden rounded-xl">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((it, i) => (
+          <motion.article
+            key={it.title}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: i * 0.05, duration: 0.5 }}
+            className="group card overflow-hidden rounded-2xl"
+          >
             {it.image && (
-              <div className="relative h-44 w-full">
+              <div className="relative h-48 w-full overflow-hidden">
                 <Image
                   src={it.image}
                   alt={it.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-top"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent" />
               </div>
             )}
-            <div className="p-5">
-              <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+            <div className="p-6">
+              <div className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
                 {language === "pt" ? it.type.pt : it.type.en}
               </div>
-              <h3 className="mt-3 text-lg font-semibold text-zinc-100">
+              <h3 className="mt-3 font-display text-lg font-semibold text-zinc-100">
                 {it.title}
               </h3>
-              <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
+              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
                 {language === "pt" ? it.desc.pt : it.desc.en}
               </p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {it.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/10 px-3 py-1 text-zinc-300"
+                    className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1 text-xs font-medium text-zinc-400"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
-          </article>
+          </motion.article>
         ))}
       </div>
     </Section>

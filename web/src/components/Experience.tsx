@@ -1,5 +1,6 @@
 "use client";
 import { Section } from "./Section";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 
 const experiences = [
@@ -43,26 +44,39 @@ const experiences = [
 
 export function Experience() {
   const { language } = useLanguage();
-  const title = language === "pt" ? "Experiência profissional" : "Experience";
+  const title =
+    language === "pt" ? "Experiência profissional" : "Experience";
 
   return (
     <Section id="experience" title={title}>
       <div className="grid gap-6">
-        {experiences.map((exp) => (
-          <article key={exp.company} className="card rounded-xl p-6">
-            <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-400">
-              <span className="text-zinc-100 font-semibold">{exp.company}</span>
-              <span>•</span>
+        {experiences.map((exp, i) => (
+          <motion.article
+            key={exp.company}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: i * 0.1, duration: 0.5 }}
+            className="card rounded-2xl p-6 lg:p-8"
+          >
+            <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+              <span className="font-display font-semibold text-zinc-100">
+                {exp.company}
+              </span>
+              <span className="text-zinc-600">•</span>
               <span>{exp.role}</span>
-              <span>•</span>
+              <span className="text-zinc-600">•</span>
               <span>{language === "pt" ? exp.type.pt : exp.type.en}</span>
             </div>
-            <ul className="mt-5 grid gap-2 text-sm text-zinc-400">
+            <ul className="mt-5 grid gap-2.5 text-sm leading-relaxed text-zinc-400">
               {(language === "pt" ? exp.pt : exp.en).map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item} className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/80" />
+                  {item}
+                </li>
               ))}
             </ul>
-          </article>
+          </motion.article>
         ))}
       </div>
     </Section>

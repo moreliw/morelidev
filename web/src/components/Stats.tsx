@@ -1,5 +1,6 @@
 "use client";
 import { Section } from "./Section";
+import { motion } from "framer-motion";
 import { Award, Briefcase, Gauge, ThumbsUp } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -21,18 +22,27 @@ export function Stats() {
         ];
 
   return (
-    <Section className="py-12">
-      <div className="grid sm:grid-cols-4 gap-6">
-        {stats.map((s) => (
-          <div key={s.label} className="card rounded-xl p-6 flex items-center gap-4">
-            <div className="h-10 w-10 rounded-full bg-[var(--accent)]/90 text-black flex items-center justify-center">
-              <s.icon className="size-5" />
+    <Section className="py-16 lg:py-20">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: i * 0.08, duration: 0.5 }}
+            className="card flex items-center gap-5 rounded-2xl p-6"
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent/90 to-accent-dark text-zinc-950 shadow-[0_4px_14px_-2px_rgba(249,115,22,0.25)]">
+              <s.icon className="size-6" strokeWidth={2} />
             </div>
             <div>
-              <p className="text-2xl font-semibold text-zinc-100 leading-none">{s.value}</p>
-              <p className="text-xs text-zinc-400 mt-2">{s.label}</p>
+              <p className="font-display text-2xl font-bold leading-none text-zinc-100">
+                {s.value}
+              </p>
+              <p className="mt-2 text-sm text-zinc-500">{s.label}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Section>

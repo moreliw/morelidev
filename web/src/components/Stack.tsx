@@ -34,15 +34,20 @@ const stack = {
 function Card({ title, items }: { title: string; items: string[] }) {
   return (
     <motion.div
-      whileHover={{ y: -2 }}
-      className="card rounded-xl p-6 hover:-translate-y-0.5 transition"
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
+      className="card rounded-2xl p-6 lg:p-7"
     >
-      <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">{title}</div>
-      <h3 className="mt-2 text-lg font-semibold text-zinc-100">{title}</h3>
+      <div className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+        {title}
+      </div>
       <div className="mt-4 h-px bg-white/5" />
-      <ul className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-300">
+      <ul className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-400">
         {items.map((x) => (
-          <li key={x} className="rounded-full border border-white/10 px-3 py-1">
+          <li
+            key={x}
+            className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 font-medium"
+          >
             {x}
           </li>
         ))}
