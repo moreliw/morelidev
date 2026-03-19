@@ -17,6 +17,9 @@ jobs:
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
       PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Start SSH agent
         if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         uses: webfactory/ssh-agent@v0.9.0
@@ -102,9 +105,33 @@ jobs:
 
       - name: Smoke test live publication
         run: |
-          set -e
+          set -euo pipefail
+          if [ ! -f site/styles.css ]; then
+            echo "Repository file not found: site/styles.css"
+            exit 1
+          fi
+
+          LIVE_URL="https://morelidev.com/styles.css?v=${GITHUB_SHA}"
+          ATTEMPTS=12
+          SLEEP_SECONDS=5
+          HTTP_CODE=""
+
+          for i in $(seq 1 "$ATTEMPTS"); do
+            HTTP_CODE=$(curl -sS -o /tmp/live-styles.css -w "%{http_code}" "$LIVE_URL" || true)
+            if [ "$HTTP_CODE" = "200" ]; then
+              break
+            fi
+            echo "Smoke test attempt $i/$ATTEMPTS returned HTTP $HTTP_CODE, retrying..."
+            sleep "$SLEEP_SECONDS"
+          done
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Live publication unavailable: $LIVE_URL returned HTTP $HTTP_CODE"
+            exit 1
+          fi
+
           EXPECTED_SHA=$(sha256sum site/styles.css | awk '{print $1}')
-          LIVE_SHA=$(curl -fsSL --retry 5 --retry-all-errors --max-time 30 "https://morelidev.com/styles.css?v=${GITHUB_SHA}" | sha256sum | awk '{print $1}')
+          LIVE_SHA=$(sha256sum /tmp/live-styles.css | awk '{print $1}')
           if [ "$EXPECTED_SHA" != "$LIVE_SHA" ]; then
             echo "Publication mismatch: live styles.css differs from repository."
             echo "expected=$EXPECTED_SHA"
