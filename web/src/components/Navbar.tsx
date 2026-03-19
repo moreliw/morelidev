@@ -14,26 +14,18 @@ export function Navbar() {
     () =>
       language === "pt"
         ? {
-            home: "Início",
-            profile: "Perfil",
             about: "Sobre",
-            stack: "Stack",
-            experience: "Experiência",
-            projects: "Projetos",
-            languages: "Idiomas",
+            skills: "Skills",
+            portfolio: "Projetos",
             contact: "Contato",
             cta: "Fale comigo",
           }
         : {
-            home: "Home",
-            profile: "Profile",
-            about: "About",
-            stack: "Stack",
-            experience: "Experience",
-            projects: "Projects",
-            languages: "Languages",
+            about: "About me",
+            skills: "Skills",
+            portfolio: "Portfolio",
             contact: "Contact",
-            cta: "Hire Me",
+            cta: "Contact me",
           },
     [language]
   );
@@ -46,22 +38,18 @@ export function Navbar() {
   }, []);
 
   const navLinks = [
-    { href: "#", label: labels.home },
-    { href: "#info", label: labels.profile },
     { href: "#about", label: labels.about },
-    { href: "#stack", label: labels.stack },
-    { href: "#experience", label: labels.experience },
-    { href: "#portfolio", label: labels.projects },
-    { href: "#languages", label: labels.languages },
+    { href: "#stack", label: labels.skills },
+    { href: "#portfolio", label: labels.portfolio },
     { href: "#contact", label: labels.contact },
   ];
 
   return (
     <header
       className={
-        `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ` +
+        `fixed top-0 left-0 right-0 z-50 transition-all duration-300 text-black ` +
         (scrolled
-          ? "bg-zinc-950/80 border-b border-white/5 backdrop-blur-xl shadow-[0_1px_0_0_rgba(255,255,255,0.03)]"
+          ? "bg-white/95 backdrop-blur-sm border-b border-gray-200"
           : "bg-transparent")
       }
     >
@@ -69,40 +57,39 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="#"
-          className="font-display text-xl font-semibold tracking-tight"
+          className="text-xl font-bold tracking-tight text-black"
         >
-          <span className="text-zinc-100">Moreli</span>
-          <span className="text-accent">.dev</span>
+          Moreli<span className="font-extrabold">.dev</span>
         </Link>
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-100 hover:bg-white/5"
+              className="text-sm font-medium text-black hover:underline underline-offset-4"
             >
               {link.label}
             </a>
           ))}
         </div>
-        <button
-          type="button"
-          aria-label="Menu"
-          className="md:hidden rounded-lg p-2 text-zinc-400 hover:bg-white/5 hover:text-zinc-100 transition-colors"
-          onClick={() => setMobileOpen((o) => !o)}
-        >
-          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-0.5 rounded-full border border-white/10 bg-white/[0.02] p-1 text-xs backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="Menu"
+            className="md:hidden p-2 text-black hover:bg-black/5 rounded transition-colors"
+            onClick={() => setMobileOpen((o) => !o)}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+          <div className="flex items-center gap-2 rounded-full border border-black/20 p-1 text-xs">
             <button
               type="button"
               onClick={() => setLanguage("pt")}
               className={
-                "rounded-full px-3 py-1.5 font-medium transition-colors " +
+                "rounded-full px-3 py-1 font-medium transition-colors " +
                 (language === "pt"
-                  ? "bg-white/10 text-zinc-100"
-                  : "text-zinc-500 hover:text-zinc-300")
+                  ? "bg-black text-white"
+                  : "text-black hover:bg-black/5")
               }
             >
               PT
@@ -111,10 +98,10 @@ export function Navbar() {
               type="button"
               onClick={() => setLanguage("en")}
               className={
-                "rounded-full px-3 py-1.5 font-medium transition-colors " +
+                "rounded-full px-3 py-1 font-medium transition-colors " +
                 (language === "en"
-                  ? "bg-white/10 text-zinc-100"
-                  : "text-zinc-500 hover:text-zinc-300")
+                  ? "bg-black text-white"
+                  : "text-black hover:bg-black/5")
               }
             >
               EN
@@ -122,25 +109,32 @@ export function Navbar() {
           </div>
           <a
             href="#contact"
-            className="btn-accent rounded-full px-4 py-2 text-sm font-semibold"
+            className="btn-cta hidden sm:inline-flex text-xs py-2 px-4"
           >
             {labels.cta}
           </a>
         </div>
       </nav>
       {mobileOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 border-t border-white/5 bg-zinc-950/95 backdrop-blur-xl">
-          <nav className="flex flex-col gap-0 py-2">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200">
+          <nav className="flex flex-col py-2">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="px-6 py-3 text-sm font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+                className="px-6 py-3 text-sm font-medium text-black hover:bg-gray-100"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </a>
             ))}
+            <a
+              href="#contact"
+              className="mx-6 my-2 btn-cta justify-center"
+              onClick={() => setMobileOpen(false)}
+            >
+              {labels.cta}
+            </a>
           </nav>
         </div>
       )}

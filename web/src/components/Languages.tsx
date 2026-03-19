@@ -10,29 +10,31 @@ export function Languages() {
           title: "Idiomas",
           portuguese: "Português",
           english: "Inglês",
-          englishLevel:
-            "Intermediário (em evolução para entrevistas técnicas internacionais)",
+          englishLevel: "Intermediário",
           native: "Nativo",
         }
       : {
           title: "Languages",
           portuguese: "Portuguese",
           english: "English",
-          englishLevel:
-            "Intermediate (progressing to international technical interviews)",
+          englishLevel: "Intermediate",
           native: "Native",
         };
 
   return (
-    <Section id="languages" title={copy.title}>
-      <div className="card rounded-2xl p-6 lg:p-8">
-        <div className="grid gap-4 text-sm text-zinc-300 sm:grid-cols-2">
+    <Section id="languages" title={copy.title.toUpperCase()}>
+      <div className="max-w-xl mx-auto p-6 border border-[#e5e5e5] bg-white">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <span className="text-zinc-500">{copy.portuguese}:</span>{" "}
-            <span className="font-medium text-zinc-100">{copy.native}</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-[#6b6b6b]">
+              {copy.portuguese}:
+            </span>{" "}
+            <span className="font-semibold text-black">{copy.native}</span>
           </div>
           <div>
-            <span className="text-zinc-500">{copy.english}:</span>{" "}
+            <span className="text-xs font-medium uppercase tracking-wider text-[#6b6b6b]">
+              {copy.english}:
+            </span>{" "}
             {copy.englishLevel}
           </div>
         </div>

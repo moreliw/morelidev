@@ -13,17 +13,15 @@ export function Headline() {
         }
       : {
           title: "Headline",
-          headline: "Full Stack Software Engineer",
-          desc: "Building scalable web applications with .NET, Angular, React and modern architectures.",
+          headline: "Software Engineer | Full Stack Developer",
+          desc: "Specialist in .NET, Angular, React, Node.js, ASP.NET Core and PHP.",
         };
 
   return (
-    <Section id="headline" title={copy.title}>
-      <div className="card rounded-2xl p-6 lg:p-8">
-        <h3 className="font-display text-xl font-semibold text-zinc-100">
-          {copy.headline}
-        </h3>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
+    <Section id="headline" title={copy.title.toUpperCase()}>
+      <div className="max-w-2xl mx-auto text-center p-6 border border-[#e5e5e5] bg-white">
+        <h3 className="text-lg font-bold text-black">{copy.headline}</h3>
+        <p className="mt-3 text-sm text-[#6b6b6b] leading-relaxed">
           {copy.desc}
         </p>
       </div>

@@ -12,31 +12,27 @@ const experiences = [
       "Desenvolvimento de sistemas corporativos",
       "Frontend com Angular",
       "Backend com .NET",
-      "Manutenção e evolução de aplicações em produção",
       "Integração com bancos de dados e APIs",
     ],
     en: [
       "Enterprise systems development",
       "Frontend with Angular",
       "Backend with .NET",
-      "Maintenance and evolution of production applications",
       "Database and API integrations",
     ],
   },
   {
     company: "Anhanguera Educacional",
-    role: "Software Engineer / Developer",
+    role: "Software Engineer",
     type: { pt: "Educação", en: "Education" },
     pt: [
       "Desenvolvimento de sistemas educacionais",
-      "Criação e manutenção de interfaces web",
-      "Integração frontend e backend",
+      "Interfaces web e integração frontend/backend",
       "Suporte e evolução de sistemas internos",
     ],
     en: [
       "Educational systems development",
-      "Creation and maintenance of web interfaces",
-      "Frontend and backend integration",
+      "Web interfaces and frontend/backend integration",
       "Support and evolution of internal systems",
     ],
   },
@@ -48,35 +44,28 @@ export function Experience() {
     language === "pt" ? "Experiência profissional" : "Experience";
 
   return (
-    <Section id="experience" title={title}>
-      <div className="grid gap-6">
-        {experiences.map((exp, i) => (
-          <motion.article
+    <Section id="experience" title={title.toUpperCase()}>
+      <div className="space-y-6 max-w-3xl mx-auto">
+        {experiences.map((exp) => (
+          <div
             key={exp.company}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="card rounded-2xl p-6 lg:p-8"
+            className="p-6 border border-[#e5e5e5] bg-white"
           >
-            <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
-              <span className="font-display font-semibold text-zinc-100">
-                {exp.company}
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="font-bold text-black">{exp.company}</span>
+              <span className="text-[#6b6b6b]">•</span>
+              <span className="text-[#6b6b6b]">{exp.role}</span>
+              <span className="text-[#6b6b6b]">•</span>
+              <span className="text-[#6b6b6b]">
+                {language === "pt" ? exp.type.pt : exp.type.en}
               </span>
-              <span className="text-zinc-600">•</span>
-              <span>{exp.role}</span>
-              <span className="text-zinc-600">•</span>
-              <span>{language === "pt" ? exp.type.pt : exp.type.en}</span>
             </div>
-            <ul className="mt-5 grid gap-2.5 text-sm leading-relaxed text-zinc-400">
+            <ul className="mt-4 space-y-2 text-sm text-[#6b6b6b] leading-relaxed">
               {(language === "pt" ? exp.pt : exp.en).map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/80" />
-                  {item}
-                </li>
+                <li key={item}>• {item}</li>
               ))}
             </ul>
-          </motion.article>
+          </div>
         ))}
       </div>
     </Section>

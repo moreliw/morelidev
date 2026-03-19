@@ -29,31 +29,38 @@ export function PersonalInfo() {
         };
 
   return (
-    <Section id="info" title={labels.title}>
-      <div className="card rounded-2xl p-6 lg:p-8">
-        <div className="grid gap-4 text-sm text-zinc-300 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <span className="text-zinc-500">{labels.name}:</span>{" "}
-            <span className="font-medium text-zinc-100">{info.name}</span>
-          </div>
-          <div>
-            <span className="text-zinc-500">{labels.location}:</span>{" "}
-            {info.location}
-          </div>
-          <div>
-            <span className="text-zinc-500">{labels.role}:</span> {info.role}
-          </div>
-          <div>
-            <span className="text-zinc-500">{labels.linkedin}:</span>{" "}
-            <a
-              href="https://www.linkedin.com/in/william-moreli"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:underline"
-            >
-              {info.linkedin}
-            </a>
-          </div>
+    <Section id="info" title={labels.title.toUpperCase()}>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl mx-auto">
+        <div className="p-4 border border-[#e5e5e5] bg-white">
+          <span className="text-xs font-medium uppercase tracking-wider text-[#6b6b6b]">
+            {labels.name}:
+          </span>{" "}
+          <span className="font-semibold text-black">{info.name}</span>
+        </div>
+        <div className="p-4 border border-[#e5e5e5] bg-white">
+          <span className="text-xs font-medium uppercase tracking-wider text-[#6b6b6b]">
+            {labels.location}:
+          </span>{" "}
+          {info.location}
+        </div>
+        <div className="p-4 border border-[#e5e5e5] bg-white">
+          <span className="text-xs font-medium uppercase tracking-wider text-[#6b6b6b]">
+            {labels.role}:
+          </span>{" "}
+          {info.role}
+        </div>
+        <div className="p-4 border border-[#e5e5e5] bg-white">
+          <span className="text-xs font-medium uppercase tracking-wider text-[#6b6b6b]">
+            {labels.linkedin}:
+          </span>{" "}
+          <a
+            href="https://www.linkedin.com/in/william-moreli"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black font-medium hover:underline"
+          >
+            {info.linkedin}
+          </a>
         </div>
       </div>
     </Section>

@@ -1,12 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
 import {
-  Brush,
-  Code2,
   MonitorSmartphone,
-  PenTool,
   Rocket,
+  Code2,
   Settings2,
+  PenTool,
+  Brush,
 } from "lucide-react";
 import { Section } from "./Section";
 import { useLanguage } from "@/context/LanguageContext";
@@ -67,33 +67,31 @@ export function Services() {
   const title = language === "pt" ? "Serviços" : "Services";
 
   return (
-    <Section id="services" title={title}>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s, i) => (
-          <motion.article
-            key={s.title.en}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{
-              delay: i * 0.05,
-              duration: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="group card rounded-2xl p-6 lg:p-7"
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent/90 to-accent-dark text-zinc-950 shadow-[0_4px_14px_-2px_rgba(249,115,22,0.25)] transition-transform group-hover:scale-105">
-              <s.icon className="size-6" strokeWidth={2} />
-            </div>
-            <h3 className="mt-5 font-display text-lg font-semibold text-zinc-100">
-              {language === "pt" ? s.title.pt : s.title.en}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-              {language === "pt" ? s.desc.pt : s.desc.en}
-            </p>
-          </motion.article>
-        ))}
+    <section id="services" className="bg-[#f5f5f5]">
+      <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
+        <div className="text-center mb-12">
+          <h2 className="section-header">{title.toUpperCase()}</h2>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <motion.article
+              key={s.title.en}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: i * 0.05, duration: 0.5 }}
+              className="p-6 border border-[#e5e5e5] bg-white hover:border-black/20 transition-colors"
+            >
+              <h3 className="text-sm font-bold uppercase tracking-wider text-black">
+                {language === "pt" ? s.title.pt : s.title.en}
+              </h3>
+              <p className="mt-3 text-sm text-[#6b6b6b] leading-relaxed">
+                {language === "pt" ? s.desc.pt : s.desc.en}
+              </p>
+            </motion.article>
+          ))}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

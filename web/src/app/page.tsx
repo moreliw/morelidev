@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { BriefIntro } from "@/components/BriefIntro";
 import { About } from "@/components/About";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
@@ -17,6 +18,7 @@ export default function Home() {
     <div className="font-sans">
       <Navbar />
       <Hero />
+      <BriefIntro />
       <PersonalInfo />
       <Headline />
       <Services />

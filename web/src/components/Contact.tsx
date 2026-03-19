@@ -10,96 +10,82 @@ export function Contact() {
           title: "Contato",
           intro:
             "Pronto para levar seu projeto ao próximo nível? Envie um resumo e receba uma proposta objetiva.",
-          name: "Nome",
-          email: "Email",
-          budget: "Orçamento",
-          budgetOptions: ["R$ 2k–R$ 5k", "R$ 5k–R$ 10k", "R$ 10k+"],
-          subject: "Assunto",
-          message: "Mensagem",
+          name: "Digite seu nome*",
+          email: "Digite seu email*",
+          phone: "Telefone",
+          message: "Sua mensagem*",
           send: "Enviar",
         }
       : {
           title: "Contact",
           intro:
             "Ready to take your project to the next level? Share a brief and get an objective proposal.",
-          name: "Name",
-          email: "Email",
-          budget: "Budget",
-          budgetOptions: ["$2k–$5k", "$5k–$10k", "$10k+"],
-          subject: "Subject",
-          message: "Message",
-          send: "Send",
+          name: "Enter your name*",
+          email: "Enter your email*",
+          phone: "Phone number",
+          message: "Your message*",
+          send: "Submit",
         };
 
   return (
-    <Section id="contact" title={copy.title}>
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+    <Section id="contact" title={copy.title.toUpperCase()}>
+      <p className="text-center text-sm text-[#6b6b6b] leading-relaxed max-w-xl mx-auto mb-12">
+        {copy.intro}
+      </p>
+      <div className="section-divider">
+        <span>\\\///</span>
+      </div>
+      <form className="max-w-2xl mx-auto space-y-6">
         <div>
-          <p className="text-lg leading-relaxed text-zinc-300">
-            {copy.intro}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="mailto:contato@morelidev.com"
-              className="btn-accent inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold"
-            >
-              Email
-            </a>
-            <a
-              href="https://wa.me/5500000000000"
-              className="btn-outline inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-medium"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              WhatsApp
-            </a>
-            <a
-              href="https://www.linkedin.com/in/william-moreli"
-              className="btn-outline inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-medium"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-          </div>
-        </div>
-        <form className="grid gap-4 sm:grid-cols-2">
+          <label className="block text-xs font-medium uppercase tracking-widest text-[#6b6b6b] mb-2">
+            {copy.name}
+          </label>
           <input
-            className="w-full rounded-xl px-4 py-3 card text-sm"
+            type="text"
+            className="input-l-shape w-full"
             placeholder={copy.name}
             aria-label={copy.name}
           />
+        </div>
+        <div>
+          <label className="block text-xs font-medium uppercase tracking-widest text-[#6b6b6b] mb-2">
+            {copy.email}
+          </label>
           <input
-            className="w-full rounded-xl px-4 py-3 card text-sm"
+            type="email"
+            className="input-l-shape w-full"
             placeholder={copy.email}
             aria-label={copy.email}
-            type="email"
           />
-          <select className="w-full rounded-xl px-4 py-3 card text-sm sm:col-span-2">
-            <option>{copy.budget}</option>
-            {copy.budgetOptions.map((option) => (
-              <option key={option}>{option}</option>
-            ))}
-          </select>
+        </div>
+        <div>
+          <label className="block text-xs font-medium uppercase tracking-widest text-[#6b6b6b] mb-2">
+            {copy.phone}
+          </label>
           <input
-            className="w-full rounded-xl px-4 py-3 card text-sm sm:col-span-2"
-            placeholder={copy.subject}
-            aria-label={copy.subject}
+            type="tel"
+            className="input-l-shape w-full"
+            placeholder={copy.phone}
+            aria-label={copy.phone}
           />
+        </div>
+        <div>
+          <label className="block text-xs font-medium uppercase tracking-widest text-[#6b6b6b] mb-2">
+            {copy.message}
+          </label>
           <textarea
-            className="sm:col-span-2 w-full rounded-xl px-4 py-3 card text-sm resize-none"
-            rows={4}
+            className="input-l-shape w-full min-h-[120px] resize-none"
             placeholder={copy.message}
             aria-label={copy.message}
+            rows={4}
           />
-          <button
-            className="btn-accent sm:col-span-2 rounded-full px-6 py-3 text-sm font-semibold"
-            type="submit"
-          >
-            {copy.send}
+        </div>
+        <div className="flex justify-center pt-6">
+          <button type="submit" className="link-pipe">
+            {copy.send.toUpperCase()}
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </Section>
   );
 }

@@ -1,41 +1,53 @@
 "use client";
+import { ChevronUp, Mail, Github, Linkedin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
   const { language } = useLanguage();
-  const text =
+  const backToTop = language === "pt" ? "Voltar ao topo" : "Back to top";
+  const rights =
     language === "pt"
-      ? "Qualidade, performance e design."
-      : "Quality, performance and design.";
+      ? `© ${new Date().getFullYear()} William Moreli. Todos os direitos reservados.`
+      : `© ${new Date().getFullYear()} William Moreli. All Rights Reserved.`;
 
   return (
-    <footer className="border-t border-white/5">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-12 sm:flex-row sm:py-16">
-        <div className="font-display text-sm font-medium text-zinc-500">
-          © {new Date().getFullYear()} Moreli Dev — {text}
-        </div>
-        <div className="flex items-center gap-6 text-sm text-zinc-500">
+    <footer className="bg-black text-white">
+      <div className="flex flex-col items-center py-16 px-6">
+        <a
+          href="#"
+          className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-white/90 hover:text-white transition-colors mb-8"
+        >
+          <ChevronUp className="size-4" />
+          {backToTop}
+        </a>
+        <div className="flex gap-6 mb-8">
           <a
-            href="#"
-            className="transition-colors hover:text-zinc-300"
+            href="mailto:contato@morelidev.com"
+            className="text-white/80 hover:text-white transition-colors"
+            aria-label="Email"
           >
-            {language === "pt" ? "Início" : "Home"}
+            <Mail className="size-5" />
           </a>
           <a
-            href="#contact"
-            className="transition-colors hover:text-zinc-300"
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/80 hover:text-white transition-colors"
+            aria-label="GitHub"
           >
-            {language === "pt" ? "Contato" : "Contact"}
+            <Github className="size-5" />
           </a>
           <a
             href="https://www.linkedin.com/in/william-moreli"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-zinc-300"
+            className="text-white/80 hover:text-white transition-colors"
+            aria-label="LinkedIn"
           >
-            LinkedIn
+            <Linkedin className="size-5" />
           </a>
         </div>
+        <p className="text-xs text-white/70">{rights}</p>
       </div>
     </footer>
   );

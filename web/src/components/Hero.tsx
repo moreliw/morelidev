@@ -1,8 +1,8 @@
 "use client";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { GradientMesh } from "./GradientMesh";
+import { Mail, Github, Linkedin } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
-import { PortraitHighlight } from "./PortraitHighlight";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Hero() {
@@ -10,91 +10,125 @@ export function Hero() {
   const copy =
     language === "pt"
       ? {
-          intro: "William Moreli",
+          hi: "Olá, eu sou",
+          name: "William Moreli",
           headline: "Software Engineer | Full Stack Developer",
           desc: "Construo aplicações web escaláveis com .NET, Angular, React e arquiteturas modernas.",
           ctaPrimary: "Fale comigo",
           ctaSecondary: "Ver projetos",
         }
       : {
-          intro: "Hi, I'm William Moreli",
-          headline: "Software Engineer | Full Stack Developer",
+          hi: "Hi, I am",
+          name: "William Moreli",
+          headline: "Front-end Developer / Full Stack",
           desc: "Building scalable web applications with .NET, Angular, React and modern architectures.",
           ctaPrimary: "Contact me",
           ctaSecondary: "View projects",
         };
 
-  const tech = [".NET", "ASP.NET Core", "Angular", "React", "Node.js", "PHP"];
-
   return (
-    <div className="relative overflow-hidden">
-      <GradientMesh />
+    <section className="relative min-h-[90vh] lg:min-h-screen overflow-hidden bg-[#d9d9d9]">
+      {/* Desktop: diagonal split — light gray left, black right */}
+      <div
+        className="hidden lg:block absolute inset-0 bg-black"
+        style={{
+          clipPath: "polygon(55% 0, 100% 0, 100% 100%, 45% 100%)",
+        }}
+      />
 
-      <div className="mx-auto max-w-6xl px-6 pt-40 pb-28">
-        <div className="grid gap-14 lg:grid-cols-2 lg:gap-20 items-center">
+      <div className="relative mx-auto max-w-6xl px-6 pt-32 pb-20 lg:flex lg:min-h-[85vh] lg:items-center">
+        {/* Left — text on light gray */}
+        <div className="lg:w-1/2 lg:pr-12 order-2 lg:order-1">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="order-2 lg:order-1 text-center lg:text-left"
+            transition={{ duration: 0.6 }}
+            className="max-w-xl"
           >
-            <p className="font-display text-sm font-medium tracking-wide text-accent uppercase">
-              {copy.intro}
+            <p className="text-base lg:text-lg font-bold text-black mb-1">
+              {copy.hi}
             </p>
-            <h1 className="font-display mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-100 leading-[1.08]">
-              {copy.headline}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-black tracking-tight leading-[1.05]">
+              {copy.name}
             </h1>
-            <p className="mt-6 text-base sm:text-lg text-zinc-400 leading-relaxed max-w-lg">
+            <p className="mt-3 text-base lg:text-lg font-bold text-[#4a4a4a]">
+              {copy.headline}
+            </p>
+            <p className="mt-4 text-sm text-[#6b6b6b] leading-relaxed">
               {copy.desc}
             </p>
-            <div className="mt-8 flex flex-wrap gap-2 justify-center lg:justify-start">
-              {tech.map((t, i) => (
-                <motion.span
-                  key={t}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + i * 0.05 }}
-                  className="rounded-full border border-white/10 bg-white/[0.02] px-3.5 py-1.5 text-xs font-medium text-zinc-300 backdrop-blur-sm"
-                >
-                  {t}
-                </motion.span>
-              ))}
-            </div>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <MagneticButton
-                href="#contact"
-                className="btn-accent rounded-full px-6 py-3 text-sm font-semibold"
+
+            {/* Social icons — neumorphic on gray */}
+            <div className="mt-8 flex gap-3">
+              <a
+                href="mailto:contato@morelidev.com"
+                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#d9d9d9] text-black shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-shadow"
+                aria-label="Email"
               >
+                <Mail className="size-5" />
+              </a>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#d9d9d9] text-black shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-shadow"
+                aria-label="GitHub"
+              >
+                <Github className="size-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/william-moreli"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#d9d9d9] text-black shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-shadow"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="size-5" />
+              </a>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <MagneticButton href="#contact" className="btn-cta">
                 {copy.ctaPrimary}
               </MagneticButton>
-              <MagneticButton
+              <a
                 href="#portfolio"
-                className="btn-outline rounded-full px-6 py-3 text-sm font-medium"
+                className="link-pipe hover:underline"
               >
                 {copy.ctaSecondary}
-              </MagneticButton>
+              </a>
             </div>
           </motion.div>
+        </div>
+
+        {/* Right — portrait on black */}
+        <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center lg:justify-end lg:pl-12 mt-8 lg:mt-0">
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="order-1 lg:order-2 flex justify-center"
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="relative"
           >
-            <div className="relative">
-              <div className="absolute -inset-4 rounded-3xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent" />
-              <div className="relative rounded-2xl">
-                <PortraitHighlight src="/picture.png" />
-              </div>
-              {/* Decorative glow behind portrait */}
-              <div
-                className="absolute -z-10 -inset-8 rounded-full opacity-30 blur-3xl"
-                style={{ background: "radial-gradient(circle, rgba(249,115,22,0.2) 0%, transparent 70%)" }}
+            <div className="relative h-[320px] w-[260px] sm:h-[420px] sm:w-[340px] lg:h-[520px] lg:w-[420px] overflow-hidden">
+              <Image
+                src="/picture.png"
+                alt="William Moreli"
+                fill
+                priority
+                sizes="(max-width: 640px) 260px, (max-width: 1024px) 340px, 420px"
+                className="object-cover object-[65%_42%]"
               />
             </div>
           </motion.div>
         </div>
       </div>
-    </div>
+
+      {/* Logo monogram — top left on light gray */}
+      <div className="absolute top-24 left-6 lg:left-12 z-10">
+        <span className="text-2xl font-extrabold tracking-tighter text-black">
+          MD
+        </span>
+      </div>
+    </section>
   );
 }

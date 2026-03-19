@@ -1,5 +1,5 @@
 "use client";
-import { PortraitHighlight } from "./PortraitHighlight";
+import { PenTool, Code2, Settings2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { Section } from "./Section";
 
@@ -8,36 +8,73 @@ export function About() {
   const copy =
     language === "pt"
       ? {
-          title: "Resumo profissional",
-          text: "Sou Full Stack Software Engineer com mais de 5 anos de experiência em aplicações web escaláveis, seguras e de alta performance. Especialista em .NET (ASP.NET Core) no backend e Angular & React no frontend, com experiência sólida em Node.js e PHP (Laravel + Blade). Atuei em sistemas corporativos, plataformas de gestão e dashboards, sempre com foco em clean code, performance e manutenibilidade. Atualmente aberto a oportunidades remotas como Software Engineer, Senior Frontend Developer ou Full Stack Engineer, colaborando com times globais e stacks modernas.",
-          cta: "Vamos conversar",
+          title: "Sobre mim",
+          text: "Full Stack Software Engineer com mais de 5 anos de experiência em aplicações web escaláveis, seguras e de alta performance. Especialista em .NET, Angular e React, com foco em clean code, performance e manutenibilidade.",
+          design: "Design",
+          designDesc: "Interfaces elegantes, UI/UX para conversão e identidade visual consistente.",
+          development: "Desenvolvimento",
+          developmentDesc: "Frontend performático, backend escalável e integração com APIs e bancos de dados.",
+          maintenance: "Manutenção",
+          maintenanceDesc: "Ajustes rápidos, monitoramento contínuo e evolução constante dos sistemas.",
+          explore: "Explorar",
         }
       : {
           title: "About me",
-          text: "I am a Full Stack Software Engineer with over 5 years of experience building scalable, secure, and high-performance web applications. I specialize in .NET (ASP.NET Core) on the backend and Angular & React on the frontend, with solid experience in Node.js and PHP (Laravel + Blade). I have worked on enterprise systems, management platforms, dashboards, and business-critical applications, always focusing on clean code, performance, and maintainability. I am currently open to remote opportunities as a Software Engineer, Senior Frontend Developer, or Full Stack Engineer, collaborating with global teams and modern tech stacks.",
-          cta: "Let's talk",
+          text: "Full Stack Software Engineer with over 5 years of experience building scalable, secure, high-performance web applications. Specialist in .NET, Angular and React, focused on clean code, performance and maintainability.",
+          design: "Design",
+          designDesc: "Elegant interfaces, conversion-focused UI/UX and consistent visual identity.",
+          development: "Development",
+          developmentDesc: "High-performance frontend, scalable backend and API/database integration.",
+          maintenance: "Maintenance",
+          maintenanceDesc: "Fast fixes, continuous monitoring and constant system evolution.",
+          explore: "Explore",
         };
 
+  const pillars = [
+    {
+      icon: PenTool,
+      title: copy.design,
+      desc: copy.designDesc,
+    },
+    {
+      icon: Code2,
+      title: copy.development,
+      desc: copy.developmentDesc,
+    },
+    {
+      icon: Settings2,
+      title: copy.maintenance,
+      desc: copy.maintenanceDesc,
+    },
+  ];
+
   return (
-    <Section id="about" title={copy.title}>
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-        <div className="relative order-2 lg:order-1">
-          <div className="absolute -inset-4 rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent" />
-          <div className="relative rounded-xl overflow-hidden">
-            <PortraitHighlight src="/picture.png" />
+    <Section id="about" title={copy.title.toUpperCase()}>
+      <p className="text-center text-sm text-[#6b6b6b] leading-relaxed max-w-2xl mx-auto">
+        {copy.text}
+      </p>
+      <div className="section-divider">
+        <span>///</span>
+      </div>
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mt-12">
+        {pillars.map((p) => (
+          <div key={p.title} className="relative text-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p.icon className="size-24 text-[#e5e5e5]" strokeWidth={1} />
+            </div>
+            <h3 className="relative text-sm font-bold uppercase tracking-wider text-black mb-3">
+              {p.title}
+            </h3>
+            <p className="relative text-xs text-[#6b6b6b] leading-relaxed">
+              {p.desc}
+            </p>
           </div>
-        </div>
-        <div className="order-1 lg:order-2">
-          <p className="text-base leading-relaxed text-zinc-400 lg:text-lg">
-            {copy.text}
-          </p>
-          <a
-            href="#contact"
-            className="btn-accent mt-8 inline-flex rounded-full px-6 py-3 text-sm font-semibold"
-          >
-            {copy.cta}
-          </a>
-        </div>
+        ))}
+      </div>
+      <div className="text-center mt-12">
+        <a href="#portfolio" className="link-pipe">
+          {copy.explore}
+        </a>
       </div>
     </Section>
   );
