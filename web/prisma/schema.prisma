@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id            String   @id @default(cuid())
+  title         String
+  titleEn       String?
+  description   String?
+  descriptionEn String?
+  type          String?
+  typeEn        String?
+  tags          String   @default("[]")
+  imageUrl      String?
+  demoUrl       String?
+  repoUrl       String?
+  order         Int      @default(0)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SiteContent {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Client {
+  id       String  @id @default(cuid())
+  name     String
+  logoUrl  String?
+  website  String?
+  order    Int     @default(0)
+  active   Boolean @default(true)
+}
+
+model Testimonial {
+  id        String  @id @default(cuid())
+  author    String
+  role      String?
+  company   String?
+  text      String
+  textEn    String?
+  avatarUrl String?
+  order     Int     @default(0)
+  active    Boolean @default(true)
+}

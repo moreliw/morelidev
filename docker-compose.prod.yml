@@ -9,6 +9,13 @@ services:
         NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${NEXT_PUBLIC_UMAMI_WEBSITE_ID}
         NEXT_PUBLIC_UMAMI_SCRIPT_URL: ${NEXT_PUBLIC_UMAMI_SCRIPT_URL}
     container_name: morelidev-web
+    environment:
+      - DATABASE_URL=file:/app/data/prod.db
+      - JWT_SECRET=${JWT_SECRET}
+      - NODE_ENV=production
+    volumes:
+      - morelidev_data:/app/data
+      - morelidev_uploads:/app/public/uploads
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=legalreports_public"
@@ -22,6 +29,10 @@ services:
     networks:
       - public
     restart: unless-stopped
+
+volumes:
+  morelidev_data:
+  morelidev_uploads:
 
 networks:
   public:

@@ -11,6 +11,7 @@ import { Headline } from "@/components/Headline";
 import { Stack } from "@/components/Stack";
 import { Experience } from "@/components/Experience";
 import { Languages } from "@/components/Languages";
+import { Testimonials } from "@/components/Testimonials";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
       <Experience />
       <Stats />
       <Portfolio />
+      <Testimonials />
       <Languages />
       <Contact />
       <Footer />
