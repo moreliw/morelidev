@@ -1,18 +1,13 @@
-version: "3.9"
-
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-        NEXT_PUBLIC_UMAMI_SCRIPT_URL: ${NEXT_PUBLIC_UMAMI_SCRIPT_URL}
     container_name: morelidev-web
     environment:
-      - DATABASE_URL=file:/app/data/prod.db
-      - JWT_SECRET=${JWT_SECRET}
       - NODE_ENV=production
+      - DATABASE_URL=file:/app/data/prod.db
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
     volumes:
       - morelidev_data:/app/data
       - morelidev_uploads:/app/public/uploads
@@ -20,7 +15,6 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=legalreports_public"
       - "traefik.http.routers.morelidev-web.rule=Host(`morelidev.com`) || Host(`www.morelidev.com`)"
-      - "traefik.http.routers.morelidev-web.priority=100000"
       - "traefik.http.routers.morelidev-web.entrypoints=websecure"
       - "traefik.http.routers.morelidev-web.tls=true"
       - "traefik.http.routers.morelidev-web.tls.certresolver=le"

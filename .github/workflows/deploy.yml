@@ -1,4 +1,5 @@
 name: Deploy morelidev.com
+
 on:
   push:
     branches: ["main"]
@@ -7,155 +8,46 @@ on:
 concurrency:
   group: deploy-main
   cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
-      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-      PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Start SSH agent
-        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ env.DEPLOY_SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
 
       - name: Add server to known_hosts
-        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
         run: |
-          set -e
-          if [ -z "$DEPLOY_HOST" ]; then
-            echo "DEPLOY_HOST not set"
-            exit 1
-          fi
-          if [ -z "$DEPLOY_PORT" ]; then
-            DEPLOY_PORT=22
-          fi
+          PORT="${{ secrets.DEPLOY_PORT }}"
+          PORT="${PORT:-22}"
           mkdir -p ~/.ssh
-          ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          ssh-keyscan -p "$PORT" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Deploy via SSH (git pull + docker compose + static publish)
-        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' }}
-        id: ssh_deploy
-        continue-on-error: true
+      - name: Deploy via SSH
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          set -e
-          if [ -z "$DEPLOY_HOST" ] || [ -z "$DEPLOY_USER" ]; then
-            echo "DEPLOY_HOST/DEPLOY_USER not set"
-            exit 1
-          fi
-          if [ -z "$DEPLOY_PORT" ]; then
-            DEPLOY_PORT=22
-          fi
+          PORT="${DEPLOY_PORT:-22}"
 
-          ssh -p "$DEPLOY_PORT" -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" <<'SSH'
+          # Injeta o JWT_SECRET no servidor como variável de ambiente
+          ssh -p "$PORT" "$DEPLOY_USER@$DEPLOY_HOST" "echo 'JWT_SECRET=${JWT_SECRET}' > /opt/morelidev/.env"
+
+          ssh -p "$PORT" "$DEPLOY_USER@$DEPLOY_HOST" bash -s <<'ENDSSH'
             set -e
             cd /opt/morelidev
+
             git fetch --all
             git reset --hard origin/main
-            docker compose -p morelidev -f docker-compose.prod.yml up -d --build --force-recreate
 
-            WEB_ROOT=$(nginx -T 2>/dev/null | awk '
-              $1 == "server_name" && $0 ~ /morelidev\.com/ { in_server = 1 }
-              in_server && $1 == "root" { gsub(";", "", $2); print $2; exit }
-              $1 == "}" { in_server = 0 }
-            ')
-            SRC_DIR=/opt/morelidev/site
+            # Garante que a rede Traefik existe
+            docker network create legalreports_public 2>/dev/null || true
 
-            if [ -n "$WEB_ROOT" ] && [ "$WEB_ROOT" != "/" ] && [ -d "$SRC_DIR" ]; then
-              echo "Detected nginx root for morelidev.com: $WEB_ROOT"
-              mkdir -p "$WEB_ROOT"
-              cp -a "$SRC_DIR"/. "$WEB_ROOT"/
-              chmod -R a+rX "$WEB_ROOT" || true
+            docker compose -p morelidev -f docker-compose.prod.yml up -d --build --remove-orphans
 
-              if [ ! -f "$WEB_ROOT/index.html" ] || [ ! -f "$WEB_ROOT/styles.css" ]; then
-                echo "Static publish failed: required files were not copied."
-                exit 1
-              fi
-
-              if command -v systemctl >/dev/null 2>&1; then
-                sudo -n systemctl reload nginx 2>/dev/null || systemctl reload nginx 2>/dev/null || nginx -s reload || true
-              else
-                nginx -s reload || true
-              fi
-
-              SRC_SHA=$(sha256sum "$SRC_DIR/styles.css" | awk '{print $1}')
-              DST_SHA=$(sha256sum "$WEB_ROOT/styles.css" | awk '{print $1}')
-              if [ "$SRC_SHA" != "$DST_SHA" ]; then
-                echo "Static publish failed: styles.css hash mismatch after copy."
-                exit 1
-              fi
-
-              LIVE_HTTP=$(curl -ksS -o /tmp/morelidev-live-styles.css -w "%{http_code}" --resolve "morelidev.com:443:127.0.0.1" https://morelidev.com/styles.css || true)
-              if [ "$LIVE_HTTP" != "200" ]; then
-                echo "Static publish failed: nginx returned HTTP $LIVE_HTTP for /styles.css."
-                exit 1
-              fi
-
-              LIVE_SHA=$(sha256sum /tmp/morelidev-live-styles.css | awk '{print $1}')
-              if [ "$SRC_SHA" != "$LIVE_SHA" ]; then
-                echo "Static publish failed: live styles.css hash mismatch after reload."
-                exit 1
-              fi
-            else
-              echo "Static publish failed: nginx root or source directory is invalid."
-              exit 1
-            fi
-          SSH
-
-      - name: Trigger Portainer redeploy (webhook)
-        if: ${{ env.PORTAINER_WEBHOOK_URL != '' && (env.DEPLOY_SSH_PRIVATE_KEY == '' || steps.ssh_deploy.outcome != 'success') }}
-        id: portainer_deploy
-        continue-on-error: true
-        run: |
-          set -e
-          curl -fsSL -k --retry 5 --retry-all-errors --max-time 30 -X POST "$PORTAINER_WEBHOOK_URL"
-
-      - name: Fail if deploy did not succeed
-        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY != '' && steps.ssh_deploy.outcome != 'success' && (env.PORTAINER_WEBHOOK_URL == '' || steps.portainer_deploy.outcome != 'success') }}
-        run: |
-          echo "Deploy failed: SSH deploy failed and Portainer fallback was not successful."
-          exit 1
-
-      - name: Smoke test live publication
-        if: ${{ env.DEPLOY_SSH_PRIVATE_KEY == '' }}
-        run: |
-          set -euo pipefail
-          if [ ! -f site/styles.css ]; then
-            echo "Repository file not found: site/styles.css"
-            exit 1
-          fi
-
-          LIVE_URL="https://morelidev.com/styles.css?v=${GITHUB_SHA}"
-          ATTEMPTS=12
-          SLEEP_SECONDS=5
-          HTTP_CODE=""
-
-          for i in $(seq 1 "$ATTEMPTS"); do
-            HTTP_CODE=$(curl -sS -o /tmp/live-styles.css -w "%{http_code}" "$LIVE_URL" || true)
-            if [ "$HTTP_CODE" = "200" ]; then
-              break
-            fi
-            echo "Smoke test attempt $i/$ATTEMPTS returned HTTP $HTTP_CODE, retrying..."
-            sleep "$SLEEP_SECONDS"
-          done
-
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "Live publication unavailable: $LIVE_URL returned HTTP $HTTP_CODE"
-            exit 1
-          fi
-
-          EXPECTED_SHA=$(sha256sum site/styles.css | awk '{print $1}')
-          LIVE_SHA=$(sha256sum /tmp/live-styles.css | awk '{print $1}')
-          if [ "$EXPECTED_SHA" != "$LIVE_SHA" ]; then
-            echo "Publication mismatch: live styles.css differs from repository."
-            echo "expected=$EXPECTED_SHA"
-            echo "live=$LIVE_SHA"
-            exit 1
-          fi
+            echo "Deploy concluído."
+          ENDSSH
