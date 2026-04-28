@@ -1,131 +1,219 @@
 @import "tailwindcss";
 
-/* ─── Tomasz Gajda Style: Minimalist Monochrome Portfolio ─── */
+/* ─── Minimalist editorial palette ─── */
 :root {
-  --black: #000000;
-  --white: #ffffff;
-  --gray-light: #d9d9d9;
-  --gray-bg: #f5f5f5;
-  --gray-charcoal: #1a1a1a;
-  --gray-text: #4a4a4a;
-  --gray-muted: #6b6b6b;
-  --gray-border: #e5e5e5;
+  --bg: #f6f5f1;
+  --bg-elevated: #ffffff;
+  --bg-deep: #0e0e0c;
+  --ink: #111110;
+  --ink-soft: #2b2a27;
+  --muted: #6b6963;
+  --muted-2: #9a9690;
+  --hairline: #e6e3dc;
+  --accent: #a37544;
+  --accent-soft: #c8a274;
+
+  --max: 1180px;
 
   --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
 }
 
 @theme inline {
-  --color-black: var(--black);
-  --color-white: var(--white);
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, serif;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--gray-bg);
-  color: var(--black);
+  background: var(--bg);
+  color: var(--ink);
+  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Section header — bordered box (Tomasz Gajda signature) */
-.section-header {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: 3px solid var(--black);
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+::selection {
+  background: var(--ink);
+  color: var(--bg);
 }
 
-/* Decorative zigzag divider */
-.section-divider {
-  display: flex;
+/* ─── Typography helpers ─── */
+.font-serif {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-feature-settings: "ss01", "liga";
+}
+
+.eyebrow {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin: 2rem 0;
+  gap: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-.section-divider::before,
-.section-divider::after {
+.eyebrow::before {
   content: "";
-  flex: 1;
+  display: inline-block;
+  width: 1.75rem;
   height: 1px;
-  background: var(--gray-border);
+  background: var(--ink);
 }
 
-.section-divider span {
-  font-size: 0.75rem;
-  color: var(--gray-muted);
-  letter-spacing: 0.1em;
+.eyebrow-light {
+  color: rgba(255, 255, 255, 0.55);
 }
 
-/* CTA pill button — black on white */
-.btn-cta {
+.eyebrow-light::before {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.display {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 2rem;
-  background: var(--white);
-  color: var(--black);
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
+  gap: 0.55rem;
+  padding: 0.95rem 1.65rem;
+  background: var(--ink);
+  color: #f5f3ec;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 50px;
-  border: 2px solid var(--black);
-  transition: background 0.2s, color 0.2s;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
 }
 
-.btn-cta:hover {
-  background: var(--black);
-  color: var(--white);
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -18px rgba(163, 117, 68, 0.7);
 }
 
-/* Secondary link — flanked by pipes */
-.link-pipe {
+.btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
+  padding: 0.95rem 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--black);
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  transition: gap 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.link-pipe::before,
-.link-pipe::after {
-  content: "|";
-  font-weight: 400;
-  color: var(--gray-muted);
+.btn-ghost:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  gap: 0.85rem;
 }
 
-/* Contact form — L-shaped borders only */
-.input-l-shape {
+/* ─── Inputs (clean, minimal underline) ─── */
+.field {
+  width: 100%;
   background: transparent;
   border: none;
-  border-left: 2px solid var(--black);
-  border-bottom: 2px solid var(--black);
+  border-bottom: 1px solid var(--hairline);
   border-radius: 0;
-  padding: 0.75rem 0;
-  padding-left: 0.5rem;
+  padding: 0.85rem 0.1rem;
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+  transition: border-color 0.25s ease;
 }
 
-.input-l-shape:focus {
+.field:focus {
   outline: none;
+  border-color: var(--ink);
 }
 
-.input-l-shape::placeholder {
-  color: var(--gray-muted);
-  text-transform: uppercase;
+.field::placeholder {
+  color: var(--muted-2);
+}
+
+.field-label {
+  display: block;
   font-size: 0.7rem;
-  letter-spacing: 0.15em;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+/* ─── Cards ─── */
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(17, 17, 16, 0.4);
+  box-shadow: 0 30px 60px -40px rgba(17, 17, 16, 0.25);
+}
+
+/* ─── Hairline dividers ─── */
+.hairline {
+  height: 1px;
+  background: var(--hairline);
+}
+
+/* ─── Marquee for clients ─── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Subtle reveal helpers ─── */
+.lift {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.lift:hover { transform: translateY(-3px); }
+
+/* Fine scrollbar for the long page */
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
 }

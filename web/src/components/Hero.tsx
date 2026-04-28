@@ -1,133 +1,258 @@
 "use client";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Mail, Github, Linkedin } from "lucide-react";
-import { MagneticButton } from "./MagneticButton";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+
+function useCounter(target: number, duration: number, active: boolean) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(Math.round(target * eased));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [active, target, duration]);
+  return value;
+}
+
+function Stat({
+  value,
+  suffix,
+  label,
+  delay,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  delay: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-30px" });
+  const count = useCounter(value, 1400, inView);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 12 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay }}
+      className="flex flex-col gap-1"
+    >
+      <div className="flex items-baseline gap-0.5">
+        <span className="font-serif text-3xl lg:text-4xl text-[color:var(--ink)] tabular-nums tracking-tight">
+          {count}
+        </span>
+        <span className="font-serif text-xl lg:text-2xl text-[color:var(--accent)]">
+          {suffix}
+        </span>
+      </div>
+      <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-[color:var(--muted)]">
+        {label}
+      </span>
+    </motion.div>
+  );
+}
 
 export function Hero() {
   const { language } = useLanguage();
   const copy =
     language === "pt"
       ? {
-          hi: "Olá, eu sou",
-          name: "William Moreli",
-          headline: "Software Engineer | Full Stack Developer",
-          desc: "Construo aplicações web escaláveis com .NET, Angular, React e arquiteturas modernas.",
-          ctaPrimary: "Fale comigo",
-          ctaSecondary: "Ver projetos",
+          eyebrow: "Software Engineer · Full Stack",
+          title: ["Engenharia de software", "feita com método", "e cuidado."],
+          desc:
+            "William Moreli desenvolve aplicações web escaláveis e produtos digitais elegantes — combinando .NET, Angular, React e arquiteturas modernas com atenção ao detalhe.",
+          ctaPrimary: "Iniciar um projeto",
+          ctaSecondary: "Ver portfólio",
+          scroll: "Role para descobrir",
+          available: "Disponível para novos projetos",
+          stats: [
+            { value: 5, suffix: "+", label: "Anos de experiência" },
+            { value: 40, suffix: "+", label: "Projetos entregues" },
+            { value: 98, suffix: "%", label: "Clientes satisfeitos" },
+          ],
         }
       : {
-          hi: "Hi, I am",
-          name: "William Moreli",
-          headline: "Front-end Developer / Full Stack",
-          desc: "Building scalable web applications with .NET, Angular, React and modern architectures.",
-          ctaPrimary: "Contact me",
-          ctaSecondary: "View projects",
+          eyebrow: "Software Engineer · Full Stack",
+          title: ["Software engineering", "crafted with method", "and care."],
+          desc:
+            "William Moreli builds scalable web applications and refined digital products — combining .NET, Angular, React and modern architectures with attention to detail.",
+          ctaPrimary: "Start a project",
+          ctaSecondary: "See selected work",
+          scroll: "Scroll to explore",
+          available: "Available for new projects",
+          stats: [
+            { value: 5, suffix: "+", label: "Years of experience" },
+            { value: 40, suffix: "+", label: "Projects delivered" },
+            { value: 98, suffix: "%", label: "Client satisfaction" },
+          ],
         };
 
   return (
-    <section className="relative min-h-[90vh] lg:min-h-screen overflow-hidden bg-[#d9d9d9]">
-      {/* Desktop: diagonal split — light gray left, black right */}
+    <section
+      id="top"
+      className="relative isolate overflow-hidden pt-32 pb-24 lg:pt-40 lg:pb-32"
+    >
+      {/* Soft accent glow — barely there */}
       <div
-        className="hidden lg:block absolute inset-0 bg-black"
-        style={{
-          clipPath: "polygon(55% 0, 100% 0, 100% 100%, 45% 100%)",
-        }}
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -right-40 h-[520px] w-[520px] rounded-full opacity-[0.18] blur-[120px]"
+        style={{ background: "radial-gradient(circle, #c8a274 0%, transparent 70%)" }}
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 pt-32 pb-20 lg:flex lg:min-h-[85vh] lg:items-center">
-        {/* Left — text on light gray */}
-        <div className="lg:w-1/2 lg:pr-12 order-2 lg:order-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-xl"
-          >
-            <p className="text-base lg:text-lg font-bold text-black mb-1">
-              {copy.hi}
-            </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-black tracking-tight leading-[1.05]">
-              {copy.name}
+      <div
+        className="relative mx-auto px-6 lg:px-10"
+        style={{ maxWidth: "var(--max)" }}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Text */}
+          <div className="lg:col-span-7 order-2 lg:order-1">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.05 }}
+              className="eyebrow"
+            >
+              {copy.eyebrow}
+            </motion.div>
+
+            <h1 className="mt-7 display text-[clamp(2.4rem,6vw,4.6rem)]">
+              {copy.title.map((line, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 22 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.15 + i * 0.12, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="block"
+                >
+                  {i === copy.title.length - 1 ? (
+                    <>
+                      {line.replace(/\.$/, "")}
+                      <span className="text-[color:var(--accent)] italic">.</span>
+                    </>
+                  ) : (
+                    line
+                  )}
+                </motion.span>
+              ))}
             </h1>
-            <p className="mt-3 text-base lg:text-lg font-bold text-[#4a4a4a]">
-              {copy.headline}
-            </p>
-            <p className="mt-4 text-sm text-[#6b6b6b] leading-relaxed">
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.55 }}
+              className="mt-7 max-w-xl text-[15px] lg:text-base leading-[1.75] text-[color:var(--ink-soft)]"
+            >
               {copy.desc}
-            </p>
+            </motion.p>
 
-            {/* Social icons — neumorphic on gray */}
-            <div className="mt-8 flex gap-3">
-              <a
-                href="mailto:contato@morelidev.com"
-                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#d9d9d9] text-black shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-shadow"
-                aria-label="Email"
-              >
-                <Mail className="size-5" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#d9d9d9] text-black shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-shadow"
-                aria-label="GitHub"
-              >
-                <Github className="size-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/william-moreli"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#d9d9d9] text-black shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-shadow"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="size-5" />
-              </a>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <MagneticButton href="#contact" className="btn-cta">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.7 }}
+              className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4"
+            >
+              <a href="#contact" className="btn-primary">
                 {copy.ctaPrimary}
-              </MagneticButton>
-              <a
-                href="#portfolio"
-                className="link-pipe hover:underline"
-              >
+                <ArrowUpRight className="size-4" />
+              </a>
+              <a href="#projects" className="btn-ghost">
                 {copy.ctaSecondary}
               </a>
-            </div>
-          </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.85 }}
+              className="mt-14 flex items-center gap-2.5 text-[12px] tracking-[0.2em] uppercase text-[color:var(--muted)]"
+            >
+              <span className="relative inline-flex h-2 w-2">
+                <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
+                <span className="relative inline-block h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              {copy.available}
+            </motion.div>
+          </div>
+
+          {/* Portrait */}
+          <div className="lg:col-span-5 order-1 lg:order-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+              className="relative mx-auto max-w-[380px] lg:max-w-none"
+            >
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#1c1b18]">
+                <Image
+                  src="/picture.png"
+                  alt="William Moreli"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 380px, 480px"
+                  className="object-cover object-[60%_30%] grayscale-[15%] contrast-105"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 mix-blend-multiply"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(14,14,12,0.35) 100%)",
+                  }}
+                />
+              </div>
+
+              {/* Floating signature label */}
+              <motion.div
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="absolute -left-4 lg:-left-8 bottom-10 hidden sm:flex flex-col gap-1 bg-[color:var(--bg)] border border-[color:var(--hairline)] px-4 py-3 rounded-[2px] shadow-[0_20px_50px_-30px_rgba(0,0,0,0.25)]"
+              >
+                <span className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                  Based in
+                </span>
+                <span className="text-sm font-medium text-[color:var(--ink)]">
+                  Vitória — Brazil
+                </span>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Right — portrait on black */}
-        <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center lg:justify-end lg:pl-12 mt-8 lg:mt-0">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="relative h-[320px] w-[260px] sm:h-[420px] sm:w-[340px] lg:h-[520px] lg:w-[420px] overflow-hidden">
-              <Image
-                src="/picture.png"
-                alt="William Moreli"
-                fill
-                priority
-                sizes="(max-width: 640px) 260px, (max-width: 1024px) 340px, 420px"
-                className="object-cover object-[65%_42%]"
+        {/* Stats row */}
+        <div className="mt-20 lg:mt-28 pt-10 border-t border-[color:var(--hairline)]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-8 gap-x-10">
+            {copy.stats.map((s, i) => (
+              <Stat
+                key={s.label}
+                value={s.value}
+                suffix={s.suffix}
+                label={s.label}
+                delay={0.9 + i * 0.1}
               />
-            </div>
-          </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Logo monogram — top left on light gray */}
-      <div className="absolute top-24 left-6 lg:left-12 z-10">
-        <span className="text-2xl font-extrabold tracking-tighter text-black">
-          MD
-        </span>
+        {/* Scroll cue */}
+        <motion.a
+          href="#about"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.3 }}
+          className="mt-16 hidden lg:inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[color:var(--muted)] hover:text-[color:var(--ink)] transition-colors"
+        >
+          <ArrowDown className="size-3.5 animate-bounce" />
+          {copy.scroll}
+        </motion.a>
       </div>
     </section>
   );

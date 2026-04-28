@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEffect, useState } from "react";
-import { ExternalLink, Github } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowUpRight, Github } from "lucide-react";
 
 interface Project {
   id: string;
@@ -20,173 +20,301 @@ interface Project {
 }
 
 const STATIC_ITEMS: Project[] = [
-  { id: "1", title: "Empresa Capixaba", type: "Sistema de gestão", typeEn: "Management system", tags: '["Laravel","Blade","MySQL"]', imageUrl: "/projetos/empresa-capixaba.png" },
-  { id: "2", title: "Takki.ao", type: "Marketplace", typeEn: "Marketplace", tags: '["React","UX"]', imageUrl: "/projetos/takki.png" },
-  { id: "3", title: "Site Institucional", type: "Design", typeEn: "Design", tags: '["UI/UX","Brand"]', imageUrl: null },
-  { id: "4", title: "Dashboard Analytics", type: "Dashboard", typeEn: "Dashboard", tags: '["React","Data"]', imageUrl: null },
-  { id: "5", title: "E-commerce B2B", type: "E-commerce", typeEn: "E-commerce", tags: '["Angular","B2B"]', imageUrl: null },
-  { id: "6", title: "Sistema de Gestão", type: "Sistema", typeEn: "System", tags: '["Laravel","PHP"]', imageUrl: null },
+  {
+    id: "1",
+    title: "Empresa Capixaba",
+    type: "Sistema de gestão",
+    typeEn: "Management system",
+    description: "Plataforma de gestão completa para uma rede capixaba.",
+    descriptionEn: "Full management platform for a regional network.",
+    tags: '["Laravel","Blade","MySQL"]',
+    imageUrl: "/projetos/empresa-capixaba.png",
+  },
+  {
+    id: "2",
+    title: "Takki.ao",
+    type: "Marketplace",
+    typeEn: "Marketplace",
+    description: "Marketplace responsivo focado em experiência e curadoria.",
+    descriptionEn: "Responsive marketplace built around curation and UX.",
+    tags: '["React","UX","Node"]',
+    imageUrl: "/projetos/takki.png",
+  },
+  {
+    id: "3",
+    title: "Site Institucional",
+    type: "Branding · Web",
+    typeEn: "Branding · Web",
+    description: "Identidade visual e site institucional para empresa B2B.",
+    descriptionEn: "Brand identity and institutional site for a B2B company.",
+    tags: '["UI/UX","Brand","Next.js"]',
+  },
+  {
+    id: "4",
+    title: "Dashboard Analytics",
+    type: "Dashboard",
+    typeEn: "Dashboard",
+    description: "Dashboard interno com métricas em tempo real.",
+    descriptionEn: "Internal dashboard with real-time metrics.",
+    tags: '["React","Data","API"]',
+  },
+  {
+    id: "5",
+    title: "E-commerce B2B",
+    type: "E-commerce",
+    typeEn: "E-commerce",
+    description: "Plataforma B2B com catálogo, pedidos e integrações.",
+    descriptionEn: "B2B platform with catalog, orders and integrations.",
+    tags: '["Angular","B2B",".NET"]',
+  },
+  {
+    id: "6",
+    title: "Sistema de Gestão",
+    type: "Plataforma",
+    typeEn: "Platform",
+    description: "Sistema interno multi-tenant para operação logística.",
+    descriptionEn: "Multi-tenant internal system for logistics operations.",
+    tags: '["Laravel","PHP","MySQL"]',
+  },
 ];
+
+function parseTags(raw: string): string[] {
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 export function Portfolio() {
   const { language } = useLanguage();
   const [items, setItems] = useState<Project[]>(STATIC_ITEMS);
   const [activeFilter, setActiveFilter] = useState<string>("all");
-  const [allTags, setAllTags] = useState<string[]>([]);
 
   useEffect(() => {
     fetch("/api/projects")
       .then((r) => r.json())
-      .then((data: Project[]) => { if (data.length) setItems(data); })
+      .then((data: Project[]) => {
+        if (Array.isArray(data) && data.length) setItems(data);
+      })
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
+  const allTags = useMemo(() => {
     const tags = new Set<string>();
-    for (const item of items) {
-      try {
-        (JSON.parse(item.tags) as string[]).forEach((t) => tags.add(t));
-      } catch { /* noop */ }
-    }
-    setAllTags(Array.from(tags));
+    for (const item of items) parseTags(item.tags).forEach((t) => tags.add(t));
+    return Array.from(tags).slice(0, 8);
   }, [items]);
 
-  const filtered =
-    activeFilter === "all"
-      ? items
-      : items.filter((it) => {
-          try { return (JSON.parse(it.tags) as string[]).includes(activeFilter); }
-          catch { return false; }
-        });
+  const filtered = useMemo(
+    () =>
+      activeFilter === "all"
+        ? items
+        : items.filter((it) => parseTags(it.tags).includes(activeFilter)),
+    [items, activeFilter]
+  );
 
-  const title = language === "pt" ? "Portfólio" : "Portfolio";
-  const more = language === "pt" ? "E mais por vir" : "And many more to come!";
-  const filterAll = language === "pt" ? "Todos" : "All";
+  const labels =
+    language === "pt"
+      ? {
+          eyebrow: "Projetos",
+          headline: "Trabalhos selecionados — feitos para durar.",
+          all: "Todos",
+          live: "Ver",
+          code: "Código",
+          empty: "Em breve",
+        }
+      : {
+          eyebrow: "Selected work",
+          headline: "Selected work — built to last.",
+          all: "All",
+          live: "View",
+          code: "Code",
+          empty: "Coming soon",
+        };
 
   return (
-    <section id="portfolio" className="relative">
-      {/* Header */}
-      <div className="relative h-48 lg:h-64 bg-[#1a1a1a] flex flex-col items-center justify-center gap-4">
-        <h2 className="section-header bg-transparent border-white text-white">
-          {title.toUpperCase()}
-        </h2>
-      </div>
+    <section id="projects" className="relative py-24 lg:py-36 bg-[color:var(--bg-elevated)]">
+      <div
+        className="relative mx-auto px-6 lg:px-10"
+        style={{ maxWidth: "var(--max)" }}
+      >
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+          <div className="lg:col-span-3">
+            <span className="eyebrow">{labels.eyebrow}</span>
+            <p className="mt-6 text-xs font-mono tracking-widest text-[color:var(--muted-2)]">
+              04 / 06
+            </p>
+          </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-9 display text-[clamp(1.7rem,3.5vw,2.8rem)] max-w-3xl"
+          >
+            {labels.headline}
+          </motion.h2>
+        </div>
 
-      {/* Filter bar */}
-      <div className="bg-black py-4 px-6">
-        <div className="max-w-6xl mx-auto flex flex-wrap gap-3 justify-center">
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-10 pb-6 border-b border-[color:var(--hairline)]">
           <button
             onClick={() => setActiveFilter("all")}
-            className={`text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full transition-all ${
-              activeFilter === "all" ? "bg-white text-black" : "text-white/60 hover:text-white border border-white/20 hover:border-white/60"
-            }`}
+            className={
+              "text-[12px] tracking-[0.18em] uppercase transition-colors " +
+              (activeFilter === "all"
+                ? "text-[color:var(--ink)] font-semibold"
+                : "text-[color:var(--muted)] hover:text-[color:var(--ink)]")
+            }
           >
-            {filterAll}
+            {labels.all}
+            <span className="ml-2 text-[10px] text-[color:var(--muted-2)] font-mono">
+              ({items.length})
+            </span>
           </button>
-          {allTags.slice(0, 8).map((tag) => (
-            <button
-              key={tag}
-              onClick={() => setActiveFilter(tag)}
-              className={`text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full transition-all ${
-                activeFilter === tag ? "bg-white text-black" : "text-white/60 hover:text-white border border-white/20 hover:border-white/60"
-              }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filtered.map((it, i) => {
-            let tags: string[] = [];
-            try { tags = JSON.parse(it.tags); } catch { tags = []; }
-            const type = language === "pt" ? (it.type ?? "") : (it.typeEn ?? it.type ?? "");
-
+          {allTags.map((tag) => {
+            const count = items.filter((it) => parseTags(it.tags).includes(tag)).length;
             return (
-              <motion.article
-                key={it.id}
-                layout
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ delay: i * 0.04, duration: 0.3 }}
-                className="group relative aspect-[4/3] overflow-hidden bg-[#0a0a0a] cursor-pointer"
+              <button
+                key={tag}
+                onClick={() => setActiveFilter(tag)}
+                className={
+                  "text-[12px] tracking-[0.18em] uppercase transition-colors " +
+                  (activeFilter === tag
+                    ? "text-[color:var(--ink)] font-semibold"
+                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]")
+                }
               >
-                {it.imageUrl ? (
-                  <Image
-                    src={it.imageUrl}
-                    alt={it.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-[#050505]">
-                    <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                      <span className="text-6xl font-extrabold text-white tracking-tighter">
-                        {it.title.slice(0, 2).toUpperCase()}
-                      </span>
+                {tag}
+                <span className="ml-2 text-[10px] text-[color:var(--muted-2)] font-mono">
+                  ({count})
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 lg:gap-y-20">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((it, i) => {
+              const tags = parseTags(it.tags);
+              const type =
+                language === "pt" ? it.type ?? "" : it.typeEn ?? it.type ?? "";
+              const title =
+                language === "pt" ? it.title : it.titleEn ?? it.title;
+              const desc =
+                language === "pt"
+                  ? it.description
+                  : it.descriptionEn ?? it.description;
+              const isOdd = i % 2 === 1;
+
+              return (
+                <motion.article
+                  key={it.id}
+                  layout
+                  initial={{ opacity: 0, y: 28 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: (i % 4) * 0.08, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  className={"group " + (isOdd ? "md:mt-16" : "")}
+                >
+                  {/* Image */}
+                  <a
+                    href={it.demoUrl ?? "#"}
+                    target={it.demoUrl ? "_blank" : undefined}
+                    rel={it.demoUrl ? "noopener noreferrer" : undefined}
+                    className="relative block overflow-hidden rounded-[2px] aspect-[4/3] bg-[#1c1b18]"
+                  >
+                    {it.imageUrl ? (
+                      <Image
+                        src={it.imageUrl}
+                        alt={title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.05]"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1c1b18] to-[#0e0e0c]">
+                        <span className="font-serif text-7xl text-white/15 tracking-tight">
+                          {title.slice(0, 2).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-[color:var(--ink)]/0 group-hover:bg-[color:var(--ink)]/10 transition-colors duration-500"
+                    />
+                    <div className="absolute top-5 right-5 inline-flex items-center justify-center size-10 rounded-full bg-[color:var(--bg)] text-[color:var(--ink)] opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                      <ArrowUpRight className="size-4" />
                     </div>
+                  </a>
+
+                  {/* Meta */}
+                  <div className="mt-6 flex items-baseline justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                        {type}
+                      </p>
+                      <h3 className="mt-2 font-serif text-2xl lg:text-[1.6rem] text-[color:var(--ink)] leading-tight">
+                        {title}
+                      </h3>
+                    </div>
+                    <span className="font-mono text-[11px] tracking-widest text-[color:var(--muted-2)]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </div>
-                )}
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <p className="text-xs uppercase tracking-widest text-white/50 mb-1">{type}</p>
-                  <h3 className="text-xl font-bold text-white mb-2">{it.title}</h3>
+                  {desc && (
+                    <p className="mt-3 text-[14px] leading-relaxed text-[color:var(--muted)] max-w-md">
+                      {desc}
+                    </p>
+                  )}
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
                     {tags.map((t) => (
-                      <span key={t} className="text-xs bg-white/10 text-white/70 px-2 py-0.5 rounded">
+                      <span
+                        key={t}
+                        className="text-[11px] tracking-[0.16em] uppercase text-[color:var(--ink-soft)]"
+                      >
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  {/* Links */}
-                  <div className="flex gap-4">
-                    {it.demoUrl && (
-                      <a
-                        href={it.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white hover:text-white/70 transition-colors"
-                      >
-                        <ExternalLink className="size-3" /> Demo
-                      </a>
-                    )}
-                    {it.repoUrl && (
-                      <a
-                        href={it.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white hover:text-white/70 transition-colors"
-                      >
-                        <Github className="size-3" /> Code
-                      </a>
-                    )}
-                    {!it.demoUrl && !it.repoUrl && (
-                      <span className="text-xs text-white/30">Em breve</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Number badge */}
-                <div className="absolute top-3 left-3 text-xs font-mono text-white/20 group-hover:opacity-0 transition-opacity">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-              </motion.article>
-            );
-          })}
-        </AnimatePresence>
-      </div>
-
-      <div className="bg-black py-8 text-center text-xs text-white/40 uppercase tracking-widest">
-        {more}
+                  {(it.demoUrl || it.repoUrl) && (
+                    <div className="mt-5 flex items-center gap-5 text-[12px] tracking-[0.16em] uppercase">
+                      {it.demoUrl && (
+                        <a
+                          href={it.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[color:var(--ink)] border-b border-[color:var(--ink)] hover:text-[color:var(--accent)] hover:border-[color:var(--accent)] transition-colors"
+                        >
+                          {labels.live}
+                          <ArrowUpRight className="size-3.5" />
+                        </a>
+                      )}
+                      {it.repoUrl && (
+                        <a
+                          href={it.repoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[color:var(--muted)] hover:text-[color:var(--ink)] transition-colors"
+                        >
+                          <Github className="size-3.5" /> {labels.code}
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );
