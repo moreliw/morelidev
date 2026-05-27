@@ -7,36 +7,36 @@ export function About() {
   const copy =
     language === "pt"
       ? {
-          eyebrow: "Sobre",
+          eyebrow: "Sobre a Will Tech",
           headline:
-            "Software de qualidade nasce do equilíbrio entre arquitetura, performance e cuidado com o usuário.",
+            "Somos um estúdio de software focado em entregar produtos digitais que funcionam, vendem e duram.",
           paragraphs: [
-            "Sou um Software Engineer Full Stack com mais de 5 anos de experiência projetando e construindo aplicações web escaláveis, seguras e elegantes. Trabalho lado a lado com empresas e empreendedores para transformar ideias em produtos digitais que funcionam — com clareza, confiabilidade e estética.",
-            "Especialista em .NET, Angular e React, prezo por código limpo, performance de verdade e arquiteturas que envelhecem bem. Cada detalhe é pensado: do gesto na interface ao tempo de resposta da API.",
+            "A Will Tech é um estúdio digital que une engenharia de software e design para criar soluções sob medida — sites institucionais, lojas virtuais, aplicativos e sistemas internos. Trabalhamos lado a lado com cada cliente, do briefing à evolução do produto, para garantir uma entrega clara, estável e alinhada ao negócio.",
+            "Acreditamos que a tecnologia precisa servir ao resultado: gerar leads, vender mais, organizar a operação e elevar a percepção da marca. Por isso unimos estratégia, estética e robustez em cada projeto que assumimos.",
           ],
           pillars: [
-            { label: "Foco", text: "Soluções pontuais, sem ruído." },
+            { label: "Parceria", text: "Atendimento próximo, sem intermediários." },
             { label: "Método", text: "Processo claro do briefing à entrega." },
-            { label: "Detalhe", text: "Polimento em cada camada do produto." },
+            { label: "Resultado", text: "Foco em vendas, leads e operação." },
           ],
-          cta: "Trabalhar comigo",
-          credit: "—  William Moreli",
+          cta: "Conversar com a Will Tech",
+          credit: "—  Will Tech Studio",
         }
       : {
-          eyebrow: "About",
+          eyebrow: "About Will Tech",
           headline:
-            "Great software is born from the balance between architecture, performance and care for the user.",
+            "We are a software studio focused on delivering digital products that work, sell and last.",
           paragraphs: [
-            "I'm a Full Stack Software Engineer with 5+ years of experience designing and building scalable, secure and elegant web applications. I partner with companies and founders to turn ideas into digital products that simply work — with clarity, reliability and craft.",
-            "Specialist in .NET, Angular and React, I'm guided by clean code, real performance and architecture that ages well. Every detail matters — from the gesture in the interface to the response time of the API.",
+            "Will Tech is a digital studio that blends software engineering and design to build tailored solutions — institutional sites, online stores, apps and internal systems. We work closely with every client, from the brief to long-term evolution, ensuring a clear, stable delivery aligned with the business.",
+            "We believe technology must serve the outcome: generate leads, drive sales, streamline operations and elevate brand perception. That's why we combine strategy, craft and reliability in every project we take on.",
           ],
           pillars: [
-            { label: "Focus", text: "Sharp solutions, no noise." },
+            { label: "Partnership", text: "Close support, no middlemen." },
             { label: "Method", text: "Clear process from brief to launch." },
-            { label: "Detail", text: "Polish in every layer of the product." },
+            { label: "Outcome", text: "Focused on sales, leads and operations." },
           ],
-          cta: "Work with me",
-          credit: "—  William Moreli",
+          cta: "Talk to Will Tech",
+          credit: "—  Will Tech Studio",
         };
 
   return (
@@ -72,9 +72,12 @@ export function About() {
               className="display text-[clamp(1.7rem,3.5vw,2.8rem)] max-w-3xl text-[color:var(--ink)]"
             >
               {copy.headline.split(" ").map((word, i) => {
+                const w = word.toLowerCase();
                 const isAccent =
-                  word.toLowerCase().includes("cuidado") ||
-                  word.toLowerCase().includes("care");
+                  w.includes("duram") ||
+                  w.includes("vendem") ||
+                  w.includes("last") ||
+                  w.includes("sell");
                 return (
                   <motion.span
                     key={i}

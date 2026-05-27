@@ -7,6 +7,10 @@ import {
   Layers3,
   Sparkles,
   Wrench,
+  Search,
+  PenTool,
+  Hammer,
+  LineChart,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -15,81 +19,109 @@ const services = [
     icon: Globe,
     title: { pt: "Sites institucionais", en: "Institutional websites" },
     desc: {
-      pt: "Presenças digitais sólidas, com narrativa clara e identidade consistente.",
-      en: "Solid digital presence, clear narrative and consistent identity.",
+      pt: "Presença digital sólida com narrativa clara e identidade consistente — o cartão de visitas da sua empresa, feito sob medida.",
+      en: "A solid digital presence with clear narrative and consistent identity — your company's calling card, tailored to you.",
     },
-    bullets: ["Brand-led design", "SEO técnico", "CMS sob medida"],
-    bulletsEn: ["Brand-led design", "Technical SEO", "Custom CMS"],
+    bullets: {
+      pt: ["Design exclusivo", "SEO incluso", "Painel para editar"],
+      en: ["Unique design", "SEO included", "Editing dashboard"],
+    },
   },
   {
     icon: Rocket,
     title: { pt: "Landing pages", en: "Landing pages" },
     desc: {
-      pt: "Páginas enxutas e de alta performance para campanhas e captação.",
-      en: "Lean, high-performance pages for campaigns and lead capture.",
+      pt: "Páginas focadas em conversão para campanhas, lançamentos e captação de clientes — rápidas, claras e diretas ao ponto.",
+      en: "Pages focused on conversion for campaigns, launches and lead capture — fast, clear and to the point.",
     },
-    bullets: ["Conversão", "A/B ready", "Carregamento sub-1s"],
-    bulletsEn: ["Conversion", "A/B ready", "Sub-1s loading"],
+    bullets: {
+      pt: ["Foco em conversão", "Carregamento rápido", "Integração com anúncios"],
+      en: ["Conversion-focused", "Fast loading", "Ad-platform ready"],
+    },
   },
   {
     icon: Code2,
-    title: { pt: "Aplicações sob medida", en: "Custom applications" },
+    title: { pt: "Sistemas sob medida", en: "Custom systems" },
     desc: {
-      pt: "Sistemas web e dashboards construídos com .NET, Angular e React.",
-      en: "Web systems and dashboards crafted with .NET, Angular and React.",
+      pt: "Software que organiza a sua operação: cadastros, vendas, agendamentos, controle financeiro e relatórios — tudo no seu fluxo.",
+      en: "Software that organises your operation: records, sales, bookings, finance and reports — built around your workflow.",
     },
-    bullets: ["Arquitetura modular", "Escalabilidade", "Segurança"],
-    bulletsEn: ["Modular architecture", "Scalability", "Security"],
-  },
-  {
-    icon: Layers3,
-    title: { pt: "Integrações & APIs", en: "APIs & integrations" },
-    desc: {
-      pt: "Conectando sistemas, ERPs e ferramentas de forma estável e auditável.",
-      en: "Connecting systems, ERPs and tools in a stable, auditable way.",
+    bullets: {
+      pt: ["Multi-usuário", "Relatórios", "Crescimento sem limites"],
+      en: ["Multi-user", "Reports", "Scales with you"],
     },
-    bullets: ["REST / GraphQL", "Webhooks", "Observabilidade"],
-    bulletsEn: ["REST / GraphQL", "Webhooks", "Observability"],
   },
   {
     icon: Sparkles,
-    title: { pt: "UI/UX para conversão", en: "Conversion UI/UX" },
+    title: { pt: "Lojas virtuais", en: "Online stores" },
     desc: {
-      pt: "Interfaces elegantes, focadas em clareza e resultados mensuráveis.",
-      en: "Elegant interfaces, focused on clarity and measurable outcomes.",
+      pt: "E-commerces completos com catálogo, pagamentos, frete e painel — pronto para vender e crescer com a sua marca.",
+      en: "Full e-commerce with catalog, payments, shipping and admin — ready to sell and grow with your brand.",
     },
-    bullets: ["Design system", "Acessibilidade", "Micro-interações"],
-    bulletsEn: ["Design system", "Accessibility", "Micro-interactions"],
+    bullets: {
+      pt: ["Pagamentos online", "Estoque", "Marketing integrado"],
+      en: ["Online payments", "Inventory", "Marketing-ready"],
+    },
+  },
+  {
+    icon: Layers3,
+    title: { pt: "Aplicativos mobile", en: "Mobile apps" },
+    desc: {
+      pt: "Aplicativos para iOS e Android com experiência fluida, design moderno e foco no que importa para o seu cliente.",
+      en: "iOS and Android apps with a smooth experience, modern design and focus on what matters to your user.",
+    },
+    bullets: {
+      pt: ["iOS e Android", "Notificações", "Publicação nas lojas"],
+      en: ["iOS and Android", "Push notifications", "Store publishing"],
+    },
   },
   {
     icon: Wrench,
-    title: { pt: "Manutenção & evolução", en: "Maintenance & evolution" },
+    title: { pt: "Suporte & evolução", en: "Support & evolution" },
     desc: {
-      pt: "Acompanhamento contínuo, melhorias e suporte técnico de longo prazo.",
-      en: "Continuous oversight, improvements and long-term technical support.",
+      pt: "Acompanhamento contínuo, melhorias mensais e suporte técnico — para o seu produto digital seguir performando.",
+      en: "Continuous care, monthly improvements and technical support — keeping your digital product performing.",
     },
-    bullets: ["SLA dedicado", "Refactor incremental", "Roadmap conjunto"],
-    bulletsEn: ["Dedicated SLA", "Incremental refactor", "Joint roadmap"],
+    bullets: {
+      pt: ["Suporte dedicado", "Melhorias mensais", "Monitoramento"],
+      en: ["Dedicated support", "Monthly improvements", "Monitoring"],
+    },
   },
 ];
 
-const stack = [
-  { name: "TypeScript", group: "Linguagens" },
-  { name: "C# / .NET", group: "Linguagens" },
-  { name: "PHP", group: "Linguagens" },
-  { name: "SQL", group: "Linguagens" },
-  { name: "React", group: "Front-end" },
-  { name: "Angular", group: "Front-end" },
-  { name: "Next.js", group: "Front-end" },
-  { name: "Tailwind", group: "Front-end" },
-  { name: ".NET Core", group: "Back-end" },
-  { name: "Node.js", group: "Back-end" },
-  { name: "Laravel", group: "Back-end" },
-  { name: "PostgreSQL", group: "Back-end" },
-  { name: "Docker", group: "Infra" },
-  { name: "AWS", group: "Infra" },
-  { name: "Git", group: "Infra" },
-  { name: "Linux", group: "Infra" },
+const process = [
+  {
+    icon: Search,
+    title: { pt: "Descoberta", en: "Discovery" },
+    desc: {
+      pt: "Entendemos seu negócio, público e objetivos antes de qualquer linha de código.",
+      en: "We learn about your business, audience and goals before writing a single line of code.",
+    },
+  },
+  {
+    icon: PenTool,
+    title: { pt: "Design", en: "Design" },
+    desc: {
+      pt: "Telas refinadas, identidade visual coerente e foco na experiência do usuário.",
+      en: "Refined screens, coherent visual identity and a sharp focus on user experience.",
+    },
+  },
+  {
+    icon: Hammer,
+    title: { pt: "Construção", en: "Build" },
+    desc: {
+      pt: "Desenvolvimento com entregas semanais, testes e ajustes alinhados ao seu time.",
+      en: "Development with weekly deliveries, testing and adjustments aligned with your team.",
+    },
+  },
+  {
+    icon: LineChart,
+    title: { pt: "Evolução", en: "Evolution" },
+    desc: {
+      pt: "Após o lançamento, continuamos por perto: medindo, ajustando e crescendo junto.",
+      en: "After launch, we stay close: measuring, tuning and growing alongside you.",
+    },
+  },
 ];
 
 export function Services() {
@@ -98,15 +130,17 @@ export function Services() {
     language === "pt"
       ? {
           eyebrow: "Serviços",
-          headline: "O que entrego — com método e profundidade.",
-          techEyebrow: "Stack",
-          techHeadline: "Tecnologias que uso no dia a dia.",
+          headline: "Soluções digitais sob medida — do conceito à entrega.",
+          processEyebrow: "Como trabalhamos",
+          processHeadline:
+            "Um processo claro, com você acompanhando cada etapa.",
         }
       : {
           eyebrow: "Services",
-          headline: "What I deliver — with depth and method.",
-          techEyebrow: "Stack",
-          techHeadline: "Technologies I use day to day.",
+          headline: "Tailored digital solutions — from concept to launch.",
+          processEyebrow: "How we work",
+          processHeadline:
+            "A clear process, with you informed every step of the way.",
         };
 
   return (
@@ -162,7 +196,7 @@ export function Services() {
               </p>
 
               <ul className="space-y-1.5 text-[12px] tracking-wide text-[color:var(--ink-soft)]">
-                {(language === "pt" ? s.bullets : s.bulletsEn).map((b) => (
+                {(language === "pt" ? s.bullets.pt : s.bullets.en).map((b) => (
                   <li key={b} className="flex items-center gap-2">
                     <span className="inline-block w-3 h-px bg-[color:var(--accent)]" />
                     {b}
@@ -173,10 +207,10 @@ export function Services() {
           ))}
         </div>
 
-        {/* Stack */}
+        {/* Process */}
         <div className="mt-24 lg:mt-32 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           <div className="lg:col-span-3">
-            <span className="eyebrow">{labels.techEyebrow}</span>
+            <span className="eyebrow">{labels.processEyebrow}</span>
             <p className="mt-6 text-xs font-mono tracking-widest text-[color:var(--muted-2)]">
               03 / 06
             </p>
@@ -187,24 +221,39 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7 }}
-              className="display text-[clamp(1.5rem,3vw,2.2rem)] max-w-2xl mb-10"
+              className="display text-[clamp(1.5rem,3vw,2.2rem)] max-w-2xl mb-12"
             >
-              {labels.techHeadline}
+              {labels.processHeadline}
             </motion.h3>
 
-            <div className="flex flex-wrap gap-2.5">
-              {stack.map((t, i) => (
-                <motion.span
-                  key={t.name}
-                  initial={{ opacity: 0, y: 8 }}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 relative">
+              {/* connecting line */}
+              <div
+                aria-hidden
+                className="hidden lg:block absolute top-[22px] left-[5%] right-[5%] h-px bg-[color:var(--hairline)]"
+              />
+              {process.map((step, i) => (
+                <motion.div
+                  key={step.title.en}
+                  initial={{ opacity: 0, y: 14 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.4, delay: i * 0.025 }}
-                  className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[color:var(--hairline)] bg-[color:var(--bg-elevated)] text-[13px] text-[color:var(--ink-soft)] hover:border-[color:var(--ink)] hover:text-[color:var(--ink)] hover:-translate-y-0.5 transition-all duration-300"
+                  transition={{ duration: 0.6, delay: i * 0.08 }}
+                  className="relative"
                 >
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--accent-soft)] group-hover:bg-[color:var(--accent)] transition-colors" />
-                  {t.name}
-                </motion.span>
+                  <div className="relative z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--bg)] border border-[color:var(--hairline)] text-[color:var(--ink)] mb-5">
+                    <step.icon className="size-[18px]" strokeWidth={1.5} />
+                  </div>
+                  <p className="font-mono text-[10px] tracking-widest text-[color:var(--muted-2)] mb-2">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h4 className="font-serif text-lg text-[color:var(--ink)] mb-2">
+                    {language === "pt" ? step.title.pt : step.title.en}
+                  </h4>
+                  <p className="text-[13px] leading-relaxed text-[color:var(--muted)]">
+                    {language === "pt" ? step.desc.pt : step.desc.en}
+                  </p>
+                </motion.div>
               ))}
             </div>
           </div>

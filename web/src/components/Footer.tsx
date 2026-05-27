@@ -8,10 +8,10 @@ export function Footer() {
   const copy =
     language === "pt"
       ? {
-          tagline: "Engenharia de software & produtos digitais bem feitos.",
+          tagline: "Will Tech — software sob medida que ajuda empresas a crescer.",
           backToTop: "Voltar ao topo",
-          rights: `© ${year} William Moreli — Todos os direitos reservados.`,
-          made: "Feito em Vitória, ES — com atenção ao detalhe.",
+          rights: `© ${year} Will Tech — Todos os direitos reservados.`,
+          made: "De Vitória, ES, para todo o Brasil — atendimento próximo, entrega cuidadosa.",
           nav: [
             { href: "#about", label: "Sobre" },
             { href: "#services", label: "Serviços" },
@@ -19,13 +19,13 @@ export function Footer() {
             { href: "#clients", label: "Clientes" },
             { href: "#contact", label: "Contato" },
           ],
-          socialLabel: "Conecte-se",
+          socialLabel: "Fale conosco",
         }
       : {
-          tagline: "Software engineering & well-made digital products.",
+          tagline: "Will Tech — tailored software that helps businesses grow.",
           backToTop: "Back to top",
-          rights: `© ${year} William Moreli — All rights reserved.`,
-          made: "Made in Vitória, ES — with attention to detail.",
+          rights: `© ${year} Will Tech — All rights reserved.`,
+          made: "Based in Vitória, ES — serving clients across Brazil and abroad.",
           nav: [
             { href: "#about", label: "About" },
             { href: "#services", label: "Services" },
@@ -33,7 +33,7 @@ export function Footer() {
             { href: "#clients", label: "Clients" },
             { href: "#contact", label: "Contact" },
           ],
-          socialLabel: "Connect",
+          socialLabel: "Talk to us",
         };
 
   return (
@@ -71,15 +71,15 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:contato@morelidev.com"
+                  href="mailto:contato@willtech.com.br"
                   className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
                 >
-                  <Mail className="size-3.5" /> contato@morelidev.com
+                  <Mail className="size-3.5" /> contato@willtech.com.br
                 </a>
               </li>
               <li>
                 <a
-                  href="https://www.linkedin.com/in/william-moreli"
+                  href="https://www.linkedin.com/company/will-tech"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
@@ -94,17 +94,17 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
                 >
-                  <MessageCircle className="size-3.5" /> WhatsApp
+                  <MessageCircle className="size-3.5" /> WhatsApp comercial
                 </a>
               </li>
               <li>
                 <a
-                  href="https://github.com"
+                  href="https://instagram.com/willtech"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
                 >
-                  <Github className="size-3.5" /> GitHub
+                  <Github className="size-3.5" /> Instagram
                 </a>
               </li>
             </ul>
@@ -130,7 +130,7 @@ export function Footer() {
           className="select-none font-serif text-[18vw] leading-none text-white/[0.04] text-center pb-2"
           style={{ letterSpacing: "-0.04em" }}
         >
-          moreli.dev
+          Will Tech
         </p>
       </div>
     </footer>

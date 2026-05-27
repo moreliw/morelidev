@@ -14,26 +14,26 @@ export async function POST() {
 
   const hash = await bcrypt.hash("admin123", 12);
   await prisma.adminUser.create({
-    data: { email: "admin@morelidev.com", password: hash },
+    data: { email: "admin@willtech.com.br", password: hash },
   });
 
   const projects = [
-    { id: "empresa-capixaba", title: "Empresa Capixaba", titleEn: "Empresa Capixaba", type: "Sistema de gestão", typeEn: "Management system", tags: JSON.stringify(["Laravel","Blade","MySQL"]), imageUrl: "/projetos/empresa-capixaba.png", order: 1 },
-    { id: "takki", title: "Takki.ao", titleEn: "Takki.ao", type: "Marketplace", typeEn: "Marketplace", tags: JSON.stringify(["React","UX"]), imageUrl: "/projetos/takki.png", order: 2 },
-    { id: "site-inst", title: "Site Institucional", titleEn: "Institutional Website", type: "Design", typeEn: "Design", tags: JSON.stringify(["UI/UX","Brand"]), order: 3 },
-    { id: "dashboard", title: "Dashboard Analytics", titleEn: "Analytics Dashboard", type: "Dashboard", typeEn: "Dashboard", tags: JSON.stringify(["React","Data"]), order: 4 },
-    { id: "ecom-b2b", title: "E-commerce B2B", titleEn: "B2B E-commerce", type: "E-commerce", typeEn: "E-commerce", tags: JSON.stringify(["Angular","B2B"]), order: 5 },
-    { id: "sistema", title: "Sistema de Gestão", titleEn: "Management System", type: "Sistema", typeEn: "System", tags: JSON.stringify(["Laravel","PHP"]), order: 6 },
+    { id: "cipritex", title: "Cipritex", titleEn: "Cipritex", type: "Sistema corporativo", typeEn: "Corporate system", tags: JSON.stringify(["Gestão","Relatórios","Multi-usuário"]), order: 1 },
+    { id: "takki", title: "Takki.ao", titleEn: "Takki.ao", type: "Marketplace", typeEn: "Marketplace", tags: JSON.stringify(["Vendas online","Catálogo","Experiência"]), imageUrl: "/projetos/takki.png", order: 2 },
+    { id: "saldo-casa", title: "Saldo Casa", titleEn: "Saldo Casa", type: "Aplicativo financeiro", typeEn: "Finance app", tags: JSON.stringify(["Mobile","Dashboards","Controle"]), order: 3 },
+    { id: "mameri", title: "Mameri", titleEn: "Mameri", type: "Site institucional", typeEn: "Institutional site", tags: JSON.stringify(["Branding","Conteúdo","SEO"]), order: 4 },
+    { id: "padel", title: "Padel App", titleEn: "Padel App", type: "Aplicativo esportivo", typeEn: "Sports app", tags: JSON.stringify(["Reservas","Comunidade","Mobile"]), order: 5 },
+    { id: "will-market", title: "Will Market", titleEn: "Will Market", type: "Loja online", typeEn: "Online store", tags: JSON.stringify(["E-commerce","Pagamentos","Painel"]), order: 6 },
   ];
   for (const p of projects) {
     await prisma.project.upsert({ where: { id: p.id }, update: {}, create: p });
   }
 
   const content = [
-    { key: "hero.name", value: "William Moreli" },
-    { key: "contact.email", value: "contato@morelidev.com" },
-    { key: "social.linkedin", value: "https://www.linkedin.com/in/william-moreli" },
-    { key: "social.github", value: "https://github.com/moreliw" },
+    { key: "hero.name", value: "Will Tech" },
+    { key: "contact.email", value: "contato@willtech.com.br" },
+    { key: "social.linkedin", value: "https://www.linkedin.com/company/will-tech" },
+    { key: "social.instagram", value: "https://instagram.com/willtech" },
   ];
   for (const c of content) {
     await prisma.siteContent.upsert({ where: { key: c.key }, update: {}, create: c });
@@ -46,12 +46,12 @@ export async function POST() {
       id: "t1",
       author: "Carlos Silva",
       role: "CEO",
-      company: "Empresa Capixaba",
-      text: "William entregou exatamente o que precisávamos. O sistema ficou intuitivo e o prazo foi cumprido.",
-      textEn: "William delivered exactly what we needed. Intuitive system, on-time delivery.",
+      company: "Cipritex",
+      text: "A Will Tech entregou exatamente o que precisávamos. Sistema intuitivo, prazo cumprido e atendimento impecável.",
+      textEn: "Will Tech delivered exactly what we needed. Intuitive system, on-time delivery and impeccable support.",
       order: 1,
     },
   });
 
-  return NextResponse.json({ ok: true, message: "Database seeded. Login: admin@morelidev.com / admin123" });
+  return NextResponse.json({ ok: true, message: "Database seeded. Login: admin@willtech.com.br / admin123" });
 }

@@ -20,18 +20,18 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Moreli Dev — Engenharia, Design e Performance",
+  title: "Will Tech — Software sob medida para empresas que crescem",
   description:
-    "Portfolio profissional com foco em arquitetura, frontend moderno e entrega de alto padrão.",
+    "Will Tech desenvolve sites, aplicativos e sistemas digitais sob medida. Soluções estáveis, elegantes e feitas para gerar resultado.",
   icons: {
     icon: [{ url: "/icon-dev.png", type: "image/png" }],
     shortcut: ["/icon-dev.png"],
     apple: [{ url: "/icon-dev.png", type: "image/png" }],
   },
   openGraph: {
-    title: "Moreli Dev — Engenharia, Design e Performance",
+    title: "Will Tech — Software sob medida para empresas que crescem",
     description:
-      "Portfolio profissional com foco em arquitetura, frontend moderno e entrega de alto padrão.",
+      "Will Tech desenvolve sites, aplicativos e sistemas digitais sob medida. Soluções estáveis, elegantes e feitas para gerar resultado.",
     type: "website",
     url: "https://morelidev.com",
   },

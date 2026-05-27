@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { getSession } from "@/lib/auth";
 
-export const metadata = { title: "Admin — MoreliDev" };
+export const metadata = { title: "Admin — Will Tech" };
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const session = await getSession();

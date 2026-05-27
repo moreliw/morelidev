@@ -241,19 +241,19 @@ export function Portfolio() {
   const labels =
     language === "pt"
       ? {
-          eyebrow: "Projetos",
-          headline: "Trabalhos selecionados — feitos para durar.",
+          eyebrow: "Nossos projetos",
+          headline: "Alguns clientes que confiaram na Will Tech.",
           all: "Todos",
-          live: "Ver",
+          live: "Ver projeto",
           code: "Código",
           empty: "Em breve",
-          hint: "Passe o mouse para ver o projeto em ação",
+          hint: "Passe o mouse sobre o card para ver o projeto em ação",
         }
       : {
-          eyebrow: "Selected work",
-          headline: "Selected work — built to last.",
+          eyebrow: "Our work",
+          headline: "Some clients who trusted Will Tech.",
           all: "All",
-          live: "View",
+          live: "View project",
           code: "Code",
           empty: "Coming soon",
           hint: "Hover any card to see the project in motion",

@@ -88,7 +88,7 @@ export default function AdminLogin() {
         </form>
 
         <p className="text-center text-white/20 text-xs mt-8">
-          morelidev.com © {new Date().getFullYear()}
+          Will Tech © {new Date().getFullYear()}
         </p>
       </div>
     </div>

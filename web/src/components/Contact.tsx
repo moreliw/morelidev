@@ -16,44 +16,44 @@ export function Contact() {
   const copy =
     language === "pt"
       ? {
-          eyebrow: "Contato",
-          headline: "Vamos construir algo bem feito.",
+          eyebrow: "Fale com a Will Tech",
+          headline: "Vamos transformar a sua ideia em produto.",
           intro:
-            "Conte sobre o projeto — escopo, prazos, referências. Em até 24 horas você recebe um retorno claro com próximos passos.",
-          name: "Nome",
-          email: "Email",
-          subject: "Empresa / Projeto",
-          message: "Sua mensagem",
-          send: "Enviar mensagem",
+            "Conte sobre a sua empresa e o que você precisa — site, sistema, aplicativo ou loja. Em até 24 horas nossa equipe retorna com uma proposta clara e os próximos passos.",
+          name: "Seu nome",
+          email: "Email para contato",
+          subject: "Empresa / Tipo de projeto",
+          message: "Como podemos te ajudar?",
+          send: "Solicitar contato",
           sending: "Enviando…",
-          successTitle: "Mensagem recebida.",
+          successTitle: "Recebemos sua mensagem.",
           successMsg:
-            "Obrigado pelo contato. Em breve você recebe uma resposta diretamente no seu email.",
+            "Obrigado pelo interesse na Will Tech. Em breve nossa equipe entra em contato pelo email informado.",
           newMessage: "Enviar outra mensagem",
           orReach: "Ou fale diretamente",
           required: "Nome, email e mensagem são obrigatórios.",
           error: "Erro ao enviar. Tente novamente.",
-          info: "Resposta em até 24h",
+          info: "Retorno em até 24h úteis",
         }
       : {
-          eyebrow: "Contact",
-          headline: "Let's build something well-made.",
+          eyebrow: "Talk to Will Tech",
+          headline: "Let's turn your idea into a product.",
           intro:
-            "Tell me about the project — scope, deadlines, references. Within 24 hours you'll get a clear reply with next steps.",
-          name: "Name",
-          email: "Email",
-          subject: "Company / Project",
-          message: "Your message",
-          send: "Send message",
+            "Tell us about your company and what you need — website, system, app or store. Within 24 hours our team replies with a clear proposal and the next steps.",
+          name: "Your name",
+          email: "Contact email",
+          subject: "Company / Project type",
+          message: "How can we help?",
+          send: "Request contact",
           sending: "Sending…",
-          successTitle: "Message received.",
+          successTitle: "We received your message.",
           successMsg:
-            "Thanks for reaching out. You'll receive a reply in your inbox shortly.",
+            "Thanks for your interest in Will Tech. Our team will reach out shortly at the email you provided.",
           newMessage: "Send another message",
           orReach: "Or reach out directly",
           required: "Name, email and message are required.",
           error: "Could not send. Please try again.",
-          info: "Reply within 24h",
+          info: "Reply within 24 business hours",
         };
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -119,12 +119,12 @@ export function Contact() {
 
             <div className="mt-10 space-y-4">
               <a
-                href="mailto:contato@morelidev.com"
+                href="mailto:contato@willtech.com.br"
                 className="group flex items-center gap-4 py-3 border-b border-[color:var(--hairline)] hover:border-[color:var(--ink)] transition-colors"
               >
                 <Mail className="size-4 text-[color:var(--muted)] group-hover:text-[color:var(--ink)] transition-colors" />
                 <span className="text-sm text-[color:var(--ink)]">
-                  contato@morelidev.com
+                  contato@willtech.com.br
                 </span>
                 <ArrowUpRight className="ml-auto size-4 text-[color:var(--muted-2)] group-hover:text-[color:var(--accent)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </a>
@@ -135,11 +135,13 @@ export function Contact() {
                 className="group flex items-center gap-4 py-3 border-b border-[color:var(--hairline)] hover:border-[color:var(--ink)] transition-colors"
               >
                 <MessageCircle className="size-4 text-[color:var(--muted)] group-hover:text-[color:var(--ink)] transition-colors" />
-                <span className="text-sm text-[color:var(--ink)]">WhatsApp</span>
+                <span className="text-sm text-[color:var(--ink)]">
+                  WhatsApp comercial
+                </span>
                 <ArrowUpRight className="ml-auto size-4 text-[color:var(--muted-2)] group-hover:text-[color:var(--accent)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </a>
               <a
-                href="https://www.linkedin.com/in/william-moreli"
+                href="https://www.linkedin.com/company/will-tech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 py-3 border-b border-[color:var(--hairline)] hover:border-[color:var(--ink)] transition-colors"
@@ -149,13 +151,13 @@ export function Contact() {
                 <ArrowUpRight className="ml-auto size-4 text-[color:var(--muted-2)] group-hover:text-[color:var(--accent)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </a>
               <a
-                href="https://github.com"
+                href="https://instagram.com/willtech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 py-3 border-b border-[color:var(--hairline)] hover:border-[color:var(--ink)] transition-colors"
               >
                 <Github className="size-4 text-[color:var(--muted)] group-hover:text-[color:var(--ink)] transition-colors" />
-                <span className="text-sm text-[color:var(--ink)]">GitHub</span>
+                <span className="text-sm text-[color:var(--ink)]">Instagram</span>
                 <ArrowUpRight className="ml-auto size-4 text-[color:var(--muted-2)] group-hover:text-[color:var(--accent)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </a>
             </div>

@@ -17,37 +17,37 @@ const FALLBACK: Testimonial[] = [
     id: "1",
     author: "Carlos Silva",
     role: "CEO",
-    company: "Empresa Capixaba",
-    text: "William entregou exatamente o que precisávamos. O sistema ficou intuitivo, o prazo foi cumprido e a comunicação durante o projeto foi impecável.",
-    textEn: "William delivered exactly what we needed. The system is intuitive, deadlines were met and communication throughout the project was impeccable.",
+    company: "Cipritex",
+    text: "A Will Tech entregou exatamente o que precisávamos. O sistema ficou intuitivo, o prazo foi cumprido e o atendimento durante todo o projeto foi impecável.",
+    textEn: "Will Tech delivered exactly what we needed. The system is intuitive, deadlines were met and communication throughout the project was impeccable.",
   },
   {
     id: "2",
     author: "Ana Ferreira",
-    role: "Diretora de Produto",
-    company: "StartupBR",
-    text: "Profissionalismo e qualidade técnica excepcionais. O resultado ficou muito além das nossas expectativas, tanto no design quanto na engenharia.",
-    textEn: "Exceptional professionalism and technical quality. The result far exceeded our expectations, both in design and engineering.",
+    role: "Diretora de Marketing",
+    company: "Mameri",
+    text: "Profissionalismo e cuidado em cada detalhe. O resultado ficou muito além das nossas expectativas e a parceria continua até hoje.",
+    textEn: "Professionalism and care in every detail. The result far exceeded our expectations and the partnership continues to this day.",
   },
   {
     id: "3",
     author: "Ricardo Mendes",
-    role: "CTO",
-    company: "Takki",
-    text: "Entrega rápida, código limpo e atenção real ao detalhe. É raro encontrar esse nível de cuidado em cada camada do projeto.",
-    textEn: "Fast delivery, clean code and real attention to detail. It's rare to find this level of care at every layer of the project.",
+    role: "Sócio-fundador",
+    company: "Takki.ao",
+    text: "Entrega rápida, comunicação clara e atenção real ao que importa para o negócio. A Will Tech virou parte do nosso time.",
+    textEn: "Fast delivery, clear communication and real focus on what matters to the business. Will Tech became part of our team.",
   },
 ];
 
 const CLIENTS = [
-  "Empresa Capixaba",
-  "Takki",
-  "StartupBR",
-  "Globalsys",
+  "Cipritex",
+  "Takki.ao",
+  "Saldo Casa",
+  "Mameri",
+  "Padel App",
+  "Will Market",
   "Atlas Studio",
-  "Norte Ventures",
   "Casa Vitória",
-  "Forma Digital",
 ];
 
 export function Testimonials() {
@@ -86,12 +86,12 @@ export function Testimonials() {
     language === "pt"
       ? {
           eyebrow: "Clientes",
-          headline: "Pessoas e marcas que confiaram no processo.",
+          headline: "Empresas e marcas que crescem com a Will Tech.",
           testimonialsLabel: "Depoimentos",
         }
       : {
           eyebrow: "Clients",
-          headline: "People and brands who trusted the process.",
+          headline: "Brands and companies growing with Will Tech.",
           testimonialsLabel: "Testimonials",
         };
 

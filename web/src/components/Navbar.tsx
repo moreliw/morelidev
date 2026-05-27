@@ -81,11 +81,11 @@ export function Navbar() {
         <Link
           href="#"
           className="group inline-flex items-baseline gap-1 text-[color:var(--ink)]"
-          aria-label="Moreli.dev — home"
+          aria-label="Will Tech — home"
         >
-          <span className="font-serif text-xl tracking-tight">moreli</span>
+          <span className="font-serif text-xl tracking-tight">Will</span>
           <span className="text-xs tracking-[0.25em] uppercase text-[color:var(--muted)] group-hover:text-[color:var(--accent)] transition-colors">
-            .dev
+            Tech
           </span>
         </Link>
 
