@@ -1,9 +1,61 @@
 "use client";
-import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, ArrowDown } from "lucide-react";
+import { ArrowUpRight, ArrowDown, Play, Pause } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+
+type Showcase = {
+  id: string;
+  video: string;
+  title: string;
+  type: { pt: string; en: string };
+  stack: string[];
+};
+
+const SHOWCASES: Showcase[] = [
+  {
+    id: "cipritex",
+    video: "/videos/cipritex.mp4",
+    title: "Cipritex",
+    type: { pt: "Plataforma corporativa", en: "Corporate platform" },
+    stack: [".NET", "Angular", "SQL Server"],
+  },
+  {
+    id: "takki",
+    video: "/videos/takki.mp4",
+    title: "Takki.ao",
+    type: { pt: "Marketplace responsivo", en: "Responsive marketplace" },
+    stack: ["React", "Node", "UX"],
+  },
+  {
+    id: "saldo-casa",
+    video: "/videos/saldo-casa.mp4",
+    title: "Saldo Casa",
+    type: { pt: "Finanças pessoais", en: "Personal finance" },
+    stack: ["React Native", "API", "Charts"],
+  },
+  {
+    id: "site-mameri",
+    video: "/videos/site-mameri.mp4",
+    title: "Mameri",
+    type: { pt: "Site institucional", en: "Institutional site" },
+    stack: ["Next.js", "Brand", "CMS"],
+  },
+  {
+    id: "padel",
+    video: "/videos/padel.mp4",
+    title: "Padel App",
+    type: { pt: "Aplicativo esportivo", en: "Sports app" },
+    stack: ["React Native", "Booking", "Realtime"],
+  },
+  {
+    id: "will-market",
+    video: "/videos/will-market.mp4",
+    title: "Will Market",
+    type: { pt: "E-commerce", en: "E-commerce" },
+    stack: ["Next.js", "Stripe", "Prisma"],
+  },
+];
 
 function useCounter(target: number, duration: number, active: boolean) {
   const [value, setValue] = useState(0);
@@ -60,6 +112,178 @@ function Stat({
   );
 }
 
+const SLIDE_MS = 6500;
+
+function VideoCarousel({ language }: { language: "pt" | "en" }) {
+  const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const startRef = useRef<number>(performance.now());
+
+  // Advance slide on a timer; pause when not playing
+  useEffect(() => {
+    if (!playing) return;
+    startRef.current = performance.now();
+    setProgress(0);
+    let raf = 0;
+    const tick = (now: number) => {
+      const elapsed = now - startRef.current;
+      const p = Math.min(1, elapsed / SLIDE_MS);
+      setProgress(p);
+      if (p >= 1) {
+        setIndex((i) => (i + 1) % SHOWCASES.length);
+      } else {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [index, playing]);
+
+  // Play/pause active video
+  useEffect(() => {
+    videoRefs.current.forEach((v, i) => {
+      if (!v) return;
+      if (i === index && playing) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, [index, playing]);
+
+  const current = SHOWCASES[index];
+
+  return (
+    <div className="relative w-full">
+      {/* Frame */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+        className="relative aspect-[4/5] overflow-hidden rounded-[3px] bg-[#0e0e0c] shadow-[0_40px_80px_-40px_rgba(17,17,16,0.45)]"
+      >
+        {SHOWCASES.map((s, i) => (
+          <motion.video
+            key={s.id}
+            ref={(el) => {
+              videoRefs.current[i] = el;
+            }}
+            src={s.video}
+            muted
+            playsInline
+            loop
+            preload={i === 0 ? "auto" : "metadata"}
+            initial={false}
+            animate={{
+              opacity: i === index ? 1 : 0,
+              scale: i === index ? 1 : 1.04,
+            }}
+            transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ filter: "contrast(1.05) saturate(1.02)" }}
+          />
+        ))}
+
+        {/* Gradient overlay for legibility */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(14,14,12,0.85) 100%)",
+          }}
+        />
+
+        {/* Top meta */}
+        <div className="absolute top-5 left-5 right-5 flex items-center justify-between text-white">
+          <div className="flex items-center gap-2 text-[10px] tracking-[0.24em] uppercase opacity-80">
+            <span className="relative inline-flex h-1.5 w-1.5">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-70" />
+              <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            </span>
+            {language === "pt" ? "Trabalhos recentes" : "Recent work"}
+          </div>
+          <span className="font-mono text-[10px] tracking-widest opacity-70">
+            {String(index + 1).padStart(2, "0")} / {String(SHOWCASES.length).padStart(2, "0")}
+          </span>
+        </div>
+
+        {/* Bottom caption */}
+        <div className="absolute inset-x-5 bottom-5 text-white">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
+            >
+              <p className="text-[10px] tracking-[0.24em] uppercase opacity-75">
+                {language === "pt" ? current.type.pt : current.type.en}
+              </p>
+              <h3 className="mt-1.5 font-serif text-2xl lg:text-[1.7rem] tracking-tight">
+                {current.title}
+              </h3>
+              <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1">
+                {current.stack.map((t) => (
+                  <span
+                    key={t}
+                    className="text-[10px] tracking-[0.18em] uppercase opacity-65"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Play/pause */}
+        <button
+          type="button"
+          onClick={() => setPlaying((p) => !p)}
+          aria-label={playing ? "Pause" : "Play"}
+          className="absolute bottom-5 right-5 inline-flex items-center justify-center size-9 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-colors"
+        >
+          {playing ? (
+            <Pause className="size-3.5" />
+          ) : (
+            <Play className="size-3.5 translate-x-[1px]" />
+          )}
+        </button>
+      </motion.div>
+
+      {/* Progress bars / indicators */}
+      <div className="mt-4 grid grid-cols-6 gap-1.5">
+        {SHOWCASES.map((s, i) => (
+          <button
+            key={s.id}
+            type="button"
+            aria-label={s.title}
+            onClick={() => setIndex(i)}
+            className="group relative h-[3px] overflow-hidden rounded-full bg-[color:var(--hairline)]"
+          >
+            <span
+              className="absolute inset-y-0 left-0 bg-[color:var(--ink)] transition-[width] duration-100"
+              style={{
+                width:
+                  i < index
+                    ? "100%"
+                    : i === index
+                    ? `${progress * 100}%`
+                    : "0%",
+              }}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Hero() {
   const { language } = useLanguage();
   const copy =
@@ -100,7 +324,6 @@ export function Hero() {
       id="top"
       className="relative isolate overflow-hidden pt-32 pb-24 lg:pt-40 lg:pb-32"
     >
-      {/* Soft accent glow — barely there */}
       <div
         aria-hidden
         className="pointer-events-none absolute -top-32 -right-40 h-[520px] w-[520px] rounded-full opacity-[0.18] blur-[120px]"
@@ -182,48 +405,11 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Portrait */}
+          {/* Video carousel */}
           <div className="lg:col-span-5 order-1 lg:order-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-              className="relative mx-auto max-w-[380px] lg:max-w-none"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#1c1b18]">
-                <Image
-                  src="/picture.png"
-                  alt="William Moreli"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 380px, 480px"
-                  className="object-cover object-[60%_30%] grayscale-[15%] contrast-105"
-                />
-                <div
-                  aria-hidden
-                  className="absolute inset-0 mix-blend-multiply"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(14,14,12,0.35) 100%)",
-                  }}
-                />
-              </div>
-
-              {/* Floating signature label */}
-              <motion.div
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-                className="absolute -left-4 lg:-left-8 bottom-10 hidden sm:flex flex-col gap-1 bg-[color:var(--bg)] border border-[color:var(--hairline)] px-4 py-3 rounded-[2px] shadow-[0_20px_50px_-30px_rgba(0,0,0,0.25)]"
-              >
-                <span className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                  Based in
-                </span>
-                <span className="text-sm font-medium text-[color:var(--ink)]">
-                  Vitória — Brazil
-                </span>
-              </motion.div>
-            </motion.div>
+            <div className="relative mx-auto max-w-[380px] lg:max-w-none">
+              <VideoCarousel language={language} />
+            </div>
           </div>
         </div>
 

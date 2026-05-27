@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Github } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight, Github, Play } from "lucide-react";
 
 interface Project {
   id: string;
@@ -15,66 +15,84 @@ interface Project {
   typeEn?: string | null;
   tags: string;
   imageUrl?: string | null;
+  videoUrl?: string | null;
   demoUrl?: string | null;
   repoUrl?: string | null;
 }
 
 const STATIC_ITEMS: Project[] = [
   {
-    id: "1",
-    title: "Empresa Capixaba",
-    type: "Sistema de gestão",
-    typeEn: "Management system",
-    description: "Plataforma de gestão completa para uma rede capixaba.",
-    descriptionEn: "Full management platform for a regional network.",
-    tags: '["Laravel","Blade","MySQL"]',
-    imageUrl: "/projetos/empresa-capixaba.png",
+    id: "cipritex",
+    title: "Cipritex",
+    type: "Plataforma corporativa",
+    typeEn: "Corporate platform",
+    description:
+      "Sistema corporativo com gestão integrada, fluxos personalizados e relatórios em tempo real.",
+    descriptionEn:
+      "Corporate system with integrated management, custom workflows and real-time reports.",
+    tags: '[".NET","Angular","SQL Server"]',
+    videoUrl: "/videos/cipritex.mp4",
   },
   {
-    id: "2",
+    id: "takki",
     title: "Takki.ao",
     type: "Marketplace",
     typeEn: "Marketplace",
-    description: "Marketplace responsivo focado em experiência e curadoria.",
-    descriptionEn: "Responsive marketplace built around curation and UX.",
-    tags: '["React","UX","Node"]',
+    description:
+      "Marketplace responsivo focado em curadoria, performance e experiência do usuário.",
+    descriptionEn:
+      "Responsive marketplace built around curation, performance and UX.",
+    tags: '["React","Node","UX"]',
+    videoUrl: "/videos/takki.mp4",
     imageUrl: "/projetos/takki.png",
   },
   {
-    id: "3",
-    title: "Site Institucional",
-    type: "Branding · Web",
-    typeEn: "Branding · Web",
-    description: "Identidade visual e site institucional para empresa B2B.",
-    descriptionEn: "Brand identity and institutional site for a B2B company.",
-    tags: '["UI/UX","Brand","Next.js"]',
+    id: "saldo-casa",
+    title: "Saldo Casa",
+    type: "Finanças pessoais",
+    typeEn: "Personal finance",
+    description:
+      "App de finanças pessoais com dashboards interativos, metas e categorização inteligente.",
+    descriptionEn:
+      "Personal finance app with interactive dashboards, goals and smart categorization.",
+    tags: '["React Native","API","Charts"]',
+    videoUrl: "/videos/saldo-casa.mp4",
   },
   {
-    id: "4",
-    title: "Dashboard Analytics",
-    type: "Dashboard",
-    typeEn: "Dashboard",
-    description: "Dashboard interno com métricas em tempo real.",
-    descriptionEn: "Internal dashboard with real-time metrics.",
-    tags: '["React","Data","API"]',
+    id: "site-mameri",
+    title: "Mameri",
+    type: "Site institucional",
+    typeEn: "Institutional site",
+    description:
+      "Site institucional minimalista com identidade visual cuidadosa e CMS leve.",
+    descriptionEn:
+      "Minimalist institutional site with careful brand identity and a lightweight CMS.",
+    tags: '["Next.js","Brand","CMS"]',
+    videoUrl: "/videos/site-mameri.mp4",
   },
   {
-    id: "5",
-    title: "E-commerce B2B",
+    id: "padel",
+    title: "Padel App",
+    type: "Aplicativo esportivo",
+    typeEn: "Sports app",
+    description:
+      "Aplicativo para reservas de quadras, gestão de partidas e estatísticas dos jogadores.",
+    descriptionEn:
+      "Court booking, match management and player statistics in one app.",
+    tags: '["React Native","Booking","Realtime"]',
+    videoUrl: "/videos/padel.mp4",
+  },
+  {
+    id: "will-market",
+    title: "Will Market",
     type: "E-commerce",
     typeEn: "E-commerce",
-    description: "Plataforma B2B com catálogo, pedidos e integrações.",
-    descriptionEn: "B2B platform with catalog, orders and integrations.",
-    tags: '["Angular","B2B",".NET"]',
-  },
-  {
-    id: "6",
-    title: "Sistema de Gestão",
-    type: "Plataforma",
-    typeEn: "Platform",
-    description: "Sistema interno multi-tenant para operação logística.",
-    descriptionEn: "Multi-tenant internal system for logistics operations.",
-    tags: '["Laravel","PHP","MySQL"]',
+    description:
+      "E-commerce completo com catálogo, checkout, pagamentos e painel administrativo.",
+    descriptionEn:
+      "Full e-commerce with catalog, checkout, payments and an admin dashboard.",
+    tags: '["Next.js","Stripe","Prisma"]',
+    videoUrl: "/videos/will-market.mp4",
   },
 ];
 
@@ -85,6 +103,111 @@ function parseTags(raw: string): string[] {
   } catch {
     return [];
   }
+}
+
+function ProjectMedia({
+  project,
+  title,
+}: {
+  project: Project;
+  title: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hovered, setHovered] = useState(false);
+
+  const handleEnter = () => {
+    setHovered(true);
+    const v = videoRef.current;
+    if (v) {
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    }
+  };
+  const handleLeave = () => {
+    setHovered(false);
+    videoRef.current?.pause();
+  };
+
+  return (
+    <div
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      className="relative block overflow-hidden rounded-[2px] aspect-[4/3] bg-[#1c1b18]"
+    >
+      {project.videoUrl ? (
+        <>
+          <video
+            ref={videoRef}
+            src={project.videoUrl}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className={
+              "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 " +
+              (hovered ? "opacity-100" : "opacity-0")
+            }
+          />
+          {project.imageUrl ? (
+            <Image
+              src={project.imageUrl}
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className={
+                "object-cover transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] " +
+                (hovered ? "opacity-0 scale-[1.04]" : "opacity-100 scale-100")
+              }
+            />
+          ) : (
+            <div
+              className={
+                "absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1c1b18] to-[#0e0e0c] transition-opacity duration-700 " +
+                (hovered ? "opacity-0" : "opacity-100")
+              }
+            >
+              <span className="font-serif text-7xl text-white/15 tracking-tight">
+                {title.slice(0, 2).toUpperCase()}
+              </span>
+            </div>
+          )}
+          {/* Play hint */}
+          <div
+            className={
+              "absolute bottom-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-sm text-white text-[10px] tracking-[0.2em] uppercase transition-all duration-500 " +
+              (hovered
+                ? "opacity-0 -translate-y-1"
+                : "opacity-100 translate-y-0")
+            }
+          >
+            <Play className="size-3" />
+            Preview
+          </div>
+        </>
+      ) : project.imageUrl ? (
+        <Image
+          src={project.imageUrl}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.05]"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1c1b18] to-[#0e0e0c]">
+          <span className="font-serif text-7xl text-white/15 tracking-tight">
+            {title.slice(0, 2).toUpperCase()}
+          </span>
+        </div>
+      )}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[color:var(--ink)]/0 group-hover:bg-[color:var(--ink)]/10 transition-colors duration-500 pointer-events-none"
+      />
+      <div className="absolute top-5 right-5 inline-flex items-center justify-center size-10 rounded-full bg-[color:var(--bg)] text-[color:var(--ink)] opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 pointer-events-none">
+        <ArrowUpRight className="size-4" />
+      </div>
+    </div>
+  );
 }
 
 export function Portfolio() {
@@ -124,6 +247,7 @@ export function Portfolio() {
           live: "Ver",
           code: "Código",
           empty: "Em breve",
+          hint: "Passe o mouse para ver o projeto em ação",
         }
       : {
           eyebrow: "Selected work",
@@ -132,6 +256,7 @@ export function Portfolio() {
           live: "View",
           code: "Code",
           empty: "Coming soon",
+          hint: "Hover any card to see the project in motion",
         };
 
   return (
@@ -148,15 +273,26 @@ export function Portfolio() {
               04 / 06
             </p>
           </div>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-9 display text-[clamp(1.7rem,3.5vw,2.8rem)] max-w-3xl"
-          >
-            {labels.headline}
-          </motion.h2>
+          <div className="lg:col-span-9">
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7 }}
+              className="display text-[clamp(1.7rem,3.5vw,2.8rem)] max-w-3xl"
+            >
+              {labels.headline}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="mt-4 text-[12px] tracking-[0.2em] uppercase text-[color:var(--muted)]"
+            >
+              {labels.hint}
+            </motion.p>
+          </div>
         </div>
 
         {/* Filters */}
@@ -222,36 +358,18 @@ export function Portfolio() {
                   transition={{ delay: (i % 4) * 0.08, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
                   className={"group " + (isOdd ? "md:mt-16" : "")}
                 >
-                  {/* Image */}
-                  <a
-                    href={it.demoUrl ?? "#"}
-                    target={it.demoUrl ? "_blank" : undefined}
-                    rel={it.demoUrl ? "noopener noreferrer" : undefined}
-                    className="relative block overflow-hidden rounded-[2px] aspect-[4/3] bg-[#1c1b18]"
-                  >
-                    {it.imageUrl ? (
-                      <Image
-                        src={it.imageUrl}
-                        alt={title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.05]"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1c1b18] to-[#0e0e0c]">
-                        <span className="font-serif text-7xl text-white/15 tracking-tight">
-                          {title.slice(0, 2).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 bg-[color:var(--ink)]/0 group-hover:bg-[color:var(--ink)]/10 transition-colors duration-500"
-                    />
-                    <div className="absolute top-5 right-5 inline-flex items-center justify-center size-10 rounded-full bg-[color:var(--bg)] text-[color:var(--ink)] opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                      <ArrowUpRight className="size-4" />
-                    </div>
-                  </a>
+                  {it.demoUrl ? (
+                    <a
+                      href={it.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <ProjectMedia project={it} title={title} />
+                    </a>
+                  ) : (
+                    <ProjectMedia project={it} title={title} />
+                  )}
 
                   {/* Meta */}
                   <div className="mt-6 flex items-baseline justify-between gap-4">
