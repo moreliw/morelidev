@@ -1,9 +1,16 @@
 "use client";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Github, Play } from "lucide-react";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 
 interface Project {
   id: string;
@@ -24,8 +31,8 @@ const STATIC_ITEMS: Project[] = [
   {
     id: "cipritex",
     title: "Cipritex",
-    type: "Plataforma corporativa",
-    typeEn: "Corporate platform",
+    type: "Sistema corporativo",
+    typeEn: "Corporate system",
     description:
       "Sistema corporativo com gestão integrada, fluxos personalizados e relatórios em tempo real.",
     descriptionEn:
@@ -52,9 +59,9 @@ const STATIC_ITEMS: Project[] = [
     type: "Finanças pessoais",
     typeEn: "Personal finance",
     description:
-      "App de finanças pessoais com dashboards interativos, metas e categorização inteligente.",
+      "App de finanças com dashboards interativos, metas e categorização inteligente.",
     descriptionEn:
-      "Personal finance app with interactive dashboards, goals and smart categorization.",
+      "Finance app with interactive dashboards, goals and smart categorization.",
     tags: '["React Native","API","Charts"]',
     videoUrl: "/videos/saldo-casa.mp4",
   },
@@ -105,15 +112,28 @@ function parseTags(raw: string): string[] {
   }
 }
 
-function ProjectMedia({
+function ProjectCard({
   project,
-  title,
+  index,
+  language,
 }: {
   project: Project;
-  title: string;
+  index: number;
+  language: "pt" | "en";
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
+
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const sx = useSpring(rx, { stiffness: 180, damping: 18 });
+  const sy = useSpring(ry, { stiffness: 180, damping: 18 });
+  const transform = useTransform(
+    [sx, sy] as never,
+    ([x, y]: number[]) =>
+      `perspective(900px) rotateX(${y}deg) rotateY(${x}deg)`
+  );
 
   const handleEnter = () => {
     setHovered(true);
@@ -126,28 +146,70 @@ function ProjectMedia({
   const handleLeave = () => {
     setHovered(false);
     videoRef.current?.pause();
+    rx.set(0);
+    ry.set(0);
+  };
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    rx.set(px * 6);
+    ry.set(-py * 6);
   };
 
+  const tags = parseTags(project.tags);
+  const type =
+    language === "pt"
+      ? project.type ?? ""
+      : project.typeEn ?? project.type ?? "";
+  const title =
+    language === "pt" ? project.title : project.titleEn ?? project.title;
+  const desc =
+    language === "pt"
+      ? project.description
+      : project.descriptionEn ?? project.description;
+
   return (
-    <div
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      className="relative block overflow-hidden rounded-[2px] aspect-[4/3] bg-[#1c1b18]"
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        delay: (index % 4) * 0.08,
+        duration: 0.8,
+        ease: [0.2, 0.8, 0.2, 1],
+      }}
     >
-      {project.videoUrl ? (
-        <>
-          <video
-            ref={videoRef}
-            src={project.videoUrl}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className={
-              "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 " +
-              (hovered ? "opacity-100" : "opacity-0")
-            }
-          />
+      <motion.div
+        ref={cardRef}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        onMouseMove={handleMove}
+        style={{ transform }}
+        className="group relative will-change-transform"
+      >
+        {/* media frame */}
+        <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-[#08080c] border border-[color:var(--hairline)]">
+          <span className="glow-ring group-hover:opacity-100" aria-hidden />
+
+          {project.videoUrl && (
+            <video
+              ref={videoRef}
+              src={project.videoUrl}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className={
+                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 " +
+                (hovered ? "opacity-100" : "opacity-0")
+              }
+            />
+          )}
+
           {project.imageUrl ? (
             <Image
               src={project.imageUrl}
@@ -156,25 +218,46 @@ function ProjectMedia({
               sizes="(max-width: 768px) 100vw, 50vw"
               className={
                 "object-cover transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] " +
-                (hovered ? "opacity-0 scale-[1.04]" : "opacity-100 scale-100")
+                (hovered ? "opacity-0 scale-[1.05]" : "opacity-100 scale-100")
               }
             />
           ) : (
             <div
               className={
-                "absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1c1b18] to-[#0e0e0c] transition-opacity duration-700 " +
+                "absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0d0d12] to-[#050507] transition-opacity duration-700 " +
                 (hovered ? "opacity-0" : "opacity-100")
               }
             >
-              <span className="font-serif text-7xl text-white/15 tracking-tight">
+              <span
+                className="font-serif text-7xl tracking-tight"
+                style={{
+                  background:
+                    "linear-gradient(120deg, var(--accent), var(--accent-2))",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  opacity: 0.4,
+                }}
+              >
                 {title.slice(0, 2).toUpperCase()}
               </span>
             </div>
           )}
-          {/* Play hint */}
+
+          {/* gradient overlay */}
+          <div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent 50%, rgba(5,5,7,0.55) 100%)",
+            }}
+          />
+
+          {/* preview pill */}
           <div
             className={
-              "absolute bottom-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-sm text-white text-[10px] tracking-[0.2em] uppercase transition-all duration-500 " +
+              "absolute bottom-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full glass text-white text-[10px] tracking-[0.2em] uppercase transition-all duration-500 " +
               (hovered
                 ? "opacity-0 -translate-y-1"
                 : "opacity-100 translate-y-0")
@@ -183,30 +266,71 @@ function ProjectMedia({
             <Play className="size-3" />
             Preview
           </div>
-        </>
-      ) : project.imageUrl ? (
-        <Image
-          src={project.imageUrl}
-          alt={title}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.05]"
-        />
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1c1b18] to-[#0e0e0c]">
-          <span className="font-serif text-7xl text-white/15 tracking-tight">
-            {title.slice(0, 2).toUpperCase()}
+
+          <div className="absolute top-4 right-4 inline-flex items-center justify-center size-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+            <ArrowUpRight className="size-4" />
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-baseline justify-between gap-4">
+          <div>
+            <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--accent)]">
+              {type}
+            </p>
+            <h3 className="mt-2 font-serif text-2xl lg:text-[1.6rem] text-[color:var(--ink)] leading-tight">
+              {title}
+            </h3>
+          </div>
+          <span className="font-mono text-[11px] tracking-widest text-[color:var(--muted-2)]">
+            {String(index + 1).padStart(2, "0")}
           </span>
         </div>
-      )}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[color:var(--ink)]/0 group-hover:bg-[color:var(--ink)]/10 transition-colors duration-500 pointer-events-none"
-      />
-      <div className="absolute top-5 right-5 inline-flex items-center justify-center size-10 rounded-full bg-[color:var(--bg)] text-[color:var(--ink)] opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 pointer-events-none">
-        <ArrowUpRight className="size-4" />
-      </div>
-    </div>
+
+        {desc && (
+          <p className="mt-3 text-[13.5px] leading-relaxed text-[color:var(--muted)] max-w-md">
+            {desc}
+          </p>
+        )}
+
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          {tags.map((t) => (
+            <span
+              key={t}
+              className="text-[10px] tracking-[0.18em] uppercase px-2.5 py-1 rounded-full border border-[color:var(--hairline)] text-[color:var(--ink-soft)] bg-white/[0.02]"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {(project.demoUrl || project.repoUrl) && (
+          <div className="mt-5 flex items-center gap-5 text-[12px] tracking-[0.14em] uppercase">
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[color:var(--ink)] hover:text-[color:var(--accent)] transition-colors"
+              >
+                {language === "pt" ? "Ver" : "View"}
+                <ArrowUpRight className="size-3.5" />
+              </a>
+            )}
+            {project.repoUrl && (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[color:var(--muted)] hover:text-[color:var(--ink)] transition-colors"
+              >
+                <Github className="size-3.5" />{" "}
+                {language === "pt" ? "Código" : "Code"}
+              </a>
+            )}
+          </div>
+        )}
+      </motion.div>
+    </motion.article>
   );
 }
 
@@ -241,196 +365,111 @@ export function Portfolio() {
   const labels =
     language === "pt"
       ? {
-          eyebrow: "Nossos projetos",
-          headline: "Alguns clientes que confiaram na Will Tech.",
+          eyebrow: "Projetos",
+          headline: "Trabalhos selecionados — feitos para durar.",
           all: "Todos",
-          live: "Ver projeto",
-          code: "Código",
-          empty: "Em breve",
-          hint: "Passe o mouse sobre o card para ver o projeto em ação",
+          hint: "Passe o mouse sobre o card para ver o projeto em ação.",
         }
       : {
-          eyebrow: "Our work",
-          headline: "Some clients who trusted Will Tech.",
+          eyebrow: "Selected work",
+          headline: "Selected work — built to last.",
           all: "All",
-          live: "View project",
-          code: "Code",
-          empty: "Coming soon",
-          hint: "Hover any card to see the project in motion",
+          hint: "Hover any card to see the project in motion.",
         };
 
   return (
-    <section id="projects" className="relative py-24 lg:py-36 bg-[color:var(--bg-elevated)]">
+    <section
+      id="projects"
+      className="relative py-28 lg:py-40 bg-[color:var(--bg)] overflow-hidden"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 50% 0%, rgba(124,147,255,0.10) 0%, transparent 70%)",
+        }}
+      />
+
       <div
         className="relative mx-auto px-6 lg:px-10"
         style={{ maxWidth: "var(--max)" }}
       >
-        {/* Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
           <div className="lg:col-span-3">
-            <span className="eyebrow">{labels.eyebrow}</span>
-            <p className="mt-6 text-xs font-mono tracking-widest text-[color:var(--muted-2)]">
-              04 / 06
-            </p>
+            <RevealOnScroll>
+              <span className="eyebrow">{labels.eyebrow}</span>
+              <p className="mt-6 text-[10px] font-mono tracking-widest text-[color:var(--muted-2)]">
+                05 / 06
+              </p>
+            </RevealOnScroll>
           </div>
           <div className="lg:col-span-9">
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7 }}
-              className="display text-[clamp(1.7rem,3.5vw,2.8rem)] max-w-3xl"
-            >
-              {labels.headline}
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="mt-4 text-[12px] tracking-[0.2em] uppercase text-[color:var(--muted)]"
-            >
-              {labels.hint}
-            </motion.p>
+            <RevealOnScroll>
+              <h2 className="display text-[clamp(1.8rem,3.8vw,3rem)] max-w-3xl">
+                {labels.headline}
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.15}>
+              <p className="mt-5 text-[13px] tracking-[0.2em] uppercase text-[color:var(--muted)]">
+                {labels.hint}
+              </p>
+            </RevealOnScroll>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-10 pb-6 border-b border-[color:var(--hairline)]">
-          <button
-            onClick={() => setActiveFilter("all")}
-            className={
-              "text-[12px] tracking-[0.18em] uppercase transition-colors " +
-              (activeFilter === "all"
-                ? "text-[color:var(--ink)] font-semibold"
-                : "text-[color:var(--muted)] hover:text-[color:var(--ink)]")
-            }
-          >
-            {labels.all}
-            <span className="ml-2 text-[10px] text-[color:var(--muted-2)] font-mono">
-              ({items.length})
-            </span>
-          </button>
-          {allTags.map((tag) => {
-            const count = items.filter((it) => parseTags(it.tags).includes(tag)).length;
-            return (
-              <button
-                key={tag}
-                onClick={() => setActiveFilter(tag)}
-                className={
-                  "text-[12px] tracking-[0.18em] uppercase transition-colors " +
-                  (activeFilter === tag
-                    ? "text-[color:var(--ink)] font-semibold"
-                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]")
-                }
-              >
-                {tag}
-                <span className="ml-2 text-[10px] text-[color:var(--muted-2)] font-mono">
-                  ({count})
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 lg:gap-y-20">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((it, i) => {
-              const tags = parseTags(it.tags);
-              const type =
-                language === "pt" ? it.type ?? "" : it.typeEn ?? it.type ?? "";
-              const title =
-                language === "pt" ? it.title : it.titleEn ?? it.title;
-              const desc =
-                language === "pt"
-                  ? it.description
-                  : it.descriptionEn ?? it.description;
-              const isOdd = i % 2 === 1;
-
+        <RevealOnScroll>
+          <div className="flex flex-wrap items-center gap-2 mb-12 pb-6 border-b border-[color:var(--hairline)]">
+            <button
+              onClick={() => setActiveFilter("all")}
+              className={
+                "text-[11px] tracking-[0.18em] uppercase px-3.5 py-1.5 rounded-full border transition-all duration-300 " +
+                (activeFilter === "all"
+                  ? "text-[color:var(--ink)] border-[color:var(--accent)] bg-[color:var(--accent)]/10"
+                  : "text-[color:var(--muted)] border-[color:var(--hairline)] hover:border-[color:var(--hairline-strong)] hover:text-[color:var(--ink)]")
+              }
+            >
+              {labels.all}
+              <span className="ml-2 text-[10px] text-[color:var(--muted-2)] font-mono">
+                ({items.length})
+              </span>
+            </button>
+            {allTags.map((tag) => {
+              const count = items.filter((it) =>
+                parseTags(it.tags).includes(tag)
+              ).length;
               return (
-                <motion.article
-                  key={it.id}
-                  layout
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: (i % 4) * 0.08, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-                  className={"group " + (isOdd ? "md:mt-16" : "")}
+                <button
+                  key={tag}
+                  onClick={() => setActiveFilter(tag)}
+                  className={
+                    "text-[11px] tracking-[0.18em] uppercase px-3.5 py-1.5 rounded-full border transition-all duration-300 " +
+                    (activeFilter === tag
+                      ? "text-[color:var(--ink)] border-[color:var(--accent)] bg-[color:var(--accent)]/10"
+                      : "text-[color:var(--muted)] border-[color:var(--hairline)] hover:border-[color:var(--hairline-strong)] hover:text-[color:var(--ink)]")
+                  }
                 >
-                  {it.demoUrl ? (
-                    <a
-                      href={it.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block"
-                    >
-                      <ProjectMedia project={it} title={title} />
-                    </a>
-                  ) : (
-                    <ProjectMedia project={it} title={title} />
-                  )}
-
-                  {/* Meta */}
-                  <div className="mt-6 flex items-baseline justify-between gap-4">
-                    <div>
-                      <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                        {type}
-                      </p>
-                      <h3 className="mt-2 font-serif text-2xl lg:text-[1.6rem] text-[color:var(--ink)] leading-tight">
-                        {title}
-                      </h3>
-                    </div>
-                    <span className="font-mono text-[11px] tracking-widest text-[color:var(--muted-2)]">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-
-                  {desc && (
-                    <p className="mt-3 text-[14px] leading-relaxed text-[color:var(--muted)] max-w-md">
-                      {desc}
-                    </p>
-                  )}
-
-                  <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
-                    {tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[11px] tracking-[0.16em] uppercase text-[color:var(--ink-soft)]"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {(it.demoUrl || it.repoUrl) && (
-                    <div className="mt-5 flex items-center gap-5 text-[12px] tracking-[0.16em] uppercase">
-                      {it.demoUrl && (
-                        <a
-                          href={it.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[color:var(--ink)] border-b border-[color:var(--ink)] hover:text-[color:var(--accent)] hover:border-[color:var(--accent)] transition-colors"
-                        >
-                          {labels.live}
-                          <ArrowUpRight className="size-3.5" />
-                        </a>
-                      )}
-                      {it.repoUrl && (
-                        <a
-                          href={it.repoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[color:var(--muted)] hover:text-[color:var(--ink)] transition-colors"
-                        >
-                          <Github className="size-3.5" /> {labels.code}
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </motion.article>
+                  {tag}
+                  <span className="ml-2 text-[10px] text-[color:var(--muted-2)] font-mono">
+                    ({count})
+                  </span>
+                </button>
               );
             })}
+          </div>
+        </RevealOnScroll>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-20">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((it, i) => (
+              <ProjectCard
+                key={it.id}
+                project={it}
+                index={i}
+                language={language}
+              />
+            ))}
           </AnimatePresence>
         </div>
       </div>

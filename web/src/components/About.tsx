@@ -1,149 +1,174 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+import {
+  Layers,
+  Gauge,
+  Palette,
+  ServerCog,
+} from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
+import {
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/motion/StaggerContainer";
+import { SpotlightCard } from "@/components/motion/SpotlightCard";
+
+const pillars = [
+  {
+    icon: Layers,
+    title: { pt: "Arquitetura sólida", en: "Solid architecture" },
+    desc: {
+      pt: "Bases bem desenhadas, código limpo e escolhas técnicas que envelhecem bem.",
+      en: "Well-designed foundations, clean code and technical choices that age well.",
+    },
+  },
+  {
+    icon: Gauge,
+    title: { pt: "Performance real", en: "Real performance" },
+    desc: {
+      pt: "Tempo de resposta, Core Web Vitals e fluidez perceptível pelo usuário.",
+      en: "Response time, Core Web Vitals and fluidity the user can actually feel.",
+    },
+  },
+  {
+    icon: Palette,
+    title: { pt: "UI/UX moderno", en: "Modern UI/UX" },
+    desc: {
+      pt: "Interfaces elegantes, microinterações e atenção ao detalhe visual.",
+      en: "Elegant interfaces, micro-interactions and an obsession with visual detail.",
+    },
+  },
+  {
+    icon: ServerCog,
+    title: { pt: "Deploy & infraestrutura", en: "Deploy & infrastructure" },
+    desc: {
+      pt: "Docker, CI/CD, VPS, NGINX — entrega contínua e ambientes confiáveis.",
+      en: "Docker, CI/CD, VPS, NGINX — continuous delivery and reliable environments.",
+    },
+  },
+];
 
 export function About() {
   const { language } = useLanguage();
   const copy =
     language === "pt"
       ? {
-          eyebrow: "Sobre a Will Tech",
+          eyebrow: "Sobre",
           headline:
-            "Somos um estúdio de software focado em entregar produtos digitais que funcionam, vendem e duram.",
+            "Software de qualidade nasce do equilíbrio entre arquitetura, performance e cuidado com cada detalhe.",
           paragraphs: [
-            "A Will Tech é um estúdio digital que une engenharia de software e design para criar soluções sob medida — sites institucionais, lojas virtuais, aplicativos e sistemas internos. Trabalhamos lado a lado com cada cliente, do briefing à evolução do produto, para garantir uma entrega clara, estável e alinhada ao negócio.",
-            "Acreditamos que a tecnologia precisa servir ao resultado: gerar leads, vender mais, organizar a operação e elevar a percepção da marca. Por isso unimos estratégia, estética e robustez em cada projeto que assumimos.",
+            "Sou um Software Engineer Full Stack com mais de 5 anos de experiência projetando, construindo e mantendo aplicações web escaláveis para empresas no Brasil e em Angola.",
+            "Trabalho do back-end ao front-end, da arquitetura à interface — sempre com foco em entregar produtos digitais que funcionam, performam e ajudam o negócio a crescer.",
           ],
-          pillars: [
-            { label: "Parceria", text: "Atendimento próximo, sem intermediários." },
-            { label: "Método", text: "Processo claro do briefing à entrega." },
-            { label: "Resultado", text: "Foco em vendas, leads e operação." },
-          ],
-          cta: "Conversar com a Will Tech",
-          credit: "—  Will Tech Studio",
+          accentWord: "detalhe",
         }
       : {
-          eyebrow: "About Will Tech",
+          eyebrow: "About",
           headline:
-            "We are a software studio focused on delivering digital products that work, sell and last.",
+            "Great software is born from the balance between architecture, performance and care for every detail.",
           paragraphs: [
-            "Will Tech is a digital studio that blends software engineering and design to build tailored solutions — institutional sites, online stores, apps and internal systems. We work closely with every client, from the brief to long-term evolution, ensuring a clear, stable delivery aligned with the business.",
-            "We believe technology must serve the outcome: generate leads, drive sales, streamline operations and elevate brand perception. That's why we combine strategy, craft and reliability in every project we take on.",
+            "I'm a Full Stack Software Engineer with 5+ years of experience designing, building and maintaining scalable web applications for companies in Brazil and Angola.",
+            "I work across back-end and front-end, architecture and interface — always focused on shipping products that work, perform and help the business grow.",
           ],
-          pillars: [
-            { label: "Partnership", text: "Close support, no middlemen." },
-            { label: "Method", text: "Clear process from brief to launch." },
-            { label: "Outcome", text: "Focused on sales, leads and operations." },
-          ],
-          cta: "Talk to Will Tech",
-          credit: "—  Will Tech Studio",
+          accentWord: "detail",
         };
 
   return (
-    <section id="about" className="relative py-24 lg:py-36">
+    <section
+      id="about"
+      className="relative py-28 lg:py-40 bg-[color:var(--bg)] overflow-hidden"
+    >
+      {/* Subtle background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 20% 0%, rgba(124,147,255,0.10) 0%, transparent 60%)",
+        }}
+      />
+
       <div
         className="relative mx-auto px-6 lg:px-10"
         style={{ maxWidth: "var(--max)" }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-          {/* Sticky label */}
           <div className="lg:col-span-3">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.6 }}
-              className="lg:sticky lg:top-32"
-            >
+            <RevealOnScroll className="lg:sticky lg:top-32">
               <span className="eyebrow">{copy.eyebrow}</span>
-              <p className="mt-6 text-xs font-mono tracking-widest text-[color:var(--muted-2)]">
+              <p className="mt-6 text-[10px] font-mono tracking-widest text-[color:var(--muted-2)]">
                 01 / 06
               </p>
-            </motion.div>
+            </RevealOnScroll>
           </div>
 
-          {/* Main */}
           <div className="lg:col-span-9">
-            <motion.h2
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-              className="display text-[clamp(1.7rem,3.5vw,2.8rem)] max-w-3xl text-[color:var(--ink)]"
-            >
+            <h2 className="display text-[clamp(1.8rem,3.8vw,3rem)] max-w-3xl text-[color:var(--ink)]">
               {copy.headline.split(" ").map((word, i) => {
                 const w = word.toLowerCase();
-                const isAccent =
-                  w.includes("duram") ||
-                  w.includes("vendem") ||
-                  w.includes("last") ||
-                  w.includes("sell");
+                const isAccent = w.includes(copy.accentWord);
                 return (
                   <motion.span
                     key={i}
-                    initial={{ opacity: 0.18 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, delay: i * 0.025 }}
-                    className={isAccent ? "italic text-[color:var(--accent)]" : ""}
+                    initial={{ opacity: 0.2, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.5, delay: i * 0.025 }}
+                    className={
+                      "inline-block mr-[0.22em] " +
+                      (isAccent
+                        ? "italic text-[color:var(--accent)]"
+                        : "")
+                    }
                   >
-                    {word}{" "}
+                    {word}
                   </motion.span>
                 );
               })}
-            </motion.h2>
+            </h2>
 
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
               {copy.paragraphs.map((p, i) => (
-                <motion.p
+                <RevealOnScroll
                   key={i}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.6, delay: 0.1 + i * 0.1 }}
-                  className="text-[15px] leading-[1.8] text-[color:var(--ink-soft)]"
+                  as="p"
+                  delay={0.1 + i * 0.1}
+                  className="text-[15px] leading-[1.8] text-[color:var(--muted)]"
                 >
                   {p}
-                </motion.p>
+                </RevealOnScroll>
               ))}
             </div>
 
-            <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-y-8 gap-x-8 border-t border-[color:var(--hairline)] pt-10">
-              {copy.pillars.map((p, i) => (
-                <motion.div
-                  key={p.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                >
-                  <span className="font-serif text-2xl text-[color:var(--ink)]">
-                    0{i + 1}
-                  </span>
-                  <h3 className="mt-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--ink)]">
-                    {p.label}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[color:var(--muted)]">
-                    {p.text}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="mt-12 flex items-center justify-between flex-wrap gap-4"
-            >
-              <a href="#contact" className="btn-ghost">
-                {copy.cta} →
-              </a>
-              <span className="font-serif italic text-[color:var(--muted)]">
-                {copy.credit}
-              </span>
-            </motion.div>
+            {/* Pillars */}
+            <StaggerContainer className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {pillars.map((p) => {
+                const Icon = p.icon;
+                return (
+                  <StaggerItem key={p.title.en}>
+                    <SpotlightCard className="h-full">
+                      <div className="p-7 lg:p-8">
+                        <div className="flex items-center justify-between mb-7">
+                          <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-[color:var(--hairline-strong)] bg-white/[0.03] text-[color:var(--ink)]">
+                            <Icon className="size-[18px]" strokeWidth={1.5} />
+                          </div>
+                          <span className="font-mono text-[10px] tracking-widest text-[color:var(--muted-2)]">
+                            {String(pillars.indexOf(p) + 1).padStart(2, "0")}
+                          </span>
+                        </div>
+                        <h3 className="font-serif text-[1.3rem] text-[color:var(--ink)] mb-2">
+                          {language === "pt" ? p.title.pt : p.title.en}
+                        </h3>
+                        <p className="text-[13.5px] leading-relaxed text-[color:var(--muted)]">
+                          {language === "pt" ? p.desc.pt : p.desc.en}
+                        </p>
+                      </div>
+                    </SpotlightCard>
+                  </StaggerItem>
+                );
+              })}
+            </StaggerContainer>
           </div>
         </div>
       </div>

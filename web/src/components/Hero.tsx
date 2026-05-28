@@ -1,8 +1,16 @@
 "use client";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, ArrowDown, Play, Pause } from "lucide-react";
+import { ArrowUpRight, ArrowDown, Sparkles, Play, Pause } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { AnimatedGradientBackground } from "@/components/motion/AnimatedGradientBackground";
+import { MagneticLink } from "@/components/motion/MagneticButton";
 
 type Showcase = {
   id: string;
@@ -18,110 +26,55 @@ const SHOWCASES: Showcase[] = [
     video: "/videos/cipritex.mp4",
     title: "Cipritex",
     type: { pt: "Sistema corporativo", en: "Corporate system" },
-    stack: ["Gestão", "Relatórios", "Multi-usuário"],
+    stack: [".NET", "Angular", "SQL Server"],
   },
   {
     id: "takki",
     video: "/videos/takki.mp4",
     title: "Takki.ao",
     type: { pt: "Marketplace", en: "Marketplace" },
-    stack: ["Vendas online", "Catálogo", "Experiência"],
+    stack: ["React", "Node", "UX"],
   },
   {
     id: "saldo-casa",
     video: "/videos/saldo-casa.mp4",
     title: "Saldo Casa",
     type: { pt: "Aplicativo financeiro", en: "Finance app" },
-    stack: ["Mobile", "Dashboards", "Controle"],
+    stack: ["React Native", "API", "Charts"],
   },
   {
     id: "site-mameri",
     video: "/videos/site-mameri.mp4",
     title: "Mameri",
     type: { pt: "Site institucional", en: "Institutional site" },
-    stack: ["Branding", "Conteúdo", "SEO"],
+    stack: ["Next.js", "Branding", "SEO"],
   },
   {
     id: "padel",
     video: "/videos/padel.mp4",
     title: "Padel App",
     type: { pt: "Aplicativo esportivo", en: "Sports app" },
-    stack: ["Reservas", "Comunidade", "Mobile"],
+    stack: ["React Native", "Booking", "Realtime"],
   },
   {
     id: "will-market",
     video: "/videos/will-market.mp4",
     title: "Will Market",
     type: { pt: "Loja online", en: "Online store" },
-    stack: ["E-commerce", "Pagamentos", "Painel"],
+    stack: ["Next.js", "Stripe", "Prisma"],
   },
 ];
 
-function useCounter(target: number, duration: number, active: boolean) {
-  const [value, setValue] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    const start = performance.now();
-    let frame = 0;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setValue(Math.round(target * eased));
-      if (t < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [active, target, duration]);
-  return value;
-}
-
-function Stat({
-  value,
-  suffix,
-  label,
-  delay,
-}: {
-  value: number;
-  suffix: string;
-  label: string;
-  delay: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-30px" });
-  const count = useCounter(value, 1400, inView);
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 12 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay }}
-      className="flex flex-col gap-1"
-    >
-      <div className="flex items-baseline gap-0.5">
-        <span className="font-serif text-3xl lg:text-4xl text-[color:var(--ink)] tabular-nums tracking-tight">
-          {count}
-        </span>
-        <span className="font-serif text-xl lg:text-2xl text-[color:var(--accent)]">
-          {suffix}
-        </span>
-      </div>
-      <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-[color:var(--muted)]">
-        {label}
-      </span>
-    </motion.div>
-  );
-}
-
 const SLIDE_MS = 6500;
 
-function VideoCarousel({ language }: { language: "pt" | "en" }) {
+function VideoStack({ language }: { language: "pt" | "en" }) {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const startRef = useRef<number>(performance.now());
+  const reduced = useReducedMotion();
 
-  // Advance slide on a timer; pause when not playing
   useEffect(() => {
     if (!playing) return;
     startRef.current = performance.now();
@@ -141,7 +94,6 @@ function VideoCarousel({ language }: { language: "pt" | "en" }) {
     return () => cancelAnimationFrame(raf);
   }, [index, playing]);
 
-  // Play/pause active video
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
       if (!v) return;
@@ -157,14 +109,65 @@ function VideoCarousel({ language }: { language: "pt" | "en" }) {
   const current = SHOWCASES[index];
 
   return (
-    <div className="relative w-full">
-      {/* Frame */}
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y: 30, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 1.1, delay: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+      className="relative w-full"
+    >
+      {/* Floating glass cards behind */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.97 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-        className="relative aspect-[4/5] overflow-hidden rounded-[3px] bg-[#0e0e0c] shadow-[0_40px_80px_-40px_rgba(17,17,16,0.45)]"
+        aria-hidden
+        initial={reduced ? false : { opacity: 0, x: -20, rotate: -8 }}
+        animate={{ opacity: 1, x: 0, rotate: -6 }}
+        transition={{ duration: 1.2, delay: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+        className="hidden lg:block absolute -left-12 top-10 w-40 p-3 rounded-xl glass float-slow z-0"
       >
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="size-2 rounded-full bg-red-400/70" />
+          <span className="size-2 rounded-full bg-yellow-400/70" />
+          <span className="size-2 rounded-full bg-emerald-400/70" />
+        </div>
+        <div className="space-y-1.5">
+          <div className="h-1 w-3/4 rounded bg-white/15" />
+          <div className="h-1 w-1/2 rounded bg-white/10" />
+          <div className="h-1 w-2/3 rounded bg-[color:var(--accent)]/40" />
+          <div className="h-1 w-1/3 rounded bg-white/10" />
+        </div>
+      </motion.div>
+
+      <motion.div
+        aria-hidden
+        initial={reduced ? false : { opacity: 0, x: 20, rotate: 8 }}
+        animate={{ opacity: 1, x: 0, rotate: 6 }}
+        transition={{ duration: 1.2, delay: 0.85, ease: [0.2, 0.8, 0.2, 1] }}
+        className="hidden lg:flex absolute -right-10 bottom-16 w-44 p-3 rounded-xl glass float-med z-0 flex-col gap-2"
+      >
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] tracking-[0.22em] uppercase text-white/55">
+            Uptime
+          </span>
+          <span className="size-1.5 rounded-full bg-emerald-400 pulse-glow" />
+        </div>
+        <div className="font-serif text-xl text-white/90 leading-none">
+          99.98<span className="text-white/40 text-sm">%</span>
+        </div>
+        <div className="h-8 flex items-end gap-0.5">
+          {[40, 60, 45, 70, 55, 80, 65, 90, 75, 95, 70, 85].map((h, i) => (
+            <span
+              key={i}
+              className="flex-1 rounded-sm bg-gradient-to-t from-[color:var(--accent)]/60 to-[color:var(--accent-2)]/40"
+              style={{ height: `${h}%` }}
+            />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Main frame */}
+      <div className="relative z-10 aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--hairline-strong)] bg-[#070708] shadow-[0_50px_100px_-30px_rgba(124,147,255,0.35)]">
+        {/* glow conic ring */}
+        <span className="glow-ring opacity-100" aria-hidden />
+
         {SHOWCASES.map((s, i) => (
           <motion.video
             key={s.id}
@@ -179,39 +182,37 @@ function VideoCarousel({ language }: { language: "pt" | "en" }) {
             initial={false}
             animate={{
               opacity: i === index ? 1 : 0,
-              scale: i === index ? 1 : 1.04,
+              scale: i === index ? 1 : 1.05,
             }}
             transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
             className="absolute inset-0 h-full w-full object-cover"
-            style={{ filter: "contrast(1.05) saturate(1.02)" }}
+            style={{ filter: "contrast(1.06) saturate(1.06)" }}
           />
         ))}
 
-        {/* Gradient overlay for legibility */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(14,14,12,0.85) 100%)",
+              "linear-gradient(180deg, rgba(0,0,0,0.05) 40%, rgba(5,5,7,0.9) 100%)",
           }}
         />
 
-        {/* Top meta */}
         <div className="absolute top-5 left-5 right-5 flex items-center justify-between text-white">
           <div className="flex items-center gap-2 text-[10px] tracking-[0.24em] uppercase opacity-80">
             <span className="relative inline-flex h-1.5 w-1.5">
               <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-70" />
               <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
-            {language === "pt" ? "Trabalhos recentes" : "Recent work"}
+            {language === "pt" ? "Live · selected work" : "Live · selected work"}
           </div>
           <span className="font-mono text-[10px] tracking-widest opacity-70">
-            {String(index + 1).padStart(2, "0")} / {String(SHOWCASES.length).padStart(2, "0")}
+            {String(index + 1).padStart(2, "0")} /{" "}
+            {String(SHOWCASES.length).padStart(2, "0")}
           </span>
         </div>
 
-        {/* Bottom caption */}
         <div className="absolute inset-x-5 bottom-5 text-white">
           <AnimatePresence mode="wait">
             <motion.div
@@ -241,7 +242,6 @@ function VideoCarousel({ language }: { language: "pt" | "en" }) {
           </AnimatePresence>
         </div>
 
-        {/* Play/pause */}
         <button
           type="button"
           onClick={() => setPlaying((p) => !p)}
@@ -254,20 +254,19 @@ function VideoCarousel({ language }: { language: "pt" | "en" }) {
             <Play className="size-3.5 translate-x-[1px]" />
           )}
         </button>
-      </motion.div>
+      </div>
 
-      {/* Progress bars / indicators */}
-      <div className="mt-4 grid grid-cols-6 gap-1.5">
+      <div className="relative z-10 mt-4 grid grid-cols-6 gap-1.5">
         {SHOWCASES.map((s, i) => (
           <button
             key={s.id}
             type="button"
             aria-label={s.title}
             onClick={() => setIndex(i)}
-            className="group relative h-[3px] overflow-hidden rounded-full bg-[color:var(--hairline)]"
+            className="group relative h-[3px] overflow-hidden rounded-full bg-white/10"
           >
             <span
-              className="absolute inset-y-0 left-0 bg-[color:var(--ink)] transition-[width] duration-100"
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-[color:var(--accent)] to-[color:var(--accent-2)] transition-[width] duration-100"
               style={{
                 width:
                   i < index
@@ -280,166 +279,207 @@ function VideoCarousel({ language }: { language: "pt" | "en" }) {
           </button>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export function Hero() {
   const { language } = useLanguage();
+  const reduced = useReducedMotion();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const yMove = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
+
   const copy =
     language === "pt"
       ? {
-          eyebrow: "Will Tech · Estúdio de Software",
-          title: ["Software sob medida", "para empresas", "que crescem."],
-          desc:
-            "A Will Tech ajuda empresas a transformarem ideias em sites, aplicativos e sistemas digitais que funcionam — com design refinado, performance real e suporte de quem está do seu lado.",
-          ctaPrimary: "Solicitar orçamento",
-          ctaSecondary: "Ver nossos projetos",
-          scroll: "Role para descobrir",
-          available: "Aceitando novos clientes",
-          stats: [
-            { value: 5, suffix: "+", label: "Anos de mercado" },
-            { value: 40, suffix: "+", label: "Projetos entregues" },
-            { value: 98, suffix: "%", label: "Clientes satisfeitos" },
+          eyebrow: "Software Engineer · Full Stack Developer",
+          title: [
+            "Transformo ideias em",
+            "sistemas modernos,",
+            "rápidos e escaláveis.",
           ],
+          desc:
+            "Desenvolvimento de sites, sistemas web, dashboards, automações e plataformas sob medida com foco em performance, design e resultado.",
+          ctaPrimary: "Fale comigo",
+          ctaSecondary: "Ver projetos",
+          available: "Disponível para novos projetos",
+          scroll: "Role para descobrir",
         }
       : {
-          eyebrow: "Will Tech · Software Studio",
-          title: ["Tailored software", "for businesses", "that grow."],
-          desc:
-            "Will Tech helps companies turn ideas into websites, apps and digital systems that simply work — with refined design, real performance and a partner that stays close.",
-          ctaPrimary: "Request a quote",
-          ctaSecondary: "See our work",
-          scroll: "Scroll to explore",
-          available: "Accepting new clients",
-          stats: [
-            { value: 5, suffix: "+", label: "Years in business" },
-            { value: 40, suffix: "+", label: "Projects delivered" },
-            { value: 98, suffix: "%", label: "Client satisfaction" },
+          eyebrow: "Software Engineer · Full Stack Developer",
+          title: [
+            "Turning ideas into",
+            "modern, fast and",
+            "scalable systems.",
           ],
+          desc:
+            "Websites, web systems, dashboards, automations and bespoke platforms — built for performance, design and real outcomes.",
+          ctaPrimary: "Get in touch",
+          ctaSecondary: "See projects",
+          available: "Available for new projects",
+          scroll: "Scroll to explore",
         };
 
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden pt-32 pb-24 lg:pt-40 lg:pb-32"
+      ref={heroRef}
+      className="relative isolate overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-32 -right-40 h-[520px] w-[520px] rounded-full opacity-[0.18] blur-[120px]"
-        style={{ background: "radial-gradient(circle, #c8a274 0%, transparent 70%)" }}
-      />
+      <AnimatedGradientBackground />
 
-      <div
+      <motion.div
+        style={{ y: reduced ? 0 : yMove, opacity }}
         className="relative mx-auto px-6 lg:px-10"
-        style={{ maxWidth: "var(--max)" }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Text */}
-          <div className="lg:col-span-7 order-2 lg:order-1">
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.05 }}
-              className="eyebrow"
-            >
-              {copy.eyebrow}
-            </motion.div>
+        <div
+          className="mx-auto"
+          style={{ maxWidth: "var(--max)" }}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+            <div className="lg:col-span-7 order-2 lg:order-1">
+              <motion.div
+                initial={reduced ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--ink-soft)]"
+              >
+                <Sparkles className="size-3 text-[color:var(--accent)]" />
+                {copy.eyebrow}
+              </motion.div>
 
-            <h1 className="mt-7 display text-[clamp(2.4rem,6vw,4.6rem)]">
-              {copy.title.map((line, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 22 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.15 + i * 0.12, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="block"
-                >
-                  {i === copy.title.length - 1 ? (
-                    <>
-                      {line.replace(/\.$/, "")}
-                      <span className="text-[color:var(--accent)] italic">.</span>
-                    </>
-                  ) : (
-                    line
-                  )}
-                </motion.span>
-              ))}
-            </h1>
+              <h1 className="mt-8 display text-[clamp(2.4rem,6vw,5rem)] text-[color:var(--ink)]">
+                {copy.title.map((line, lineIdx) => (
+                  <span key={lineIdx} className="block overflow-hidden">
+                    <motion.span
+                      initial={reduced ? false : { y: "110%" }}
+                      animate={{ y: "0%" }}
+                      transition={{
+                        duration: 0.9,
+                        delay: 0.2 + lineIdx * 0.12,
+                        ease: [0.2, 0.8, 0.2, 1],
+                      }}
+                      className="block"
+                    >
+                      {lineIdx === copy.title.length - 1 ? (
+                        <>
+                          {line.split(" ").slice(0, -1).join(" ")}{" "}
+                          <span
+                            className="italic"
+                            style={{
+                              background:
+                                "linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%)",
+                              WebkitBackgroundClip: "text",
+                              backgroundClip: "text",
+                              WebkitTextFillColor: "transparent",
+                            }}
+                          >
+                            {line.split(" ").slice(-1).join(" ")}
+                          </span>
+                        </>
+                      ) : (
+                        line
+                      )}
+                    </motion.span>
+                  </span>
+                ))}
+              </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.55 }}
-              className="mt-7 max-w-xl text-[15px] lg:text-base leading-[1.75] text-[color:var(--ink-soft)]"
-            >
-              {copy.desc}
-            </motion.p>
+              <motion.p
+                initial={reduced ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.65 }}
+                className="mt-8 max-w-xl text-[15px] lg:text-[16px] leading-[1.75] text-[color:var(--muted)]"
+              >
+                {copy.desc}
+              </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
-              className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4"
-            >
-              <a href="#contact" className="btn-primary">
-                {copy.ctaPrimary}
-                <ArrowUpRight className="size-4" />
-              </a>
-              <a href="#projects" className="btn-ghost">
-                {copy.ctaSecondary}
-              </a>
-            </motion.div>
+              <motion.div
+                initial={reduced ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.8 }}
+                className="mt-10 flex flex-wrap items-center gap-4"
+              >
+                <MagneticLink href="#contact" className="btn-primary">
+                  {copy.ctaPrimary}
+                  <ArrowUpRight className="size-4" />
+                </MagneticLink>
+                <MagneticLink href="#projects" className="btn-ghost">
+                  {copy.ctaSecondary}
+                  <ArrowDown className="size-3.5" />
+                </MagneticLink>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.85 }}
-              className="mt-14 flex items-center gap-2.5 text-[12px] tracking-[0.2em] uppercase text-[color:var(--muted)]"
-            >
-              <span className="relative inline-flex h-2 w-2">
-                <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
-                <span className="relative inline-block h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              {copy.available}
-            </motion.div>
-          </div>
+              <motion.div
+                initial={reduced ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.95 }}
+                className="mt-12 flex items-center gap-3 text-[11px] tracking-[0.22em] uppercase text-[color:var(--muted)]"
+              >
+                <span className="relative inline-flex h-2 w-2">
+                  <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-60" />
+                  <span className="relative inline-block h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                {copy.available}
+              </motion.div>
 
-          {/* Video carousel */}
-          <div className="lg:col-span-5 order-1 lg:order-2">
-            <div className="relative mx-auto max-w-[380px] lg:max-w-none">
-              <VideoCarousel language={language} />
+              {/* Inline mini stats */}
+              <motion.div
+                initial={reduced ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.05 }}
+                className="mt-12 grid grid-cols-3 max-w-md gap-4 pt-6 border-t border-[color:var(--hairline)]"
+              >
+                {[
+                  {
+                    v: "5+",
+                    l: language === "pt" ? "Anos" : "Years",
+                  },
+                  {
+                    v: "10+",
+                    l: language === "pt" ? "Projetos" : "Projects",
+                  },
+                  {
+                    v: "2",
+                    l: language === "pt" ? "Países" : "Countries",
+                  },
+                ].map((s) => (
+                  <div key={s.l}>
+                    <div className="font-serif text-2xl lg:text-3xl text-[color:var(--ink)] tabular-nums">
+                      {s.v}
+                    </div>
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-[color:var(--muted-2)]">
+                      {s.l}
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            <div className="lg:col-span-5 order-1 lg:order-2">
+              <div className="relative mx-auto max-w-[400px] lg:max-w-none">
+                <VideoStack language={language} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Stats row */}
-        <div className="mt-20 lg:mt-28 pt-10 border-t border-[color:var(--hairline)]">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-8 gap-x-10">
-            {copy.stats.map((s, i) => (
-              <Stat
-                key={s.label}
-                value={s.value}
-                suffix={s.suffix}
-                label={s.label}
-                delay={0.9 + i * 0.1}
-              />
-            ))}
-          </div>
+          <motion.a
+            href="#about"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.3 }}
+            className="mt-20 hidden lg:inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[color:var(--muted)] hover:text-[color:var(--ink)] transition-colors"
+          >
+            <ArrowDown className="size-3.5 animate-bounce" />
+            {copy.scroll}
+          </motion.a>
         </div>
-
-        {/* Scroll cue */}
-        <motion.a
-          href="#about"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.3 }}
-          className="mt-16 hidden lg:inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[color:var(--muted)] hover:text-[color:var(--ink)] transition-colors"
-        >
-          <ArrowDown className="size-3.5 animate-bounce" />
-          {copy.scroll}
-        </motion.a>
-      </div>
+      </motion.div>
     </section>
   );
 }

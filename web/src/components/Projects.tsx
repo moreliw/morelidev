@@ -1,6 +1,6 @@
 "use client";
 import { Section } from "./Section";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { TiltCard } from "./TiltCard";
 
 const projects = [

@@ -2,6 +2,12 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Navbar() {
@@ -9,6 +15,8 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState<string>("");
   const { language, setLanguage } = useLanguage();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   const labels = useMemo(
     () =>
@@ -16,16 +24,16 @@ export function Navbar() {
         ? {
             about: "Sobre",
             services: "Serviços",
+            stack: "Stack",
             projects: "Projetos",
-            clients: "Clientes",
             contact: "Contato",
-            cta: "Conversar",
+            cta: "Fale comigo",
           }
         : {
             about: "About",
             services: "Services",
+            stack: "Stack",
             projects: "Work",
-            clients: "Clients",
             contact: "Contact",
             cta: "Let's talk",
           },
@@ -40,7 +48,7 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    const ids = ["about", "services", "projects", "clients", "contact"];
+    const ids = ["about", "services", "stack", "projects", "contact"];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -60,8 +68,8 @@ export function Navbar() {
   const navLinks = [
     { href: "#about", id: "about", label: labels.about },
     { href: "#services", id: "services", label: labels.services },
+    { href: "#stack", id: "stack", label: labels.stack },
     { href: "#projects", id: "projects", label: labels.projects },
-    { href: "#clients", id: "clients", label: labels.clients },
     { href: "#contact", id: "contact", label: labels.contact },
   ];
 
@@ -70,48 +78,70 @@ export function Navbar() {
       className={
         "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-500 " +
         (scrolled
-          ? "bg-[color:var(--bg)]/85 backdrop-blur-md border-b border-[color:var(--hairline)]"
+          ? "bg-[rgba(7,7,10,0.65)] backdrop-blur-xl border-b border-[color:var(--hairline)]"
           : "bg-transparent border-b border-transparent")
       }
     >
       <nav
-        className="mx-auto flex items-center justify-between px-6 lg:px-10 py-5"
+        className="mx-auto flex items-center justify-between px-6 lg:px-10 py-4"
         style={{ maxWidth: "var(--max)" }}
       >
         <Link
-          href="#"
-          className="group inline-flex items-baseline gap-1 text-[color:var(--ink)]"
-          aria-label="Will Tech — home"
+          href="#top"
+          className="group inline-flex items-center gap-2.5 text-[color:var(--ink)]"
+          aria-label="Moreli Dev — home"
         >
-          <span className="font-serif text-xl tracking-tight">Will</span>
-          <span className="text-xs tracking-[0.25em] uppercase text-[color:var(--muted)] group-hover:text-[color:var(--accent)] transition-colors">
-            Tech
+          <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[color:var(--hairline-strong)] bg-[color:var(--bg-card)] overflow-hidden">
+            <span
+              aria-hidden
+              className="absolute inset-0 opacity-50"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 0%, rgba(124,147,255,0.6), transparent 70%)",
+              }}
+            />
+            <span className="relative font-serif text-[15px] tracking-tight">
+              M
+            </span>
+          </span>
+          <span className="hidden sm:inline-flex items-baseline gap-1">
+            <span className="font-serif text-[15px] tracking-tight">
+              moreli
+            </span>
+            <span className="text-[10px] tracking-[0.25em] uppercase text-[color:var(--muted)] group-hover:text-[color:var(--accent)] transition-colors">
+              .dev
+            </span>
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-9">
+        <div className="hidden md:flex items-center gap-1 glass rounded-full px-2 py-1.5">
           {navLinks.map((link) => {
             const isActive = active === link.id;
             return (
               <a
                 key={link.href}
                 href={link.href}
-                className="relative text-[13px] font-medium tracking-wide text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors"
+                className="relative px-3.5 py-1.5 text-[12.5px] font-medium tracking-wide text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors"
               >
-                {link.label}
-                <span
-                  className={
-                    "absolute -bottom-1 left-0 h-px bg-[color:var(--ink)] transition-all duration-300 " +
-                    (isActive ? "w-full" : "w-0")
-                  }
-                />
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-0 rounded-full bg-white/[0.07] border border-white/10"
+                    transition={{
+                      type: "spring",
+                      stiffness: 320,
+                      damping: 28,
+                    }}
+                  />
+                )}
+                <span className="relative">{link.label}</span>
               </a>
             );
           })}
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center text-[11px] font-medium tracking-[0.18em] uppercase text-[color:var(--muted)]">
+          <div className="hidden sm:flex items-center text-[10px] font-medium tracking-[0.18em] uppercase text-[color:var(--muted)]">
             <button
               type="button"
               onClick={() => setLanguage("pt")}
@@ -124,7 +154,7 @@ export function Navbar() {
             >
               PT
             </button>
-            <span className="text-[color:var(--hairline)]">/</span>
+            <span className="text-[color:var(--muted-3)]">/</span>
             <button
               type="button"
               onClick={() => setLanguage("en")}
@@ -141,14 +171,10 @@ export function Navbar() {
 
           <a
             href="#contact"
-            className="hidden sm:inline-flex items-center gap-1.5 text-[12px] font-medium tracking-[0.16em] uppercase text-[color:var(--ink)] group"
+            className="hidden sm:inline-flex items-center gap-1.5 pl-4 pr-3 py-2 rounded-full bg-[color:var(--ink)] text-[#06060a] text-[11px] font-semibold tracking-[0.14em] uppercase group hover:bg-[color:var(--accent)] transition-colors"
           >
-            <span className="relative">
-              {labels.cta}
-              <span className="absolute left-0 right-0 -bottom-1 h-px bg-[color:var(--ink)] origin-left scale-x-100 group-hover:scale-x-0 transition-transform duration-300" />
-              <span className="absolute left-0 right-0 -bottom-1 h-px bg-[color:var(--accent)] origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-            </span>
-            <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[color:var(--accent)]" />
+            {labels.cta}
+            <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 
           <button
@@ -162,46 +188,63 @@ export function Navbar() {
         </div>
       </nav>
 
-      {mobileOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-[color:var(--bg)] border-t border-[color:var(--hairline)]">
-          <nav className="flex flex-col py-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="px-6 py-3.5 text-sm font-medium text-[color:var(--ink-soft)] hover:bg-black/[0.03] hover:text-[color:var(--ink)] transition-colors"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
-            <div className="flex items-center gap-2 px-6 py-4 border-t border-[color:var(--hairline)] text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--muted)]">
-              <button
-                type="button"
-                onClick={() => setLanguage("pt")}
-                className={language === "pt" ? "text-[color:var(--ink)]" : ""}
-              >
-                PT
-              </button>
-              <span>/</span>
-              <button
-                type="button"
-                onClick={() => setLanguage("en")}
-                className={language === "en" ? "text-[color:var(--ink)]" : ""}
-              >
-                EN
-              </button>
-              <a
-                href="#contact"
-                onClick={() => setMobileOpen(false)}
-                className="ml-auto btn-primary text-[11px] py-2 px-4"
-              >
-                {labels.cta}
-              </a>
-            </div>
-          </nav>
-        </div>
-      )}
+      {/* scroll progress */}
+      <motion.div
+        style={{ scaleX, transformOrigin: "0%" }}
+        className="h-px w-full bg-gradient-to-r from-[color:var(--accent)] via-[color:var(--accent-2)] to-[color:var(--accent-warm)]"
+      />
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden absolute top-full left-0 right-0 bg-[color:var(--bg-deep)] border-t border-[color:var(--hairline)]"
+          >
+            <nav className="flex flex-col py-2">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="px-6 py-3.5 text-sm font-medium text-[color:var(--ink-soft)] hover:bg-white/5 hover:text-[color:var(--ink)] transition-colors"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+              <div className="flex items-center gap-2 px-6 py-4 border-t border-[color:var(--hairline)] text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--muted)]">
+                <button
+                  type="button"
+                  onClick={() => setLanguage("pt")}
+                  className={language === "pt" ? "text-[color:var(--ink)]" : ""}
+                >
+                  PT
+                </button>
+                <span>/</span>
+                <button
+                  type="button"
+                  onClick={() => setLanguage("en")}
+                  className={language === "en" ? "text-[color:var(--ink)]" : ""}
+                >
+                  EN
+                </button>
+                <a
+                  href="#contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="ml-auto btn-primary text-[11px] py-2 px-4"
+                >
+                  {labels.cta}
+                </a>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

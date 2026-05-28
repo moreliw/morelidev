@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Section } from "./Section";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 import { Award, Briefcase, Gauge, ThumbsUp } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 

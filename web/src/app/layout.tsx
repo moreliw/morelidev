@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -19,19 +19,23 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#07070a",
+};
+
 export const metadata: Metadata = {
-  title: "Will Tech — Software sob medida para empresas que crescem",
+  title: "Moreli Dev — Software engineer & full stack developer",
   description:
-    "Will Tech desenvolve sites, aplicativos e sistemas digitais sob medida. Soluções estáveis, elegantes e feitas para gerar resultado.",
+    "Transformo ideias em sistemas modernos, rápidos e escaláveis. Desenvolvimento de sites, sistemas web, dashboards e automações sob medida.",
   icons: {
     icon: [{ url: "/icon-dev.png", type: "image/png" }],
     shortcut: ["/icon-dev.png"],
     apple: [{ url: "/icon-dev.png", type: "image/png" }],
   },
   openGraph: {
-    title: "Will Tech — Software sob medida para empresas que crescem",
+    title: "Moreli Dev — Software engineer & full stack developer",
     description:
-      "Will Tech desenvolve sites, aplicativos e sistemas digitais sob medida. Soluções estáveis, elegantes e feitas para gerar resultado.",
+      "Transformo ideias em sistemas modernos, rápidos e escaláveis. Desenvolvimento de sites, sistemas web, dashboards e automações sob medida.",
     type: "website",
     url: "https://morelidev.com",
   },
