@@ -119,6 +119,11 @@ body {
 }
 
 /* ─── Buttons ─── */
+@keyframes btnShine {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
 .btn-primary {
   position: relative;
   display: inline-flex;
@@ -138,9 +143,30 @@ body {
     0 0 0 1px rgba(255, 255, 255, 0.06) inset,
     0 18px 40px -22px rgba(124, 147, 255, 0.55),
     0 0 0 0 rgba(124, 147, 255, 0);
+  overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 0.3s ease, background 0.3s ease;
   will-change: transform;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: translateX(-100%) skewX(-15deg);
+}
+
+.btn-primary:hover::after {
+  animation: btnShine 0.65s ease-in-out forwards;
 }
 
 .btn-primary:hover {
@@ -347,6 +373,64 @@ body {
     scroll-behavior: auto !important;
   }
   .marquee { animation: none; }
+}
+
+/* ─── Bento grid ─── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .bento-grid { grid-template-columns: 1fr; }
+}
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid var(--hairline);
+  background: var(--bg-card);
+  transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.bento-card:hover {
+  border-color: var(--hairline-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px -20px rgba(124, 147, 255, 0.18);
+}
+
+/* ─── Sticky process ─── */
+.process-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  background: var(--hairline);
+}
+
+/* ─── Shimmer for skeletons / accents ─── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(124,147,255,0.18) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2.8s linear infinite;
 }
 
 /* ─── Custom scrollbar ─── */
