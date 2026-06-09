@@ -45,8 +45,7 @@ export function CTA() {
           className="h-[60vmax] w-[60vmax] rounded-full"
           style={{
             background:
-              "radial-gradient(circle, rgba(124,147,255,0.22) 0%, transparent 60%)",
-            filter: "blur(60px)",
+              "radial-gradient(circle, rgba(124,147,255,0.20) 0%, rgba(124,147,255,0.06) 35%, transparent 65%)",
           }}
         />
       </motion.div>

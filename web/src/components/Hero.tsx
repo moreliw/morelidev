@@ -5,6 +5,8 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
+  useMotionValue,
+  useSpring,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowDown, Sparkles, Play, Pause } from "lucide-react";
@@ -70,40 +72,57 @@ const SLIDE_MS = 6500;
 function VideoStack({ language }: { language: "pt" | "en" }) {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const startRef = useRef<number>(performance.now());
   const reduced = useReducedMotion();
 
-  useEffect(() => {
-    if (!playing) return;
-    startRef.current = performance.now();
-    setProgress(0);
-    let raf = 0;
-    const tick = (now: number) => {
-      const elapsed = now - startRef.current;
-      const p = Math.min(1, elapsed / SLIDE_MS);
-      setProgress(p);
-      if (p >= 1) {
-        setIndex((i) => (i + 1) % SHOWCASES.length);
-      } else {
-        raf = requestAnimationFrame(tick);
-      }
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [index, playing]);
+  // 3D parallax tilt
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const srx = useSpring(rx, { stiffness: 100, damping: 16 });
+  const sry = useSpring(ry, { stiffness: 100, damping: 16 });
 
+  const handleTilt = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduced) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    rx.set(py * -4);
+    ry.set(px * 6);
+  };
+  const resetTilt = () => {
+    rx.set(0);
+    ry.set(0);
+  };
+
+  // slide advance — single timeout, zero per-frame state
+  useEffect(() => {
+    if (!playing || reduced) return;
+    const t = window.setTimeout(
+      () => setIndex((i) => (i + 1) % SHOWCASES.length),
+      SLIDE_MS
+    );
+    return () => window.clearTimeout(t);
+  }, [index, playing, reduced]);
+
+  // only the active video plays; every other stays paused
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
       if (!v) return;
-      if (i === index && playing) {
-        v.currentTime = 0;
-        v.play().catch(() => {});
-      } else {
-        v.pause();
-      }
+      if (i === index && playing) v.play().catch(() => {});
+      else v.pause();
     });
+  }, [playing, index]);
+
+  // browsers pause offscreen media — resume the active video when
+  // the user returns to the tab
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState !== "visible") return;
+      const v = videoRefs.current[index];
+      if (v && playing) v.play().catch(() => {});
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
   }, [index, playing]);
 
   const current = SHOWCASES[index];
@@ -114,34 +133,46 @@ function VideoStack({ language }: { language: "pt" | "en" }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 1.1, delay: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
       className="relative w-full"
+      style={{ perspective: 1200 }}
+      onMouseMove={handleTilt}
+      onMouseLeave={resetTilt}
     >
-      {/* Floating glass cards behind */}
+      {/* Floating stack card */}
       <motion.div
         aria-hidden
         initial={reduced ? false : { opacity: 0, x: -20, rotate: -8 }}
         animate={{ opacity: 1, x: 0, rotate: -6 }}
         transition={{ duration: 1.2, delay: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-        className="hidden lg:block absolute -left-12 top-10 w-40 p-3 rounded-xl glass float-slow z-0"
+        className="hidden lg:block absolute -left-14 top-10 w-44 p-3.5 rounded-xl glass float-slow z-20"
       >
-        <div className="flex items-center gap-1.5 mb-2">
-          <span className="size-2 rounded-full bg-red-400/70" />
-          <span className="size-2 rounded-full bg-yellow-400/70" />
-          <span className="size-2 rounded-full bg-emerald-400/70" />
+        <p className="text-[9px] tracking-[0.22em] uppercase text-white/50 mb-2.5">
+          Core stack
+        </p>
+        <div className="flex flex-wrap gap-1.5">
+          {["Angular", ".NET", "React", "Laravel", "SQL"].map((t) => (
+            <span
+              key={t}
+              className="text-[9.5px] px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.04] text-white/75"
+            >
+              {t}
+            </span>
+          ))}
         </div>
-        <div className="space-y-1.5">
-          <div className="h-1 w-3/4 rounded bg-white/15" />
-          <div className="h-1 w-1/2 rounded bg-white/10" />
-          <div className="h-1 w-2/3 rounded bg-[color:var(--accent)]/40" />
-          <div className="h-1 w-1/3 rounded bg-white/10" />
+        <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-emerald-400 pulse-glow" />
+          <span className="text-[9px] tracking-[0.18em] uppercase text-white/55">
+            {language === "pt" ? "5+ anos" : "5+ years"}
+          </span>
         </div>
       </motion.div>
 
+      {/* Floating uptime card */}
       <motion.div
         aria-hidden
         initial={reduced ? false : { opacity: 0, x: 20, rotate: 8 }}
         animate={{ opacity: 1, x: 0, rotate: 6 }}
         transition={{ duration: 1.2, delay: 0.85, ease: [0.2, 0.8, 0.2, 1] }}
-        className="hidden lg:flex absolute -right-10 bottom-16 w-44 p-3 rounded-xl glass float-med z-0 flex-col gap-2"
+        className="hidden lg:flex absolute -right-10 bottom-20 w-44 p-3 rounded-xl glass float-med z-20 flex-col gap-2"
       >
         <div className="flex items-center justify-between">
           <span className="text-[9px] tracking-[0.22em] uppercase text-white/55">
@@ -163,11 +194,15 @@ function VideoStack({ language }: { language: "pt" | "en" }) {
         </div>
       </motion.div>
 
-      {/* Main frame */}
-      <div className="relative z-10 aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--hairline-strong)] bg-[#070708] shadow-[0_50px_100px_-30px_rgba(124,147,255,0.35)]">
-        {/* glow conic ring */}
+      {/* Main frame with parallax tilt */}
+      <motion.div
+        style={reduced ? undefined : { rotateX: srx, rotateY: sry }}
+        className="relative z-10 aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--hairline-strong)] bg-[#070708] shadow-[0_50px_100px_-30px_rgba(124,147,255,0.35)] will-change-transform"
+      >
         <span className="glow-ring opacity-100" aria-hidden />
 
+        {/* crossfade via animate prop — no AnimatePresence (exits don't
+            unmount reliably with React Compiler, leaking playing videos) */}
         {SHOWCASES.map((s, i) => (
           <motion.video
             key={s.id}
@@ -178,6 +213,7 @@ function VideoStack({ language }: { language: "pt" | "en" }) {
             muted
             playsInline
             loop
+            autoPlay={i === 0}
             preload={i === 0 ? "auto" : "metadata"}
             initial={false}
             animate={{
@@ -205,7 +241,7 @@ function VideoStack({ language }: { language: "pt" | "en" }) {
               <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-70" />
               <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
-            {language === "pt" ? "Live · selected work" : "Live · selected work"}
+            Live · selected work
           </div>
           <span className="font-mono text-[10px] tracking-widest opacity-70">
             {String(index + 1).padStart(2, "0")} /{" "}
@@ -254,8 +290,9 @@ function VideoStack({ language }: { language: "pt" | "en" }) {
             <Play className="size-3.5 translate-x-[1px]" />
           )}
         </button>
-      </div>
+      </motion.div>
 
+      {/* progress segments — CSS animation, no JS per frame */}
       <div className="relative z-10 mt-4 grid grid-cols-6 gap-1.5">
         {SHOWCASES.map((s, i) => (
           <button
@@ -263,19 +300,20 @@ function VideoStack({ language }: { language: "pt" | "en" }) {
             type="button"
             aria-label={s.title}
             onClick={() => setIndex(i)}
-            className="group relative h-[3px] overflow-hidden rounded-full bg-white/10"
+            className="relative h-[3px] overflow-hidden rounded-full bg-white/10"
           >
-            <span
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-[color:var(--accent)] to-[color:var(--accent-2)] transition-[width] duration-100"
-              style={{
-                width:
-                  i < index
-                    ? "100%"
-                    : i === index
-                    ? `${progress * 100}%`
-                    : "0%",
-              }}
-            />
+            {i < index && (
+              <span className="absolute inset-0 bg-gradient-to-r from-[color:var(--accent)] to-[color:var(--accent-2)]" />
+            )}
+            {i === index && (
+              <span
+                className="absolute inset-0 origin-left bg-gradient-to-r from-[color:var(--accent)] to-[color:var(--accent-2)]"
+                style={{
+                  animation: `fillBar ${SLIDE_MS}ms linear forwards`,
+                  animationPlayState: playing ? "running" : "paused",
+                }}
+              />
+            )}
           </button>
         ))}
       </div>
@@ -293,6 +331,20 @@ export function Hero() {
   });
   const yMove = useTransform(scrollYProgress, [0, 1], [0, -80]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
+
+  // cursor spotlight — transform-only, composited
+  const mx = useMotionValue(-600);
+  const my = useMotionValue(-600);
+  const smx = useSpring(mx, { stiffness: 50, damping: 20 });
+  const smy = useSpring(my, { stiffness: 50, damping: 20 });
+
+  const handleSpotlight = (e: React.MouseEvent<HTMLElement>) => {
+    if (reduced) return;
+    const rect = heroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mx.set(e.clientX - rect.left);
+    my.set(e.clientY - rect.top);
+  };
 
   const copy =
     language === "pt"
@@ -329,18 +381,32 @@ export function Hero() {
     <section
       id="top"
       ref={heroRef}
+      onMouseMove={handleSpotlight}
       className="relative isolate overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32"
     >
       <AnimatedGradientBackground />
+
+      {/* cursor spotlight */}
+      {!reduced && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -z-[5] size-[640px] rounded-full hidden lg:block"
+          style={{
+            x: smx,
+            y: smy,
+            translateX: "-50%",
+            translateY: "-50%",
+            background:
+              "radial-gradient(circle, rgba(124,147,255,0.07) 0%, transparent 60%)",
+          }}
+        />
+      )}
 
       <motion.div
         style={{ y: reduced ? 0 : yMove, opacity }}
         className="relative mx-auto px-6 lg:px-10"
       >
-        <div
-          className="mx-auto"
-          style={{ maxWidth: "var(--max)" }}
-        >
+        <div className="mx-auto" style={{ maxWidth: "var(--max)" }}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
             <div className="lg:col-span-7 order-2 lg:order-1">
               <motion.div
@@ -353,9 +419,9 @@ export function Hero() {
                 {copy.eyebrow}
               </motion.div>
 
-              <h1 className="mt-8 display text-[clamp(2.4rem,6vw,5rem)] text-[color:var(--ink)]">
+              <h1 className="mt-8 display text-[clamp(2.5rem,6.2vw,5.2rem)] text-[color:var(--ink)]">
                 {copy.title.map((line, lineIdx) => (
-                  <span key={lineIdx} className="block overflow-hidden">
+                  <span key={lineIdx} className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
                     <motion.span
                       initial={reduced ? false : { y: "110%" }}
                       animate={{ y: "0%" }}
@@ -369,16 +435,7 @@ export function Hero() {
                       {lineIdx === copy.title.length - 1 ? (
                         <>
                           {line.split(" ").slice(0, -1).join(" ")}{" "}
-                          <span
-                            className="italic"
-                            style={{
-                              background:
-                                "linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%)",
-                              WebkitBackgroundClip: "text",
-                              backgroundClip: "text",
-                              WebkitTextFillColor: "transparent",
-                            }}
-                          >
+                          <span className="italic gradient-text-animated">
                             {line.split(" ").slice(-1).join(" ")}
                           </span>
                         </>
@@ -436,18 +493,9 @@ export function Hero() {
                 className="mt-12 grid grid-cols-3 max-w-md gap-4 pt-6 border-t border-[color:var(--hairline)]"
               >
                 {[
-                  {
-                    v: "5+",
-                    l: language === "pt" ? "Anos" : "Years",
-                  },
-                  {
-                    v: "10+",
-                    l: language === "pt" ? "Projetos" : "Projects",
-                  },
-                  {
-                    v: "2",
-                    l: language === "pt" ? "Países" : "Countries",
-                  },
+                  { v: "5+", l: language === "pt" ? "Anos" : "Years" },
+                  { v: "10+", l: language === "pt" ? "Projetos" : "Projects" },
+                  { v: "2", l: language === "pt" ? "Países" : "Countries" },
                 ].map((s) => (
                   <div key={s.l}>
                     <div className="font-serif text-2xl lg:text-3xl text-[color:var(--ink)] tabular-nums">

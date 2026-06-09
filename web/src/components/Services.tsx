@@ -259,8 +259,7 @@ export function Services() {
         className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[40vmax] w-[80vmax] rounded-full"
         style={{
           background:
-            "radial-gradient(ellipse, rgba(124,147,255,0.12), transparent 60%)",
-          filter: "blur(60px)",
+            "radial-gradient(ellipse, rgba(124,147,255,0.10) 0%, rgba(124,147,255,0.03) 40%, transparent 65%)",
         }}
       />
 

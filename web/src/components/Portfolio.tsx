@@ -100,6 +100,24 @@ function ProjectCard({
         <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-[#08080c] border border-[color:var(--hairline)]">
           <span className="glow-ring group-hover:opacity-100" aria-hidden />
 
+          {/* base fallback — visible only while video poster loads or when no media */}
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0d0d12] to-[#050507]">
+            <span
+              className="font-serif text-7xl tracking-tight"
+              style={{
+                background:
+                  "linear-gradient(120deg, var(--accent), var(--accent-2))",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.4,
+              }}
+            >
+              {project.title.slice(0, 2).toUpperCase()}
+            </span>
+          </div>
+
+          {/* video — first frame doubles as the poster, plays on hover */}
           {project.videoUrl && (
             <video
               ref={videoRef}
@@ -109,13 +127,14 @@ function ProjectCard({
               playsInline
               preload="metadata"
               className={
-                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 " +
-                (hovered ? "opacity-100" : "opacity-0")
+                "absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] " +
+                (hovered ? "scale-[1.04]" : "scale-100")
               }
             />
           )}
 
-          {project.imageUrl ? (
+          {/* optional static image overlay — fades to video on hover */}
+          {project.imageUrl && (
             <Image
               src={project.imageUrl}
               alt={project.title}
@@ -126,27 +145,6 @@ function ProjectCard({
                 (hovered ? "opacity-0 scale-[1.05]" : "opacity-100 scale-100")
               }
             />
-          ) : (
-            <div
-              className={
-                "absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0d0d12] to-[#050507] transition-opacity duration-700 " +
-                (hovered ? "opacity-0" : "opacity-100")
-              }
-            >
-              <span
-                className="font-serif text-7xl tracking-tight"
-                style={{
-                  background:
-                    "linear-gradient(120deg, var(--accent), var(--accent-2))",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  opacity: 0.4,
-                }}
-              >
-                {project.title.slice(0, 2).toUpperCase()}
-              </span>
-            </div>
           )}
 
           <div

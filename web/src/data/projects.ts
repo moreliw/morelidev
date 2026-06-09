@@ -157,7 +157,6 @@ export const PROJECTS: ProjectData[] = [
     },
     stack: ["Next.js", "Stripe", "Prisma", "PostgreSQL"],
     videoUrl: "/videos/will-market.mp4",
-    imageUrl: "/projetos/empresa-capixaba.png",
     featured: false,
   },
 ];

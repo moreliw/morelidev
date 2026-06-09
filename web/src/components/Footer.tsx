@@ -47,8 +47,7 @@ export function Footer() {
         className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[40vmax] w-[80vmax] rounded-full opacity-30"
         style={{
           background:
-            "radial-gradient(ellipse, rgba(124,147,255,0.18), transparent 60%)",
-          filter: "blur(60px)",
+            "radial-gradient(ellipse, rgba(124,147,255,0.16) 0%, rgba(124,147,255,0.05) 40%, transparent 65%)",
         }}
       />
 
