@@ -1,162 +1,278 @@
+type L = { pt: string; en: string };
+
 export interface ProjectData {
-  id: string;
+  /** slug da URL /projetos/[slug] */
+  slug: string;
   title: string;
-  shortDesc: { pt: string; en: string };
-  category: { pt: string; en: string };
-  problem: { pt: string; en: string };
-  solution: { pt: string; en: string };
-  result: { pt: string; en: string };
+  featured?: boolean;
+  /** projeto corporativo sem demo pública */
+  confidential?: boolean;
+  category: L;
+  shortDesc: L;
+  context: L;
+  problem: L;
+  solution: L;
+  result: L;
+  decisions: { pt: string[]; en: string[] };
   stack: string[];
+  poster: string;
   videoUrl?: string;
   imageUrl?: string;
   demoUrl?: string;
-  featured?: boolean;
 }
 
 export const PROJECTS: ProjectData[] = [
   {
-    id: "cipritex",
+    slug: "cipritex",
     title: "Cipritex",
+    featured: true,
+    confidential: true,
+    category: { pt: "Sistema corporativo", en: "Corporate system" },
     shortDesc: {
       pt: "Sistema corporativo com gestão integrada, fluxos personalizados e relatórios em tempo real.",
       en: "Corporate system with integrated management, custom workflows and real-time reports.",
     },
-    category: { pt: "Sistema corporativo", en: "Corporate system" },
+    context: {
+      pt: "Indústria com operação distribuída entre setores que precisavam trocar informações diariamente para fechar o mês.",
+      en: "Industrial company with operations spread across departments that had to exchange information daily to close the month.",
+    },
     problem: {
-      pt: "Empresa controlava processos críticos em planilhas e e-mails, sem visibilidade central.",
-      en: "Company managed critical processes via spreadsheets and emails, with no central visibility.",
+      pt: "A empresa controlava processos críticos em planilhas e e-mails, sem visibilidade central e com retrabalho constante de conferência manual.",
+      en: "The company managed critical processes via spreadsheets and emails, with no central visibility and constant manual double-checking.",
     },
     solution: {
-      pt: "Plataforma web com módulos de gestão, dashboards de KPI e workflows automatizados.",
-      en: "Web platform with management modules, KPI dashboards and automated workflows.",
+      pt: "Plataforma web com módulos de gestão por setor, dashboards de KPI e workflows automatizados que substituíram as conferências manuais.",
+      en: "Web platform with per-department management modules, KPI dashboards and automated workflows replacing manual checks.",
     },
     result: {
-      pt: "Redução de 70% no tempo de fechamento mensal e eliminou erros manuais.",
-      en: "70% reduction in monthly closing time and eliminated manual errors.",
+      pt: "Redução de 70% no tempo de fechamento mensal e eliminação dos erros de digitação entre planilhas.",
+      en: "70% reduction in monthly closing time and elimination of copy-paste errors between spreadsheets.",
+    },
+    decisions: {
+      pt: [
+        "Back-end em .NET com módulos separados por domínio, facilitando manutenção por setor.",
+        "Front-end em Angular com formulários tipados e validação compartilhada com a API.",
+        "SQL Server com views otimizadas para os relatórios de fechamento.",
+        "Ambientes containerizados com Docker para padronizar deploy.",
+      ],
+      en: [
+        ".NET back-end with modules split by domain, keeping each department maintainable.",
+        "Angular front-end with typed forms and validation shared with the API.",
+        "SQL Server with optimized views for closing reports.",
+        "Docker containers to standardize deployment across environments.",
+      ],
     },
     stack: [".NET", "Angular", "SQL Server", "Docker"],
+    poster: "/projetos/posters/cipritex.webp",
     videoUrl: "/videos/cipritex.mp4",
-    featured: true,
   },
   {
-    id: "takki",
+    slug: "takki",
     title: "Takki.ao",
-    shortDesc: {
-      pt: "Marketplace responsivo focado em curadoria, performance e experiência do usuário.",
-      en: "Responsive marketplace built around curation, performance and great UX.",
-    },
+    featured: true,
     category: { pt: "Marketplace", en: "Marketplace" },
+    shortDesc: {
+      pt: "Marketplace angolano com catálogo, carrinho, checkout e painel do vendedor integrados.",
+      en: "Angolan marketplace with catalog, cart, checkout and an integrated seller panel.",
+    },
+    context: {
+      pt: "Em Angola, muitos vendedores dependiam de redes sociais e mensagens diretas para vender, sem catálogo estruturado nem gestão de pedidos.",
+      en: "In Angola, many sellers relied on social media and direct messages to sell, with no structured catalog or order management.",
+    },
     problem: {
-      pt: "Vendedores angolanos sem canal digital estruturado para expor e vender seus produtos.",
-      en: "Angolan sellers had no structured digital channel to list and sell their products.",
+      pt: "Vendedores sem canal digital estruturado para expor produtos, receber pedidos e acompanhar vendas em um único lugar.",
+      en: "Sellers had no structured digital channel to list products, receive orders and track sales in one place.",
     },
     solution: {
-      pt: "Marketplace com catálogo, carrinho, checkout e painel do vendedor integrados.",
-      en: "Marketplace with catalog, cart, checkout and integrated seller panel.",
+      pt: "Marketplace mobile-first com catálogo, carrinho, checkout e painel do vendedor — do cadastro do produto ao acompanhamento do pedido.",
+      en: "Mobile-first marketplace with catalog, cart, checkout and seller panel — from product listing to order tracking.",
     },
     result: {
-      pt: "Plataforma com dezenas de vendedores ativos e experiência de compra mobile-first.",
-      en: "Platform with dozens of active sellers and a mobile-first shopping experience.",
+      pt: "Plataforma em produção com dezenas de vendedores ativos e experiência de compra pensada para redes móveis.",
+      en: "Platform in production with dozens of active sellers and a shopping experience designed for mobile networks.",
     },
-    stack: ["React", "Node.js", "PostgreSQL", "UX"],
+    decisions: {
+      pt: [
+        "Front-end em React com foco em carregamento rápido em conexões móveis instáveis.",
+        "API em Node.js com PostgreSQL para catálogo, pedidos e contas de vendedor.",
+        "Imagens otimizadas e interface leve para aparelhos de entrada.",
+      ],
+      en: [
+        "React front-end focused on fast loading over unstable mobile connections.",
+        "Node.js API with PostgreSQL for catalog, orders and seller accounts.",
+        "Optimized images and a lightweight UI for entry-level devices.",
+      ],
+    },
+    stack: ["React", "Node.js", "PostgreSQL"],
+    poster: "/projetos/posters/takki.webp",
     videoUrl: "/videos/takki.mp4",
     imageUrl: "/projetos/takki.png",
-    featured: true,
   },
   {
-    id: "saldo-casa",
-    title: "Saldo Casa",
-    shortDesc: {
-      pt: "App de finanças com dashboards interativos, metas e categorização inteligente.",
-      en: "Finance app with interactive dashboards, goals and smart categorization.",
-    },
-    category: { pt: "Finanças pessoais", en: "Personal finance" },
-    problem: {
-      pt: "Usuário não tinha visão clara de para onde o dinheiro ia mês a mês.",
-      en: "User had no clear picture of where money was going month to month.",
-    },
-    solution: {
-      pt: "App mobile com categorização automática, gráficos interativos e alertas de meta.",
-      en: "Mobile app with automatic categorization, interactive charts and goal alerts.",
-    },
-    result: {
-      pt: "Usuário reduziu gastos desnecessários em 35% no primeiro mês de uso.",
-      en: "User reduced unnecessary spending by 35% in the first month of use.",
-    },
-    stack: ["React Native", "API REST", "Charts", "Firebase"],
-    videoUrl: "/videos/saldo-casa.mp4",
-    featured: false,
-  },
-  {
-    id: "site-mameri",
-    title: "Mameri",
-    shortDesc: {
-      pt: "Site institucional minimalista com identidade visual cuidadosa e CMS leve.",
-      en: "Minimalist institutional site with careful brand identity and a lightweight CMS.",
-    },
-    category: { pt: "Site institucional", en: "Institutional site" },
-    problem: {
-      pt: "Empresa sem presença digital, dependia 100% de indicações para gerar negócios.",
-      en: "Company had no digital presence and relied 100% on referrals for business.",
-    },
-    solution: {
-      pt: "Site institucional com identidade forte, SEO técnico e formulário de captação.",
-      en: "Institutional site with strong identity, technical SEO and a lead capture form.",
-    },
-    result: {
-      pt: "Primeiros 3 clientes captados via buscas orgânicas em menos de 60 dias.",
-      en: "First 3 clients acquired via organic search in under 60 days.",
-    },
-    stack: ["Next.js", "Tailwind", "SEO", "CMS"],
-    videoUrl: "/videos/site-mameri.mp4",
-    featured: false,
-  },
-  {
-    id: "padel",
+    slug: "padel",
     title: "Padel App",
+    featured: true,
+    category: { pt: "Aplicativo de reservas", en: "Booking app" },
     shortDesc: {
-      pt: "Aplicativo para reservas de quadras, gestão de partidas e estatísticas.",
-      en: "Court booking, match management and player statistics in one app.",
+      pt: "Aplicativo de reservas de quadras com agenda em tempo real, pagamento e ranking de jogadores.",
+      en: "Court booking app with real-time schedule, payments and player ranking.",
     },
-    category: { pt: "Aplicativo esportivo", en: "Sports app" },
+    context: {
+      pt: "Arena de padel com quadras disputadas e agenda controlada manualmente pelo WhatsApp da recepção.",
+      en: "Padel arena with high court demand and a schedule managed manually through the front desk's WhatsApp.",
+    },
     problem: {
-      pt: "Arena gerenciava reservas no WhatsApp, gerando conflitos e perda de receita.",
-      en: "Arena managed bookings via WhatsApp, causing conflicts and lost revenue.",
+      pt: "Reservas por mensagem geravam conflitos de horário, cancelamentos sem controle e perda de receita em horários vagos.",
+      en: "Bookings via chat caused schedule conflicts, untracked cancellations and lost revenue on idle time slots.",
     },
     solution: {
-      pt: "App com agenda visual, reservas em tempo real, pagamento e ranking de jogadores.",
-      en: "App with visual schedule, real-time bookings, payment and player ranking.",
+      pt: "App com agenda visual, reservas em tempo real, pagamento integrado e ranking para engajar os jogadores da casa.",
+      en: "App with visual schedule, real-time bookings, integrated payments and a ranking to engage regular players.",
     },
     result: {
-      pt: "Eliminação total de conflitos de reserva e aumento de 40% na ocupação das quadras.",
-      en: "Total elimination of booking conflicts and 40% increase in court occupancy.",
+      pt: "Eliminação dos conflitos de reserva e aumento de 40% na ocupação das quadras.",
+      en: "Booking conflicts eliminated and a 40% increase in court occupancy.",
     },
-    stack: ["React Native", "Node.js", "Realtime", "Stripe"],
+    decisions: {
+      pt: [
+        "React Native para um único código nas duas plataformas.",
+        "Agenda com atualização em tempo real para impedir reserva dupla.",
+        "Pagamento no ato da reserva via Stripe, reduzindo não comparecimento.",
+      ],
+      en: [
+        "React Native for a single codebase on both platforms.",
+        "Real-time schedule updates to prevent double booking.",
+        "Pay-at-booking via Stripe, reducing no-shows.",
+      ],
+    },
+    stack: ["React Native", "Node.js", "Stripe"],
+    poster: "/projetos/posters/padel.webp",
     videoUrl: "/videos/padel.mp4",
-    featured: true,
   },
   {
-    id: "will-market",
+    slug: "will-market",
     title: "Will Market",
+    category: { pt: "E-commerce", en: "E-commerce" },
     shortDesc: {
       pt: "E-commerce completo com catálogo, checkout, pagamentos e painel administrativo.",
       en: "Full e-commerce with catalog, checkout, payments and an admin dashboard.",
     },
-    category: { pt: "E-commerce", en: "E-commerce" },
+    context: {
+      pt: "Loja física com clientela fiel, mas alcance limitado ao bairro e vendas restritas ao horário comercial.",
+      en: "Physical store with loyal customers but reach limited to the neighborhood and sales restricted to business hours.",
+    },
     problem: {
-      pt: "Loja física sem canal de vendas online, limitando seu alcance de mercado.",
-      en: "Physical store with no online sales channel, limiting its market reach.",
+      pt: "Sem canal de vendas online, a loja perdia pedidos fora do horário e não alcançava novos clientes.",
+      en: "With no online sales channel, the store lost after-hours orders and couldn't reach new customers.",
     },
     solution: {
-      pt: "E-commerce com catálogo dinâmico, carrinho, checkout via Stripe e painel de gestão.",
-      en: "E-commerce with dynamic catalog, cart, Stripe checkout and management panel.",
+      pt: "E-commerce com catálogo dinâmico, carrinho, checkout via Stripe e painel de gestão de produtos e pedidos.",
+      en: "E-commerce with dynamic catalog, cart, Stripe checkout and a product/order management panel.",
     },
     result: {
       pt: "Canal digital representando 30% das vendas totais já no segundo mês.",
       en: "Digital channel representing 30% of total sales by the second month.",
     },
+    decisions: {
+      pt: [
+        "Next.js com renderização no servidor para SEO do catálogo.",
+        "Prisma + PostgreSQL para produtos, estoque e pedidos.",
+        "Checkout com Stripe, sem armazenar dados de cartão.",
+      ],
+      en: [
+        "Next.js with server rendering for catalog SEO.",
+        "Prisma + PostgreSQL for products, inventory and orders.",
+        "Stripe checkout, with no card data stored.",
+      ],
+    },
     stack: ["Next.js", "Stripe", "Prisma", "PostgreSQL"],
+    poster: "/projetos/posters/will-market.webp",
     videoUrl: "/videos/will-market.mp4",
-    featured: false,
+  },
+  {
+    slug: "saldo-casa",
+    title: "Saldo Casa",
+    category: { pt: "Finanças pessoais", en: "Personal finance" },
+    shortDesc: {
+      pt: "App de finanças com dashboards interativos, metas e categorização automática de gastos.",
+      en: "Finance app with interactive dashboards, goals and automatic expense categorization.",
+    },
+    context: {
+      pt: "Controle financeiro doméstico feito de memória e extratos soltos, sem visão consolidada do mês.",
+      en: "Household finances tracked from memory and loose statements, with no consolidated monthly view.",
+    },
+    problem: {
+      pt: "Sem visão clara de para onde o dinheiro ia mês a mês, era impossível planejar ou cortar gastos com critério.",
+      en: "With no clear picture of where money went each month, planning or cutting expenses with any criteria was impossible.",
+    },
+    solution: {
+      pt: "App mobile com categorização automática, gráficos interativos e alertas de meta por categoria.",
+      en: "Mobile app with automatic categorization, interactive charts and per-category goal alerts.",
+    },
+    result: {
+      pt: "Redução de 35% nos gastos desnecessários no primeiro mês de uso.",
+      en: "35% reduction in unnecessary spending in the first month of use.",
+    },
+    decisions: {
+      pt: [
+        "React Native com gráficos otimizados para interação por toque.",
+        "API REST com regras de categorização no servidor.",
+        "Firebase para autenticação e sincronização entre aparelhos.",
+      ],
+      en: [
+        "React Native with charts optimized for touch interaction.",
+        "REST API with categorization rules on the server.",
+        "Firebase for auth and cross-device sync.",
+      ],
+    },
+    stack: ["React Native", "API REST", "Firebase"],
+    poster: "/projetos/posters/saldo-casa.webp",
+    videoUrl: "/videos/saldo-casa.mp4",
+  },
+  {
+    slug: "mameri",
+    title: "Mameri",
+    category: { pt: "Site institucional", en: "Institutional site" },
+    shortDesc: {
+      pt: "Site institucional minimalista com identidade visual cuidadosa, SEO técnico e CMS leve.",
+      en: "Minimalist institutional site with careful brand identity, technical SEO and a lightweight CMS.",
+    },
+    context: {
+      pt: "Empresa consolidada no boca a boca, mas invisível para quem pesquisava o serviço no Google.",
+      en: "Company well established by word of mouth, but invisible to anyone searching for the service on Google.",
+    },
+    problem: {
+      pt: "Sem presença digital, a empresa dependia 100% de indicações para gerar negócios.",
+      en: "With no digital presence, the company relied 100% on referrals for new business.",
+    },
+    solution: {
+      pt: "Site institucional com identidade forte, SEO técnico e formulário de captação conectado ao fluxo comercial.",
+      en: "Institutional site with strong identity, technical SEO and a lead form connected to the sales flow.",
+    },
+    result: {
+      pt: "Primeiros 3 clientes captados via busca orgânica em menos de 60 dias.",
+      en: "First 3 clients acquired via organic search in under 60 days.",
+    },
+    decisions: {
+      pt: [
+        "Next.js com páginas estáticas para carregamento imediato.",
+        "SEO técnico: dados estruturados, sitemap e metadados por página.",
+        "CMS leve para a equipe atualizar conteúdo sem depender de desenvolvedor.",
+      ],
+      en: [
+        "Next.js with static pages for instant loading.",
+        "Technical SEO: structured data, sitemap and per-page metadata.",
+        "Lightweight CMS so the team updates content without a developer.",
+      ],
+    },
+    stack: ["Next.js", "Tailwind CSS", "SEO"],
+    poster: "/projetos/posters/site-mameri.webp",
+    videoUrl: "/videos/site-mameri.mp4",
   },
 ];
+
+export const FEATURED_PROJECTS = PROJECTS.filter((p) => p.featured);
+
+export function getProject(slug: string): ProjectData | undefined {
+  return PROJECTS.find((p) => p.slug === slug);
+}

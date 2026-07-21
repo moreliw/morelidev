@@ -1,31 +1,29 @@
-import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Services } from "@/components/Services";
-import { Stack } from "@/components/Stack";
-import { StickyProcess } from "@/components/StickyProcess";
-import { Experience } from "@/components/Experience";
-import { Portfolio } from "@/components/Portfolio";
-import { Testimonials } from "@/components/Testimonials";
-import { CTA } from "@/components/CTA";
-import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/site/Header";
+import { Hero } from "@/components/site/Hero";
+import { ProofStrip } from "@/components/site/ProofStrip";
+import { FeaturedProjects } from "@/components/site/FeaturedProjects";
+import { Capabilities } from "@/components/site/Capabilities";
+import { Process } from "@/components/site/Process";
+import { About } from "@/components/site/About";
+import { ContactCTA } from "@/components/site/ContactCTA";
+import { Footer } from "@/components/site/Footer";
+import { ScrollReveals } from "@/components/site/ScrollReveals";
 
 export default function Home() {
   return (
-    <main className="font-sans">
-      <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Stack />
-      <StickyProcess />
-      <Experience />
-      <Portfolio />
-      <Testimonials />
-      <CTA />
-      <Contact />
+    <>
+      <Header />
+      <main id="conteudo">
+        <Hero />
+        <ProofStrip />
+        <FeaturedProjects />
+        <Capabilities />
+        <Process />
+        <About />
+        <ContactCTA />
+      </main>
       <Footer />
-    </main>
+      <ScrollReveals />
+    </>
   );
 }

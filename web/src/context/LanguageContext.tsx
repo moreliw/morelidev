@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+} from "react";
 
 type Language = "pt" | "en";
 
@@ -10,18 +16,40 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
+/* Store externo baseado em localStorage: o servidor sempre entrega "pt"
+   e o cliente re-renderiza com a preferência salva após a hidratação —
+   sem hydration mismatch e sem setState em effect. */
+const listeners = new Set<() => void>();
+
+function subscribe(cb: () => void) {
+  listeners.add(cb);
+  return () => listeners.delete(cb);
+}
+
+function getSnapshot(): Language {
+  return localStorage.getItem("language") === "en" ? "en" : "pt";
+}
+
+function getServerSnapshot(): Language {
+  return "pt";
+}
+
+function setStoredLanguage(language: Language) {
+  localStorage.setItem("language", language);
+  listeners.forEach((cb) => cb());
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window === "undefined") return "pt";
-    const stored = localStorage.getItem("language");
-    return stored === "pt" || stored === "en" ? stored : "pt";
-  });
+  const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   useEffect(() => {
-    localStorage.setItem("language", language);
+    document.documentElement.lang = language === "pt" ? "pt-br" : "en";
   }, [language]);
 
-  const value = useMemo(() => ({ language, setLanguage }), [language]);
+  const value = useMemo(
+    () => ({ language, setLanguage: setStoredLanguage }),
+    [language]
+  );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }

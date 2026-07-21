@@ -34,7 +34,7 @@ export function AdminSidebar({ email }: { email: string }) {
   const isActive = (item: { href: string; exact: boolean }) =>
     item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
-  const SidebarContent = () => (
+  const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="p-6 border-b border-white/10">
         <Link href="/" className="text-2xl font-extrabold tracking-tighter text-white">
@@ -94,14 +94,14 @@ export function AdminSidebar({ email }: { email: string }) {
             onClick={() => setOpen(false)}
           />
           <div className="relative w-64 bg-[#0f0f0f] border-r border-white/10 h-full">
-            <SidebarContent />
+            {sidebarContent}
           </div>
         </div>
       )}
 
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-[#0f0f0f] border-r border-white/10 flex-col">
-        <SidebarContent />
+        {sidebarContent}
       </aside>
     </>
   );
