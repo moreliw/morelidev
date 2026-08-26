@@ -1,19 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 
-// Fonte variável: um único arquivo woff2 cobre todos os pesos,
-// acelerando o swap e o LCP em conexões lentas.
+// Fonte de interface: variável, um único arquivo woff2 cobre todos os pesos.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
+// Fonte editorial: só para títulos grandes — dá personalidade sem virar site de moda.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  axes: ["opsz"],
+});
+
 export const viewport: Viewport = {
-  themeColor: "#05080f",
+  themeColor: "#f6f5f1",
 };
 
 const SITE = "https://morelidev.com";
@@ -21,12 +28,11 @@ const SITE = "https://morelidev.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default:
-      "William Moreli — Engenharia de software para sistemas web, SaaS e integrações",
-    template: "%s",
+    default: "MoreliDev — Engenharia de software e produtos digitais",
+    template: "%s — MoreliDev",
   },
   description:
-    "Engenheiro de software full-stack com 5+ anos de experiência. Desenvolvo sistemas web, plataformas SaaS, dashboards e integrações para empresas no Brasil e em Angola.",
+    "A MoreliDev projeta e desenvolve sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
   alternates: { canonical: SITE },
   icons: {
     icon: [{ url: "/icon-dev.png", type: "image/png" }],
@@ -34,20 +40,20 @@ export const metadata: Metadata = {
     apple: [{ url: "/icon-dev.png", type: "image/png" }],
   },
   openGraph: {
-    title: "William Moreli — Engenharia de software",
+    title: "MoreliDev — Engenharia de software e produtos digitais",
     description:
-      "Sistemas web, plataformas SaaS, dashboards e integrações para empresas que precisam substituir processos manuais por produtos digitais confiáveis.",
+      "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
     type: "website",
     url: SITE,
-    siteName: "moreli.dev",
+    siteName: "MoreliDev",
     locale: "pt_BR",
     alternateLocale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "William Moreli — Engenharia de software",
+    title: "MoreliDev — Engenharia de software e produtos digitais",
     description:
-      "Sistemas web, plataformas SaaS, dashboards e integrações para empresas no Brasil e em Angola.",
+      "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
   },
 };
 
@@ -56,40 +62,35 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": `${SITE}/#person`,
+      "@id": `${SITE}/#founder`,
       name: "William Moreli",
-      url: SITE,
-      image: `${SITE}/picture.png`,
       jobTitle: "Software Engineer",
-      description:
-        "Engenheiro de software full-stack especializado em sistemas web, plataformas SaaS e integrações.",
       sameAs: [
         "https://www.linkedin.com/in/william-moreli",
         "https://github.com/moreliw",
       ],
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Vitória",
-        addressRegion: "ES",
-        addressCountry: "BR",
-      },
     },
     {
       "@type": "ProfessionalService",
-      "@id": `${SITE}/#service`,
-      name: "moreli.dev",
+      "@id": `${SITE}/#organization`,
+      name: "MoreliDev",
       url: SITE,
-      founder: { "@id": `${SITE}/#person` },
+      logo: `${SITE}/icon-dev.png`,
+      founder: { "@id": `${SITE}/#founder` },
       areaServed: ["BR", "AO"],
       description:
-        "Desenvolvimento de sistemas web, plataformas SaaS, dashboards e integrações sob medida.",
+        "Estúdio de engenharia de software especializado em sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações.",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "BR",
+      },
     },
     {
       "@type": "WebSite",
       "@id": `${SITE}/#website`,
       url: SITE,
-      name: "moreli.dev",
-      publisher: { "@id": `${SITE}/#person` },
+      name: "MoreliDev",
+      publisher: { "@id": `${SITE}/#organization` },
       inLanguage: ["pt-BR", "en"],
     },
   ],
@@ -115,7 +116,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${fraunces.variable} font-sans antialiased`}>
         <a href="#conteudo" className="skip-link">
           Pular para o conteúdo
         </a>

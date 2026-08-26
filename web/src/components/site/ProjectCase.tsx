@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, TrendingUp } from "lucide-react";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { COPY, t } from "@/content/site";
 import type { ProjectData } from "@/data/projects";
@@ -42,21 +42,21 @@ export function ProjectCase({ project }: { project: ProjectData }) {
 
         <header className="mt-8 max-w-2xl">
           <span data-reveal className="chip">{l(project.category)}</span>
-          <h1 data-reveal className="display mt-4 text-[clamp(1.9rem,4vw,2.9rem)] text-[color:var(--ink)]">
+          <h1 data-reveal className="display mt-4 text-[clamp(2.1rem,4.6vw,3.4rem)] text-[color:var(--ink)]">
             {project.title}
           </h1>
-          <p data-reveal className="mt-4 text-[1rem] leading-[1.75] text-[color:var(--muted)]">
-            {l(project.shortDesc)}
+          <p data-reveal className="mt-4 text-[1.05rem] leading-[1.7] text-[color:var(--ink-soft)]">
+            {l(project.resultTitle)}
           </p>
           <p data-reveal className="mt-5 text-[0.85rem] text-[color:var(--muted)]">
             <span className="font-semibold text-[color:var(--ink-soft)]">
-              {t(COPY.projects.role, language)}:
+              {t(COPY.projects.companyRole, language)}:
             </span>{" "}
-            {t(COPY.projects.roleValue, language)}
+            {t(COPY.projects.companyRoleValue, language)}
           </p>
         </header>
 
-        <div data-reveal className="mt-10 card overflow-hidden">
+        <div data-reveal className="mt-10 border border-[color:var(--hairline)] overflow-hidden">
           {project.videoUrl ? (
             <video
               src={project.videoUrl}
@@ -95,10 +95,10 @@ export function ProjectCase({ project }: { project: ProjectData }) {
             ))}
           </div>
 
-          <aside className="lg:col-span-5 space-y-6">
-            <div data-reveal className="card p-6">
+          <aside className="lg:col-span-5 space-y-8">
+            <div data-reveal className="border-t border-[color:var(--hairline)] pt-6">
               <h2 className="text-[0.8rem] font-semibold uppercase tracking-[0.14em] text-[color:var(--ink-soft)]">
-                {language === "pt" ? "Decisões técnicas" : "Technical decisions"}
+                {t(COPY.projects.decisions, language)}
               </h2>
               <ul className="mt-4 space-y-3">
                 {(language === "pt" ? project.decisions.pt : project.decisions.en).map(
@@ -109,7 +109,7 @@ export function ProjectCase({ project }: { project: ProjectData }) {
                     >
                       <span
                         aria-hidden
-                        className="mt-[0.55em] size-1 rounded-full bg-[color:var(--accent)] shrink-0"
+                        className="mt-[0.6em] w-1.5 h-px bg-[color:var(--accent)] shrink-0"
                       />
                       {decision}
                     </li>
@@ -118,41 +118,35 @@ export function ProjectCase({ project }: { project: ProjectData }) {
               </ul>
             </div>
 
-            <div data-reveal className="card p-6">
+            <div data-reveal className="border-t border-[color:var(--hairline)] pt-6">
               <h2 className="text-[0.8rem] font-semibold uppercase tracking-[0.14em] text-[color:var(--ink-soft)]">
                 {t(COPY.projects.stack, language)}
               </h2>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {project.stack.map((tech) => (
-                  <li key={tech} className="chip">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
+              <p className="mt-3 text-[0.88rem] leading-relaxed text-[color:var(--muted)]">
+                {project.stack.join(" / ")}
+              </p>
             </div>
 
-            <div data-reveal className="card p-6">
-              <p className="flex items-start gap-2.5 text-[0.85rem] leading-relaxed text-[color:var(--ink-soft)]">
-                <TrendingUp className="size-4 mt-0.5 text-[color:var(--accent-ink)] shrink-0" aria-hidden />
-                {l(project.result)}
-              </p>
-              {project.confidential && (
-                <p className="mt-4 flex items-start gap-2.5 text-[0.8rem] leading-relaxed text-[color:var(--muted)]">
-                  <ShieldCheck className="size-4 mt-0.5 shrink-0" aria-hidden />
-                  {t(COPY.projects.confidential, language)}
-                </p>
-              )}
-              {project.demoUrl && (
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary mt-4 !min-h-10 !py-2 text-[0.85rem]"
-                >
-                  {language === "pt" ? "Ver ao vivo" : "View live"}
-                </a>
-              )}
-            </div>
+            {(project.confidential || project.demoUrl) && (
+              <div data-reveal className="border-t border-[color:var(--hairline)] pt-6">
+                {project.confidential && (
+                  <p className="flex items-start gap-2.5 text-[0.83rem] leading-relaxed text-[color:var(--muted)]">
+                    <ShieldCheck className="size-4 mt-0.5 shrink-0" aria-hidden />
+                    {t(COPY.projects.confidential, language)}
+                  </p>
+                )}
+                {project.demoUrl && (
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary mt-4 !min-h-10 !py-2 text-[0.85rem]"
+                  >
+                    {t(COPY.projects.liveDemo, language)}
+                  </a>
+                )}
+              </div>
+            )}
           </aside>
         </div>
 

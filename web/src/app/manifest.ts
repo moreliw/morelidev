@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "moreli.dev — William Moreli",
-    short_name: "moreli.dev",
+    name: "MoreliDev — Engenharia de software e produtos digitais",
+    short_name: "MoreliDev",
     description:
-      "Engenharia de software: sistemas web, plataformas SaaS e integrações.",
+      "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações.",
     start_url: "/",
     display: "browser",
-    background_color: "#05080f",
-    theme_color: "#05080f",
+    background_color: "#f6f5f1",
+    theme_color: "#f6f5f1",
     icons: [{ src: "/icon-dev.png", sizes: "any", type: "image/png" }],
   };
 }

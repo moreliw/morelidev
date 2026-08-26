@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  const title = `${project.title} — ${project.category.pt} | William Moreli`;
+  const title = `${project.title} — ${project.category.pt}`;
   const description = project.shortDesc.pt;
   const url = `https://morelidev.com/projetos/${project.slug}`;
   return {

@@ -8,6 +8,8 @@ export interface ProjectData {
   /** projeto corporativo sem demo pública */
   confidential?: boolean;
   category: L;
+  /** título curto e editorial descrevendo o resultado — usado nos cases grandes */
+  resultTitle: L;
   shortDesc: L;
   context: L;
   problem: L;
@@ -28,6 +30,10 @@ export const PROJECTS: ProjectData[] = [
     featured: true,
     confidential: true,
     category: { pt: "Sistema corporativo", en: "Corporate system" },
+    resultTitle: {
+      pt: "Uma operação inteira, centralizada em um único sistema.",
+      en: "An entire operation, centralized in a single system.",
+    },
     shortDesc: {
       pt: "Sistema corporativo com gestão integrada, fluxos personalizados e relatórios em tempo real.",
       en: "Corporate system with integrated management, custom workflows and real-time reports.",
@@ -45,8 +51,8 @@ export const PROJECTS: ProjectData[] = [
       en: "Web platform with per-department management modules, KPI dashboards and automated workflows replacing manual checks.",
     },
     result: {
-      pt: "Redução de 70% no tempo de fechamento mensal e eliminação dos erros de digitação entre planilhas.",
-      en: "70% reduction in monthly closing time and elimination of copy-paste errors between spreadsheets.",
+      pt: "Fechamento mensal centralizado em um fluxo único, com visibilidade entre setores e sem conferência cruzada de planilhas.",
+      en: "Monthly closing centralized into a single flow, with cross-department visibility and no more cross-checking spreadsheets.",
     },
     decisions: {
       pt: [
@@ -71,6 +77,10 @@ export const PROJECTS: ProjectData[] = [
     title: "Takki.ao",
     featured: true,
     category: { pt: "Marketplace", en: "Marketplace" },
+    resultTitle: {
+      pt: "De redes sociais a um marketplace estruturado.",
+      en: "From social media to a structured marketplace.",
+    },
     shortDesc: {
       pt: "Marketplace angolano com catálogo, carrinho, checkout e painel do vendedor integrados.",
       en: "Angolan marketplace with catalog, cart, checkout and an integrated seller panel.",
@@ -88,8 +98,8 @@ export const PROJECTS: ProjectData[] = [
       en: "Mobile-first marketplace with catalog, cart, checkout and seller panel — from product listing to order tracking.",
     },
     result: {
-      pt: "Plataforma em produção com dezenas de vendedores ativos e experiência de compra pensada para redes móveis.",
-      en: "Platform in production with dozens of active sellers and a shopping experience designed for mobile networks.",
+      pt: "Plataforma em produção com vendedores ativos e uma experiência de compra pensada para redes móveis instáveis.",
+      en: "Platform in production with active sellers and a shopping experience designed for unstable mobile networks.",
     },
     decisions: {
       pt: [
@@ -113,6 +123,10 @@ export const PROJECTS: ProjectData[] = [
     title: "Padel App",
     featured: true,
     category: { pt: "Aplicativo de reservas", en: "Booking app" },
+    resultTitle: {
+      pt: "Reservas por WhatsApp viraram agenda em tempo real.",
+      en: "WhatsApp bookings became a real-time schedule.",
+    },
     shortDesc: {
       pt: "Aplicativo de reservas de quadras com agenda em tempo real, pagamento e ranking de jogadores.",
       en: "Court booking app with real-time schedule, payments and player ranking.",
@@ -130,8 +144,8 @@ export const PROJECTS: ProjectData[] = [
       en: "App with visual schedule, real-time bookings, integrated payments and a ranking to engage regular players.",
     },
     result: {
-      pt: "Eliminação dos conflitos de reserva e aumento de 40% na ocupação das quadras.",
-      en: "Booking conflicts eliminated and a 40% increase in court occupancy.",
+      pt: "Reservas concentradas em um único fluxo, sem conflito de horário e com pagamento confirmado no ato.",
+      en: "Bookings concentrated in a single flow, with no schedule conflicts and payment confirmed on the spot.",
     },
     decisions: {
       pt: [
@@ -153,6 +167,10 @@ export const PROJECTS: ProjectData[] = [
     slug: "will-market",
     title: "Will Market",
     category: { pt: "E-commerce", en: "E-commerce" },
+    resultTitle: {
+      pt: "Uma loja de bairro ganhou canal de vendas próprio.",
+      en: "A neighborhood store got its own sales channel.",
+    },
     shortDesc: {
       pt: "E-commerce completo com catálogo, checkout, pagamentos e painel administrativo.",
       en: "Full e-commerce with catalog, checkout, payments and an admin dashboard.",
@@ -170,8 +188,8 @@ export const PROJECTS: ProjectData[] = [
       en: "E-commerce with dynamic catalog, cart, Stripe checkout and a product/order management panel.",
     },
     result: {
-      pt: "Canal digital representando 30% das vendas totais já no segundo mês.",
-      en: "Digital channel representing 30% of total sales by the second month.",
+      pt: "Vendas fora do horário comercial passaram a ser possíveis, com gestão de pedidos centralizada em um painel único.",
+      en: "After-hours sales became possible, with order management centralized in a single dashboard.",
     },
     decisions: {
       pt: [
@@ -193,6 +211,10 @@ export const PROJECTS: ProjectData[] = [
     slug: "saldo-casa",
     title: "Saldo Casa",
     category: { pt: "Finanças pessoais", en: "Personal finance" },
+    resultTitle: {
+      pt: "Extratos soltos viraram uma visão clara do mês.",
+      en: "Loose statements became a clear view of the month.",
+    },
     shortDesc: {
       pt: "App de finanças com dashboards interativos, metas e categorização automática de gastos.",
       en: "Finance app with interactive dashboards, goals and automatic expense categorization.",
@@ -210,8 +232,8 @@ export const PROJECTS: ProjectData[] = [
       en: "Mobile app with automatic categorization, interactive charts and per-category goal alerts.",
     },
     result: {
-      pt: "Redução de 35% nos gastos desnecessários no primeiro mês de uso.",
-      en: "35% reduction in unnecessary spending in the first month of use.",
+      pt: "Categorização automática dos gastos e visão consolidada do mês em um único painel.",
+      en: "Automatic expense categorization and a consolidated monthly view in a single dashboard.",
     },
     decisions: {
       pt: [
@@ -233,6 +255,10 @@ export const PROJECTS: ProjectData[] = [
     slug: "mameri",
     title: "Mameri",
     category: { pt: "Site institucional", en: "Institutional site" },
+    resultTitle: {
+      pt: "De invisível no Google a encontrado por quem buscava o serviço.",
+      en: "From invisible on Google to found by people searching for the service.",
+    },
     shortDesc: {
       pt: "Site institucional minimalista com identidade visual cuidadosa, SEO técnico e CMS leve.",
       en: "Minimalist institutional site with careful brand identity, technical SEO and a lightweight CMS.",
@@ -242,16 +268,16 @@ export const PROJECTS: ProjectData[] = [
       en: "Company well established by word of mouth, but invisible to anyone searching for the service on Google.",
     },
     problem: {
-      pt: "Sem presença digital, a empresa dependia 100% de indicações para gerar negócios.",
-      en: "With no digital presence, the company relied 100% on referrals for new business.",
+      pt: "Sem presença digital, a empresa dependia quase inteiramente de indicações para gerar negócios.",
+      en: "With almost no digital presence, the company relied nearly entirely on referrals for new business.",
     },
     solution: {
       pt: "Site institucional com identidade forte, SEO técnico e formulário de captação conectado ao fluxo comercial.",
       en: "Institutional site with strong identity, technical SEO and a lead form connected to the sales flow.",
     },
     result: {
-      pt: "Primeiros 3 clientes captados via busca orgânica em menos de 60 dias.",
-      en: "First 3 clients acquired via organic search in under 60 days.",
+      pt: "Primeiros clientes captados via busca orgânica, com página indexada e posicionada para o serviço pesquisado.",
+      en: "First clients acquired via organic search, with the page indexed and ranking for the service searched.",
     },
     decisions: {
       pt: [

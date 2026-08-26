@@ -5,14 +5,14 @@ import { ProjectsIndex } from "@/components/site/ProjectsIndex";
 import { ScrollReveals } from "@/components/site/ScrollReveals";
 
 export const metadata: Metadata = {
-  title: "Projetos — William Moreli",
+  title: "Projetos",
   description:
-    "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos por William Moreli para empresas no Brasil e em Angola.",
+    "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas no Brasil e em Angola.",
   alternates: { canonical: "https://morelidev.com/projetos" },
   openGraph: {
-    title: "Projetos — William Moreli",
+    title: "Projetos — MoreliDev",
     description:
-      "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos para empresas no Brasil e em Angola.",
+      "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas no Brasil e em Angola.",
     url: "https://morelidev.com/projetos",
     type: "website",
   },

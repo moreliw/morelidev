@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { COPY, t } from "@/content/site";
 
-const SECTION_IDS = ["projetos", "especialidades", "sobre", "contato"] as const;
+const SECTION_IDS = ["projetos", "servicos", "processo", "empresa"] as const;
 
 export function Header() {
   const { language, setLanguage } = useLanguage();
@@ -56,9 +56,9 @@ export function Header() {
 
   const navLinks = [
     { id: "projetos", label: t(COPY.nav.projects, language) },
-    { id: "especialidades", label: t(COPY.nav.capabilities, language) },
-    { id: "sobre", label: t(COPY.nav.about, language) },
-    { id: "contato", label: t(COPY.nav.contact, language) },
+    { id: "servicos", label: t(COPY.nav.services, language) },
+    { id: "processo", label: t(COPY.nav.process, language) },
+    { id: "empresa", label: t(COPY.nav.company, language) },
   ];
 
   const hrefFor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
@@ -68,21 +68,20 @@ export function Header() {
       className={
         "fixed top-0 inset-x-0 z-[var(--z-header)] transition-[background-color,border-color,backdrop-filter] duration-300 " +
         (scrolled || mobileOpen
-          ? "bg-[rgba(5,8,15,0.82)] backdrop-blur-md border-b border-[color:var(--hairline)]"
+          ? "bg-[rgba(246,245,241,0.92)] backdrop-blur-md border-b border-[color:var(--hairline)]"
           : "bg-transparent border-b border-transparent")
       }
     >
       <nav
         aria-label={language === "pt" ? "Navegação principal" : "Main navigation"}
-        className="container-site flex items-center justify-between h-16"
+        className="container-site flex items-center justify-between h-[4.25rem]"
       >
         <Link
           href="/"
-          className="inline-flex items-baseline gap-0.5 font-semibold tracking-tight text-[1.05rem]"
-          aria-label="moreli.dev — home"
+          className="inline-flex items-center font-semibold tracking-[0.02em] text-[0.95rem] text-[color:var(--ink)]"
+          aria-label="MoreliDev — home"
         >
-          <span className="text-[color:var(--ink)]">moreli</span>
-          <span className="text-[color:var(--accent-ink)]">.dev</span>
+          MORELI<span className="text-[color:var(--accent)]">DEV</span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-1">
@@ -92,9 +91,9 @@ export function Header() {
                 href={hrefFor(link.id)}
                 aria-current={active === link.id ? "true" : undefined}
                 className={
-                  "px-3.5 py-2 rounded-md text-[0.88rem] font-medium transition-colors duration-200 " +
+                  "px-3.5 py-2 text-[0.86rem] font-medium transition-colors duration-200 " +
                   (active === link.id
-                    ? "text-[color:var(--ink)] bg-white/[0.06]"
+                    ? "text-[color:var(--ink)]"
                     : "text-[color:var(--muted)] hover:text-[color:var(--ink)]")
                 }
               >
@@ -122,7 +121,7 @@ export function Header() {
             >
               PT
             </button>
-            <span aria-hidden className="text-[color:var(--muted-2)]">|</span>
+            <span aria-hidden className="text-[color:var(--muted-2)]">/</span>
             <button
               type="button"
               onClick={() => switchLanguage("en")}
@@ -150,7 +149,7 @@ export function Header() {
             aria-label={t(mobileOpen ? COPY.nav.menuClose : COPY.nav.menuOpen, language)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
-            className="md:hidden p-2 -mr-2 text-[color:var(--ink)]"
+            className="md:hidden -mr-2 size-11 flex items-center justify-center text-[color:var(--ink)]"
             onClick={() => setMobileOpen((o) => !o)}
           >
             {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -161,7 +160,7 @@ export function Header() {
       {mobileOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden border-t border-[color:var(--hairline)] bg-[rgba(5,8,15,0.97)] backdrop-blur-md"
+          className="md:hidden border-t border-[color:var(--hairline)] bg-[color:var(--bg)]"
         >
           <nav
             aria-label={language === "pt" ? "Menu móvel" : "Mobile menu"}
@@ -192,7 +191,7 @@ export function Header() {
                 >
                   PT
                 </button>
-                <span aria-hidden className="text-[color:var(--muted-2)]">|</span>
+                <span aria-hidden className="text-[color:var(--muted-2)]">/</span>
                 <button
                   type="button"
                   onClick={() => switchLanguage("en")}

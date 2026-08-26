@@ -3,37 +3,29 @@ export type Language = "pt" | "en";
 /** Links e contatos usados em todo o site — um único lugar para atualizar. */
 export const LINKS = {
   email: "contato@morelidev.com",
-  whatsapp: "https://wa.me/5527999999999",
+  whatsapp: "https://wa.me/5527999552024",
   linkedin: "https://www.linkedin.com/in/william-moreli",
   github: "https://github.com/moreliw",
   site: "https://morelidev.com",
 } as const;
 
-/** Números reais — renderizados direto no HTML, nunca animados a partir de zero. */
-export const PROOF = [
-  { value: "5+", pt: "Anos de experiência", en: "Years of experience" },
-  { value: "10+", pt: "Projetos entregues", en: "Projects delivered" },
-  { value: "2", pt: "Países atendidos", en: "Countries served" },
-] as const;
+/** Linha de posicionamento — factual, sem números inventados. */
+export const SIGNAL = {
+  pt: "5+ anos de atuação · Sistemas em produção no Brasil e em Angola",
+  en: "5+ years in operation · Systems in production in Brazil and Angola",
+} as const;
 
-export const STACK_PRIMARY = [
+export const STACK = [
+  ".NET",
   "Angular",
-  "React / Next.js",
-  "TypeScript",
-  "C# / .NET",
-  "PHP / Laravel",
+  "React",
+  "Next.js",
+  "Laravel",
   "Node.js",
-  "PostgreSQL / SQL Server",
-  "Docker / NGINX / CI-CD",
-] as const;
-
-export const STACK_SECONDARY = [
-  "React Native",
-  "Prisma",
-  "Redis",
-  "Stripe",
-  "Tailwind CSS",
-  "Firebase",
+  "PostgreSQL",
+  "SQL Server",
+  "Docker",
+  "Cloud",
 ] as const;
 
 type Localized = { pt: string; en: string };
@@ -41,8 +33,9 @@ type Localized = { pt: string; en: string };
 export const COPY = {
   nav: {
     projects: { pt: "Projetos", en: "Projects" },
-    capabilities: { pt: "Especialidades", en: "Expertise" },
-    about: { pt: "Sobre", en: "About" },
+    services: { pt: "Serviços", en: "Services" },
+    process: { pt: "Processo", en: "Process" },
+    company: { pt: "Empresa", en: "Company" },
     contact: { pt: "Contato", en: "Contact" },
     cta: { pt: "Falar sobre um projeto", en: "Discuss a project" },
     menuOpen: { pt: "Abrir menu", en: "Open menu" },
@@ -50,159 +43,189 @@ export const COPY = {
     skip: { pt: "Pular para o conteúdo", en: "Skip to content" },
   },
   hero: {
-    title: {
-      pt: "Engenharia de software para transformar operações complexas em produtos rápidos, escaláveis e fáceis de usar.",
-      en: "Software engineering that turns complex operations into fast, scalable, easy-to-use products.",
-    },
+    titleLine1: { pt: "Software construído", en: "Software built" },
+    titleLine2: { pt: "para negócios reais.", en: "for real businesses." },
     sub: {
-      pt: "Desenvolvo sistemas web, plataformas SaaS, dashboards e integrações para empresas que precisam substituir processos manuais por produtos digitais confiáveis.",
-      en: "I build web systems, SaaS platforms, dashboards and integrations for companies that need to replace manual processes with reliable digital products.",
+      pt: "Sistemas, produtos digitais e experiências web projetados para simplificar operações e fazer empresas evoluírem.",
+      en: "Systems, digital products and web experiences designed to simplify operations and help companies evolve.",
     },
-    ctaPrimary: { pt: "Ver projetos", en: "View projects" },
-    ctaSecondary: { pt: "Falar sobre um projeto", en: "Discuss a project" },
-    proofLine: {
-      pt: "5+ anos · Brasil e Angola · Front-end, back-end e arquitetura",
-      en: "5+ years · Brazil and Angola · Front-end, back-end and architecture",
+    ctaPrimary: { pt: "Falar sobre um projeto", en: "Discuss a project" },
+    ctaSecondary: { pt: "Ver trabalhos", en: "View work" },
+  },
+  manifesto: {
+    text: {
+      pt: "Cada sistema que entregamos nasce de um problema real de negócio — não de uma lista de tecnologias da moda.",
+      en: "Every system we ship starts from a real business problem — not a list of trendy technologies.",
     },
   },
-  projects: {
-    eyebrow: { pt: "Projetos em destaque", en: "Featured projects" },
+  cases: {
+    eyebrow: { pt: "Trabalhos selecionados", en: "Selected work" },
     title: {
-      pt: "Sistemas reais, em produção, resolvendo problemas de negócio.",
-      en: "Real systems in production, solving business problems.",
+      pt: "Sistemas em produção, não protótipos.",
+      en: "Systems in production, not prototypes.",
     },
     viewAll: { pt: "Ver todos os projetos", en: "View all projects" },
-    viewCase: { pt: "Ver detalhes", en: "View details" },
+    viewCase: { pt: "Ver projeto", en: "View project" },
+    viewDetails: { pt: "Ver detalhes", en: "View details" },
+  },
+  projects: {
+    context: { pt: "Contexto", en: "Context" },
     problem: { pt: "Problema", en: "Problem" },
     solution: { pt: "Solução", en: "Solution" },
     result: { pt: "Resultado", en: "Result" },
-    context: { pt: "Contexto", en: "Context" },
     stack: { pt: "Stack", en: "Stack" },
-    role: { pt: "Meu papel", en: "My role" },
-    roleValue: { pt: "Desenvolvedor Full Stack", en: "Full Stack Developer" },
+    decisions: { pt: "Decisões técnicas", en: "Technical decisions" },
+    companyRole: { pt: "Atuação da MoreliDev", en: "MoreliDev's role" },
+    companyRoleValue: {
+      pt: "Estratégia, arquitetura e desenvolvimento full-stack.",
+      en: "Strategy, architecture and full-stack development.",
+    },
     confidential: {
       pt: "Projeto corporativo apresentado de forma anonimizada por confidencialidade.",
       en: "Corporate project presented in anonymized form for confidentiality.",
     },
+    liveDemo: { pt: "Ver ao vivo", en: "View live" },
     breadcrumbHome: { pt: "Início", en: "Home" },
     breadcrumbProjects: { pt: "Projetos", en: "Projects" },
-    allTitle: { pt: "Todos os projetos", en: "All projects" },
+    allTitle: { pt: "Projetos", en: "Projects" },
     allSub: {
-      pt: "Sistemas corporativos, marketplaces, aplicativos e sites que projetei e desenvolvi para empresas no Brasil e em Angola.",
-      en: "Corporate systems, marketplaces, apps and websites I designed and built for companies in Brazil and Angola.",
+      pt: "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas no Brasil e em Angola.",
+      en: "Corporate systems, marketplaces, apps and websites built by MoreliDev for companies in Brazil and Angola.",
     },
     backToProjects: { pt: "Voltar para projetos", en: "Back to projects" },
   },
-  capabilities: {
-    eyebrow: { pt: "Problemas que resolvo", en: "Problems I solve" },
+  services: {
+    eyebrow: { pt: "O que construímos", en: "What we build" },
     title: {
-      pt: "Três frentes de trabalho, um mesmo objetivo: operação mais simples.",
-      en: "Three areas of work, one goal: simpler operations.",
+      pt: "Quatro frentes, um mesmo compromisso: menos ruído entre a ideia e a produção.",
+      en: "Four areas, one commitment: less noise between the idea and production.",
     },
-    groups: [
+    items: [
       {
-        title: { pt: "Produtos e sistemas web", en: "Web products and systems" },
+        title: { pt: "Sistemas sob medida", en: "Custom-built systems" },
         desc: {
-          pt: "Sistemas internos, portais, dashboards e plataformas SaaS para operações que ainda dependem de planilhas, e-mails e controles manuais.",
-          en: "Internal systems, portals, dashboards and SaaS platforms for operations that still run on spreadsheets, emails and manual controls.",
-        },
-        items: {
-          pt: ["Sistemas internos e portais", "Dashboards e relatórios", "Plataformas SaaS"],
-          en: ["Internal systems and portals", "Dashboards and reporting", "SaaS platforms"],
+          pt: "Sistemas internos, plataformas operacionais, portais e ferramentas desenvolvidos de acordo com os processos específicos da empresa.",
+          en: "Internal systems, operational platforms, portals and tools built around the company's specific processes.",
         },
       },
       {
-        title: { pt: "Modernização e performance", en: "Modernization and performance" },
+        title: { pt: "Produtos digitais & SaaS", en: "Digital products & SaaS" },
         desc: {
-          pt: "Sistemas lentos ou difíceis de manter viram aplicações rápidas e seguras — sem parar a operação durante a transição.",
-          en: "Slow or hard-to-maintain systems become fast, secure applications — without stopping the operation during the transition.",
-        },
-        items: {
-          pt: ["Refatoração e migração de stack", "Core Web Vitals e otimização", "Arquitetura preparada para crescer"],
-          en: ["Refactoring and stack migration", "Core Web Vitals and optimization", "Architecture built to grow"],
+          pt: "Planejamento, UX, arquitetura e desenvolvimento de produtos web preparados para evoluir.",
+          en: "Planning, UX, architecture and development of web products built to evolve.",
         },
       },
       {
-        title: { pt: "Integrações e automação", en: "Integrations and automation" },
+        title: { pt: "Sites & experiências web", en: "Websites & web experiences" },
         desc: {
-          pt: "Sistemas que não conversam geram retrabalho e erro. Conecto APIs, ERPs, pagamentos e workflows para eliminar tarefas manuais.",
-          en: "Disconnected systems create rework and errors. I connect APIs, ERPs, payments and workflows to eliminate manual tasks.",
+          pt: "Sites institucionais rápidos, modernos e construídos para posicionar empresas de forma profissional.",
+          en: "Fast, modern institutional websites built to position companies professionally.",
         },
-        items: {
-          pt: ["APIs, ERPs e pagamentos", "Automação de workflows", "IA aplicada a processos reais"],
-          en: ["APIs, ERPs and payments", "Workflow automation", "AI applied to real processes"],
+      },
+      {
+        title: { pt: "Integrações & automações", en: "Integrations & automation" },
+        desc: {
+          pt: "APIs, pagamentos, ERPs, workflows e automações que conectam operações e reduzem trabalho manual.",
+          en: "APIs, payments, ERPs, workflows and automation that connect operations and cut manual work.",
         },
       },
     ],
   },
   process: {
-    eyebrow: { pt: "Como trabalho", en: "How I work" },
-    title: {
-      pt: "Um processo direto, do diagnóstico à evolução contínua.",
-      en: "A direct process, from diagnosis to continuous evolution.",
-    },
+    eyebrow: { pt: "Como trabalhamos", en: "How we work" },
+    title: { pt: "Da ideia à produção.", en: "From idea to production." },
     steps: [
       {
-        title: { pt: "Diagnóstico", en: "Diagnosis" },
+        title: { pt: "Descoberta", en: "Discovery" },
         desc: {
-          pt: "Entendo o contexto, os processos e os objetivos para definir o que realmente gera valor. Você recebe um escopo claro e uma proposta objetiva.",
-          en: "I map the context, processes and goals to define what actually creates value. You get a clear scope and an objective proposal.",
+          pt: "Entendemos o contexto, os processos e os objetivos do negócio antes de propor qualquer solução.",
+          en: "We map the business context, processes and goals before proposing any solution.",
         },
       },
       {
-        title: { pt: "Arquitetura e protótipo", en: "Architecture and prototype" },
+        title: { pt: "Estratégia & arquitetura", en: "Strategy & architecture" },
         desc: {
-          pt: "Desenho a solução, defino a arquitetura e valido as telas principais antes de escrever código de produção.",
-          en: "I design the solution, define the architecture and validate the main screens before writing production code.",
+          pt: "Definimos escopo, arquitetura técnica e prioridades com base no que gera valor primeiro.",
+          en: "We define scope, technical architecture and priorities based on what creates value first.",
         },
       },
       {
-        title: { pt: "Desenvolvimento e validação", en: "Development and validation" },
+        title: { pt: "Design & protótipo", en: "Design & prototype" },
         desc: {
-          pt: "Entregas incrementais que você acompanha e testa. Sem sumir por meses para aparecer com um sistema pronto e errado.",
-          en: "Incremental deliveries you follow and test. No disappearing for months to return with a finished — and wrong — system.",
+          pt: "Desenhamos as telas principais e validamos o fluxo antes de escrever código de produção.",
+          en: "We design the core screens and validate the flow before writing production code.",
         },
       },
       {
-        title: { pt: "Deploy e evolução", en: "Deploy and evolution" },
+        title: { pt: "Desenvolvimento", en: "Development" },
         desc: {
-          pt: "Publicação com segurança, monitoramento e acompanhamento da evolução do sistema em produção.",
-          en: "Safe releases, monitoring and ongoing support as the system evolves in production.",
+          pt: "Entregas incrementais, acompanhadas e testadas — sem meses de silêncio até o resultado final.",
+          en: "Incremental deliveries, followed and tested — no months of silence before the final result.",
+        },
+      },
+      {
+        title: { pt: "Entrega & evolução", en: "Delivery & evolution" },
+        desc: {
+          pt: "Publicação com monitoramento e acompanhamento contínuo da evolução do sistema em produção.",
+          en: "Release with monitoring and ongoing support as the system evolves in production.",
         },
       },
     ],
   },
-  about: {
-    eyebrow: { pt: "Sobre", en: "About" },
-    title: { pt: "William Moreli", en: "William Moreli" },
-    paragraphs: {
+  principles: {
+    title: { pt: "Menos camadas.\nMais produto.", en: "Fewer layers.\nMore product." },
+    lead: {
+      pt: "Negócio, design e engenharia trabalhando juntos desde o início. Menos ruído entre a necessidade da empresa e aquilo que realmente chega à produção.",
+      en: "Business, design and engineering working together from day one. Less noise between what a company needs and what actually reaches production.",
+    },
+    items: {
       pt: [
-        "Sou engenheiro de software full-stack com mais de 5 anos de experiência criando sistemas web, plataformas SaaS e integrações para empresas no Brasil e em Angola.",
-        "Trabalho do banco de dados à interface: arquitetura, back-end, front-end e infraestrutura. Gosto de transformar processos complexos em produtos simples — centralizando o que antes dependia de planilhas, e-mails e conferências manuais.",
+        "Produto antes de tecnologia.",
+        "Código preparado para evoluir.",
+        "Interface simples para problemas complexos.",
+        "Comunicação direta durante todo o projeto.",
       ],
       en: [
-        "I'm a full-stack software engineer with over 5 years of experience building web systems, SaaS platforms and integrations for companies in Brazil and Angola.",
-        "I work from the database to the interface: architecture, back-end, front-end and infrastructure. I like turning complex processes into simple products — centralizing what used to depend on spreadsheets, emails and manual checks.",
+        "Product before technology.",
+        "Code built to evolve.",
+        "Simple interfaces for complex problems.",
+        "Direct communication throughout the project.",
       ],
     },
-    stackTitle: { pt: "Stack principal", en: "Core stack" },
-    stackMoreTitle: { pt: "Também trabalho com", en: "Also working with" },
-    photoAlt: {
-      pt: "Foto de William Moreli, engenheiro de software",
-      en: "Photo of William Moreli, software engineer",
+  },
+  company: {
+    eyebrow: { pt: "Empresa", en: "Company" },
+    title: { pt: "MoreliDev", en: "MoreliDev" },
+    paragraphs: {
+      pt: [
+        "A MoreliDev é um estúdio de software brasileiro especializado na criação de sistemas, produtos digitais e experiências web.",
+        "Os projetos unem estratégia, UX e engenharia para transformar processos empresariais em software simples de utilizar, confiável e preparado para evoluir. Atuação em projetos no Brasil e em Angola.",
+      ],
+      en: [
+        "MoreliDev is a Brazilian software studio specialized in building systems, digital products and web experiences.",
+        "Projects bring together strategy, UX and engineering to turn business processes into software that's simple to use, reliable and built to evolve. Working on projects in Brazil and Angola.",
+      ],
+    },
+    stackLabel: { pt: "Tecnologia adequada ao produto.", en: "Technology suited to the product." },
+    founderLabel: { pt: "Fundação", en: "Founded by" },
+    founderText: {
+      pt: "Fundada por William Moreli, engenheiro de software full-stack responsável pela arquitetura e execução técnica dos projetos.",
+      en: "Founded by William Moreli, a full-stack software engineer responsible for the architecture and technical execution of projects.",
     },
   },
   contact: {
+    eyebrow: { pt: "Contato", en: "Contact" },
     title: {
-      pt: "Tem um processo que precisa funcionar melhor?",
-      en: "Is there a process in your company that should work better?",
+      pt: "Tem algo que sua empresa\nprecisa construir?",
+      en: "Is there something your company\nneeds to build?",
     },
     sub: {
-      pt: "Conte o problema, o cenário atual e o resultado que sua empresa precisa alcançar. Eu retorno com uma avaliação inicial e os próximos passos.",
-      en: "Describe the problem, the current scenario and the result your company needs. I'll reply with an initial assessment and next steps.",
+      pt: "Fale com a MoreliDev. Conte o problema, o cenário atual e o resultado que sua empresa precisa alcançar.",
+      en: "Talk to MoreliDev. Tell us the problem, the current scenario and the result your company needs.",
     },
-    whatsapp: { pt: "Falar pelo WhatsApp", en: "Chat on WhatsApp" },
-    email: { pt: "Enviar e-mail", en: "Send an email" },
+    ctaPrimary: { pt: "Iniciar um projeto", en: "Start a project" },
+    whatsapp: { pt: "WhatsApp", en: "WhatsApp" },
+    email: { pt: "E-mail", en: "Email" },
     form: {
       name: { pt: "Nome", en: "Name" },
       email: { pt: "E-mail", en: "Email" },
@@ -230,8 +253,9 @@ export const COPY = {
     },
   },
   footer: {
-    location: { pt: "Vitória, Espírito Santo — Brasil", en: "Vitória, Espírito Santo — Brazil" },
-    coverage: { pt: "Atendimento Brasil e Angola", en: "Serving Brazil and Angola" },
+    tagline: { pt: "Software & Produtos Digitais", en: "Software & Digital Products" },
+    location: { pt: "Brasil", en: "Brazil" },
+    coverage: { pt: "Projetos internacionais", en: "International projects" },
     rights: { pt: "Todos os direitos reservados.", en: "All rights reserved." },
     backToTop: { pt: "Voltar ao topo", en: "Back to top" },
   },

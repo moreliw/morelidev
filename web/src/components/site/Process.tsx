@@ -7,9 +7,9 @@ export function Process() {
   const p = COPY.process;
 
   return (
-    <section className="py-20 lg:py-28 border-t border-[color:var(--hairline)]">
+    <section id="processo" className="py-20 lg:py-28 scroll-mt-20 border-t border-[color:var(--hairline)]">
       <div className="container-site">
-        <div className="max-w-xl mb-12">
+        <div className="max-w-xl mb-12 lg:mb-16">
           <p data-reveal className="eyebrow">
             {t(p.eyebrow, language)}
           </p>
@@ -18,14 +18,11 @@ export function Process() {
           </h2>
         </div>
 
-        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-10">
           {p.steps.map((step, i) => (
             <li key={step.title.en} data-reveal className="relative">
               <div className="flex items-center gap-3">
-                <span
-                  aria-hidden
-                  className="text-[0.8rem] font-semibold tabular-nums text-[color:var(--accent-ink)]"
-                >
+                <span className="num text-[0.8rem] font-semibold text-[color:var(--accent)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span aria-hidden className="hairline flex-1" />

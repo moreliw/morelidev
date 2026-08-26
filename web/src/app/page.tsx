@@ -1,9 +1,11 @@
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
-import { ProofStrip } from "@/components/site/ProofStrip";
-import { FeaturedProjects } from "@/components/site/FeaturedProjects";
-import { Capabilities } from "@/components/site/Capabilities";
+import { Manifesto } from "@/components/site/Manifesto";
+import { Cases } from "@/components/site/Cases";
+import { Expertise } from "@/components/site/Expertise";
+import { CaseInterlude } from "@/components/site/CaseInterlude";
 import { Process } from "@/components/site/Process";
+import { Principles } from "@/components/site/Principles";
 import { About } from "@/components/site/About";
 import { ContactCTA } from "@/components/site/ContactCTA";
 import { Footer } from "@/components/site/Footer";
@@ -15,10 +17,12 @@ export default function Home() {
       <Header />
       <main id="conteudo">
         <Hero />
-        <ProofStrip />
-        <FeaturedProjects />
-        <Capabilities />
+        <Manifesto />
+        <Cases />
+        <Expertise />
+        <CaseInterlude />
         <Process />
+        <Principles />
         <About />
         <ContactCTA />
       </main>
