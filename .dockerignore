@@ -1,0 +1,16 @@
+.git
+.github
+.claude
+.cursor
+docs
+site
+tmp
+
+web/node_modules
+web/.next
+web/tsconfig.tsbuildinfo
+web/prisma/dev.db
+web/prisma/dev.db-journal
+web/.env
+web/.env.*
+**/*.log

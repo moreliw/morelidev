@@ -26,9 +26,13 @@ RUN npm ci --omit=dev
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.ts ./next.config.ts
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /app/src/generated ./src/generated
+COPY --from=builder /app/prisma/schema.prisma ./prisma/schema.prisma
 COPY --from=builder /app/prisma/migrations ./prisma/migrations
+COPY web/docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 RUN mkdir -p /app/data
 VOLUME ["/app/data"]
 EXPOSE 3000
-CMD ["npm","run","start","--","-H","0.0.0.0","-p","3000"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
