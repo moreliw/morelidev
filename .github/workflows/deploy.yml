@@ -9,6 +9,10 @@ on:
         description: "Verificar SSH sem modificar o servidor"
         type: boolean
         default: false
+      diagnose_user:
+        description: "Usuário alternativo, somente para diagnóstico SSH"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -33,9 +37,14 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
           DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          DIAGNOSE_ONLY: ${{ inputs.diagnose_only }}
+          DIAGNOSE_USER: ${{ inputs.diagnose_user }}
         shell: bash
         run: |
           set -euo pipefail
+          if [[ "$DIAGNOSE_ONLY" = true && -n "$DIAGNOSE_USER" ]]; then
+            DEPLOY_USER="$DIAGNOSE_USER"
+          fi
           : "${DEPLOY_HOST:?Cadastre DEPLOY_HOST nos secrets do repositório}"
           : "${DEPLOY_USER:?Cadastre DEPLOY_USER nos secrets do repositório}"
           : "${DEPLOY_SSH_PRIVATE_KEY:?Cadastre DEPLOY_SSH_PRIVATE_KEY}"
