@@ -10,10 +10,22 @@ target_config="$(readlink -f "$enabled_config")"
   exit 1
 }
 
-backup_config="${target_config}.pre-deploy"
+backup_dir="/var/backups/morelidev"
+stale_enabled_backup="${enabled_config}.pre-deploy"
+install -d -m 0700 "$backup_dir"
+
+# A previous deploy stored its rollback copy beside the enabled site. Nginx
+# includes every file in that directory, so preserve it outside the include.
+if [[ -f "$stale_enabled_backup" ]]; then
+  mv "$stale_enabled_backup" \
+    "$backup_dir/nginx-morelidev-$(date -u +%Y%m%dT%H%M%SZ).conf"
+fi
+
+backup_config="$(mktemp /tmp/morelidev-nginx.XXXXXX)"
 cp -a "$target_config" "$backup_config"
 restore_config() {
   cp -a "$backup_config" "$target_config"
+  rm -f "$backup_config"
   nginx -t >/dev/null 2>&1 && systemctl reload nginx || true
 }
 trap restore_config ERR
@@ -37,6 +49,8 @@ certificate_names="$(openssl x509 -in "$certificate" -noout -ext subjectAltName)
 grep -q 'DNS:morelidev.com' <<<"$certificate_names"
 grep -q 'DNS:www.morelidev.com' <<<"$certificate_names"
 curl --fail --silent --show-error --max-time 15 \
+  --http1.1 \
+  --noproxy '*' \
   --resolve www.morelidev.com:443:127.0.0.1 \
   --output /dev/null \
   --write-out '%{redirect_url}' \
