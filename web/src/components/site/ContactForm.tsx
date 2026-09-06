@@ -47,7 +47,15 @@ export function ContactForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (form.website) return; // bot detectado — descarta silenciosamente
-    if (!validate()) return;
+    if (status === "loading") return;
+    if (!validate()) {
+      requestAnimationFrame(() =>
+        document
+          .querySelector<HTMLElement>('#contato [aria-invalid="true"]')
+          ?.focus(),
+      );
+      return;
+    }
     setStatus("loading");
     try {
       const message = form.company
@@ -61,26 +69,13 @@ export function ContactForm() {
           email: form.email,
           phone: form.phone || undefined,
           message,
+          website: form.website,
         }),
       });
       if (!res.ok) throw new Error("server");
       setStatus("success");
       requestAnimationFrame(() => {
         successRef.current?.focus();
-        const check = successRef.current?.querySelector("path");
-        if (
-          check &&
-          !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
-          // microinteração de confirmação (anime.js): traço do check
-          import("animejs").then(({ animate, svg }) => {
-            animate(svg.createDrawable(check), {
-              draw: "0 1",
-              duration: 600,
-              ease: "outQuad",
-            });
-          });
-        }
       });
     } catch {
       setStatus("error");
@@ -100,7 +95,13 @@ export function ContactForm() {
           aria-hidden
           className="inline-flex items-center justify-center size-12 rounded-full border border-[color:var(--ok)]/40 bg-[color:var(--ok)]/10 mb-5"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+          >
             <path
               d="M4 12.5 9.5 18 20 6.5"
               stroke="var(--ok)"
@@ -121,7 +122,14 @@ export function ContactForm() {
           className="btn btn-secondary mt-6 !min-h-10 !py-2 text-[0.85rem]"
           onClick={() => {
             setStatus("idle");
-            setForm({ name: "", email: "", company: "", phone: "", message: "", website: "" });
+            setForm({
+              name: "",
+              email: "",
+              company: "",
+              phone: "",
+              message: "",
+              website: "",
+            });
           }}
         >
           {t(f.again, language)}
@@ -131,7 +139,12 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      aria-busy={status === "loading"}
+      className="space-y-4"
+    >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="cf-name" className="field-label">
@@ -142,6 +155,7 @@ export function ContactForm() {
             name="name"
             type="text"
             autoComplete="name"
+            maxLength={120}
             value={form.name}
             onChange={(e) => set("name", e.target.value)}
             className="field"
@@ -164,6 +178,7 @@ export function ContactForm() {
             name="email"
             type="email"
             autoComplete="email"
+            maxLength={254}
             value={form.email}
             onChange={(e) => set("email", e.target.value)}
             className="field"
@@ -189,6 +204,7 @@ export function ContactForm() {
             name="company"
             type="text"
             autoComplete="organization"
+            maxLength={160}
             value={form.company}
             onChange={(e) => set("company", e.target.value)}
             className="field"
@@ -203,6 +219,7 @@ export function ContactForm() {
             name="phone"
             type="tel"
             autoComplete="tel"
+            maxLength={40}
             value={form.phone}
             onChange={(e) => set("phone", e.target.value)}
             className="field"
@@ -218,6 +235,7 @@ export function ContactForm() {
           id="cf-message"
           name="message"
           rows={5}
+          maxLength={5000}
           value={form.message}
           onChange={(e) => set("message", e.target.value)}
           className="field resize-none"

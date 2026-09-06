@@ -7,6 +7,8 @@ export const LINKS = {
   linkedin: "https://www.linkedin.com/in/william-moreli",
   github: "https://github.com/moreliw",
   site: "https://morelidev.com",
+  saldocasa: "https://saldocasa.morelidev.com",
+  odontoapp: "https://odontoapp.morelidev.com",
 } as const;
 
 /** Linha de posicionamento — factual, sem números inventados. */

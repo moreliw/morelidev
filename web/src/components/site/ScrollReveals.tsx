@@ -1,56 +1,41 @@
 "use client";
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MOTION, usePrefersReducedMotion } from "@/lib/motion";
 
-gsap.registerPlugin(ScrollTrigger);
-
-/**
- * Orquestrador único de revelação por scroll (GSAP).
- * Elementos marcados com [data-reveal] começam ocultos apenas quando
- * há JS ativo (classe .js no <html>, ver globals.css) — o conteúdo
- * nunca depende de animação para existir.
- */
+/** Optional native motion: content is rendered visibly before JavaScript runs. */
 export function ScrollReveals() {
-  const reduced = usePrefersReducedMotion();
-
   useEffect(() => {
-    const root = document.documentElement;
-    if (reduced) {
-      root.classList.add("reduced-motion");
-      return () => root.classList.remove("reduced-motion");
-    }
-    root.classList.remove("reduced-motion");
-
-    const ctx = gsap.context(() => {
-      ScrollTrigger.batch("[data-reveal]", {
-        start: "top 88%",
-        once: true,
-        onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            duration: MOTION.enter,
-            ease: MOTION.ease,
-            stagger: MOTION.stagger,
-            overwrite: true,
-            clearProps: "transform",
-          }),
-      });
-    });
-
-    // Recalcula posições depois de fontes e imagens carregarem.
-    const refresh = () => ScrollTrigger.refresh();
-    if (document.readyState === "complete") refresh();
-    else window.addEventListener("load", refresh, { once: true });
-    document.fonts?.ready.then(refresh).catch(() => {});
-
-    return () => {
-      window.removeEventListener("load", refresh);
-      ctx.revert();
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (preference.matches || !("IntersectionObserver" in window)) return;
+    const animations = new Set<Animation>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          if (preference.matches) continue;
+          const animation = entry.target.animate(
+            [{ transform: "translateY(12px)" }, { transform: "none" }],
+            { duration: 450, easing: "cubic-bezier(.22,1,.36,1)" },
+          );
+          animations.add(animation);
+          animation.onfinish = () => animations.delete(animation);
+        }
+      },
+      { threshold: 0.08 },
+    );
+    document
+      .querySelectorAll("[data-reveal]")
+      .forEach((element) => observer.observe(element));
+    const stop = () => {
+      if (preference.matches)
+        animations.forEach((animation) => animation.cancel());
     };
-  }, [reduced]);
-
+    preference.addEventListener("change", stop);
+    return () => {
+      observer.disconnect();
+      preference.removeEventListener("change", stop);
+      animations.forEach((animation) => animation.cancel());
+    };
+  }, []);
   return null;
 }

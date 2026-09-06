@@ -52,8 +52,8 @@
   --z-header: 50;
   --z-skip: 100;
 
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-editorial);
 }
 
 @theme inline {
@@ -62,8 +62,8 @@
   --color-muted: var(--muted);
   --color-hairline: var(--hairline);
   --color-accent: var(--accent);
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-editorial), ui-serif, Georgia, serif;
 }
 
 html {
@@ -300,16 +300,7 @@ body {
 .anim-fade-2 { animation: riseIn 0.7s var(--ease-out) both; }
 .anim-fade-3 { animation: riseIn 0.85s var(--ease-out) both; }
 
-/* ─── GSAP reveal: estado inicial só com JS ativo ───
-   O conteúdo nunca fica oculto sem JavaScript. */
-html.js [data-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
-}
-html.js.reduced-motion [data-reveal] {
-  opacity: 1;
-  transform: none;
-}
+/* O conteúdo permanece visível mesmo se o JavaScript não carregar. */
 
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {

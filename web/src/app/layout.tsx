@@ -1,22 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import "./premium.css";
 import { Providers } from "./providers";
 
 // Fonte de interface: variável, um único arquivo woff2 cobre todos os pesos.
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
 // Fonte editorial: só para títulos grandes — dá personalidade sem virar site de moda.
-const fraunces = Fraunces({
+const editorial = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-editorial",
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
-  axes: ["opsz"],
 });
 
 export const viewport: Viewport = {
@@ -28,7 +30,7 @@ const SITE = "https://morelidev.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "MoreliDev — Engenharia de software e produtos digitais",
+    default: "MoreliDev — Software que move negócios",
     template: "%s — MoreliDev",
   },
   description:
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/icon-dev.png", type: "image/png" }],
   },
   openGraph: {
-    title: "MoreliDev — Engenharia de software e produtos digitais",
+    title: "MoreliDev — Software que move negócios",
     description:
       "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
     type: "website",
@@ -48,10 +50,19 @@ export const metadata: Metadata = {
     siteName: "MoreliDev",
     locale: "pt_BR",
     alternateLocale: "en_US",
+    images: [
+      {
+        url: "/images/premium/software-hero.webp",
+        width: 1536,
+        height: 1024,
+        alt: "MoreliDev — Software que move negócios",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MoreliDev — Engenharia de software e produtos digitais",
+    title: "MoreliDev — Software que move negócios",
+    images: ["/images/premium/software-hero.webp"],
     description:
       "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
   },
@@ -102,21 +113,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" id="top" suppressHydrationWarning>
+    <html lang="pt-br" id="top" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        {/* Marca JS ativo antes do primeiro paint — controla o estado
-            inicial das revelações sem nunca esconder conteúdo sem JS. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('reduced-motion');`,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${fraunces.variable} font-sans antialiased`}>
+      <body
+        className={`${inter.variable} ${editorial.variable} font-sans antialiased`}
+      >
         <a href="#conteudo" className="skip-link">
           Pular para o conteúdo
         </a>

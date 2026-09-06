@@ -1,3 +1,5 @@
+import { LINKS } from "@/content/site";
+
 type L = { pt: string; en: string };
 
 export interface ProjectData {
@@ -21,9 +23,57 @@ export interface ProjectData {
   videoUrl?: string;
   imageUrl?: string;
   demoUrl?: string;
+  /** Imagem editorial de apresentação; a mídia do projeto permanece separada. */
+  cover?: string;
 }
 
 export const PROJECTS: ProjectData[] = [
+  {
+    slug: "empresa-capixaba",
+    title: "Empresa Capixaba",
+    featured: true,
+    category: { pt: "Sistema operacional", en: "Operations system" },
+    resultTitle: {
+      pt: "Mais controle. Uma operação conectada.",
+      en: "More control. A connected operation.",
+    },
+    shortDesc: {
+      pt: "Sistema de gestão empresarial com monitoramento operacional e relatórios.",
+      en: "Business management system with operational monitoring and reporting.",
+    },
+    context: {
+      pt: "Gestão empresarial e acompanhamento das rotinas operacionais da Empresa Capixaba.",
+      en: "Business management and day-to-day operations at Empresa Capixaba.",
+    },
+    problem: {
+      pt: "Organizar informações da operação e facilitar o acompanhamento das atividades em um único ambiente.",
+      en: "Organize operational information and make activities easier to track in one workspace.",
+    },
+    solution: {
+      pt: "Sistema web de gestão com monitoramento operacional e relatórios, desenvolvido com Laravel, Blade e MySQL.",
+      en: "A web management system with operational monitoring and reporting, built with Laravel, Blade and MySQL.",
+    },
+    result: {
+      pt: "Informações e relatórios operacionais reunidos em uma plataforma de gestão empresarial.",
+      en: "Operational information and reports brought together in a business management platform.",
+    },
+    decisions: {
+      pt: [
+        "Laravel para organizar as regras de negócio e os fluxos do sistema.",
+        "Blade para as interfaces web da plataforma.",
+        "MySQL para persistência dos dados operacionais.",
+      ],
+      en: [
+        "Laravel to organize business logic and system workflows.",
+        "Blade for the platform’s web interfaces.",
+        "MySQL to persist operational data.",
+      ],
+    },
+    stack: ["Laravel", "Blade", "MySQL"],
+    poster: "/projetos/empresa-capixaba.png",
+    imageUrl: "/projetos/empresa-capixaba.png",
+    cover: "/images/premium/capixaba-studio.webp",
+  },
   {
     slug: "cipritex",
     title: "Cipritex",
@@ -209,7 +259,9 @@ export const PROJECTS: ProjectData[] = [
   },
   {
     slug: "saldo-casa",
-    title: "Saldo Casa",
+    title: "SaldoCasa",
+    cover: "/images/premium/saldocasa.webp",
+    demoUrl: LINKS.saldocasa,
     category: { pt: "Finanças pessoais", en: "Personal finance" },
     resultTitle: {
       pt: "Extratos soltos viraram uma visão clara do mês.",
@@ -253,7 +305,8 @@ export const PROJECTS: ProjectData[] = [
   },
   {
     slug: "mameri",
-    title: "Mameri",
+    title: "Mameri Export",
+    cover: "/images/premium/mameri-studio.webp",
     category: { pt: "Site institucional", en: "Institutional site" },
     resultTitle: {
       pt: "De invisível no Google a encontrado por quem buscava o serviço.",
