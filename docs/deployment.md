@@ -15,7 +15,7 @@ Secrets do repositório:
 - `DEPLOY_PORT`: opcional; padrão 22.
 - `DEPLOY_SSH_PRIVATE_KEY`: chave privada OpenSSH sem senha, correspondente à chave pública autorizada para esse usuário.
 
-No servidor, `/opt/morelidev/.env` deve conter `JWT_SECRET` forte e não vazio. O workflow não transmite nem sobrescreve esse arquivo. Não substituir uma chave JWT válida, pois isso invalida sessões existentes.
+No servidor, `/opt/morelidev/.env` guarda `JWT_SECRET`. Quando ele está ausente ou vazio, o script cria um valor aleatório de 256 bits no próprio servidor, com permissão `600`, sem transmitir ou imprimir o segredo. Um valor válido existente é preservado para manter as sessões atuais.
 
 O arquivo `deploy/known_hosts` contém a identidade ED25519 do servidor, obtida do registro local confiável e validada na conexão do Actions. Se o servidor for reinstalado ou substituído, conferir a nova impressão digital por um canal confiável antes de atualizar esse arquivo.
 

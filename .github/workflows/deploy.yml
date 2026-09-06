@@ -78,7 +78,7 @@ jobs:
         shell: bash
         run: |
           ssh -F "$RUNNER_TEMP/morelidev-ssh" production \
-            'test -d /opt/morelidev && command -v docker >/dev/null && docker compose version && printf "SSH e diretório de deploy verificados.\n"'
+            'test -d /opt/morelidev && command -v docker >/dev/null && command -v openssl >/dev/null && docker compose version && printf "SSH e diretório de deploy verificados.\n"'
 
       - name: Deploy exact revision
         if: ${{ !inputs.diagnose_only }}
