@@ -1,13 +1,13 @@
 #!/bin/sh
-# Aplica migrations do Prisma automaticamente a cada deploy, antes de subir o servidor.
-# Se falhar (ex: banco criado antes de existir histórico de migrations), não derruba
-# o container — sobe do jeito que já subia antes desta mudança e loga o motivo.
-set -e
+set -eu
 
-echo "==> Aplicando migrations do Prisma..."
-if ! npx prisma migrate deploy; then
-  echo "==> AVISO: 'prisma migrate deploy' falhou. Verifique o estado do banco manualmente."
-  echo "==> Subindo o servidor mesmo assim."
+if [ -z "${JWT_SECRET:-}" ] || [ "$JWT_SECRET" = "change-me-in-production" ]; then
+  echo "JWT_SECRET ausente ou inseguro. Configure-o no .env do servidor." >&2
+  exit 1
 fi
 
-exec npm run start -- -H 0.0.0.0 -p 3000
+# Não declara a aplicação pronta quando a migração falha.
+echo "Aplicando migrations do Prisma..."
+node ./node_modules/prisma/build/index.js migrate deploy
+
+exec node server.js
