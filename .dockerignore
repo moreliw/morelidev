@@ -14,3 +14,7 @@ web/prisma/dev.db-journal
 web/.env
 web/.env.*
 **/*.log
+.env
+.env.*
+**/*.db
+**/*.db-journal

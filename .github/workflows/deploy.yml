@@ -4,50 +4,113 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+    inputs:
+      diagnose_only:
+        description: "Verificar SSH sem modificar o servidor"
+        type: boolean
+        default: false
+      diagnose_user:
+        description: "Usuário alternativo, somente para diagnóstico SSH"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
 
 concurrency:
-  group: deploy-main
-  cancel-in-progress: true
+  group: deploy-morelidev
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - name: Start SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Checkout
+        uses: actions/checkout@v6
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          persist-credentials: false
 
-      - name: Add server to known_hosts
-        run: |
-          PORT="${{ secrets.DEPLOY_PORT }}"
-          PORT="${PORT:-22}"
-          mkdir -p ~/.ssh
-          ssh-keyscan -p "$PORT" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
-
-      - name: Deploy via SSH
+      - name: Prepare and validate SSH
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          DIAGNOSE_ONLY: ${{ inputs.diagnose_only }}
+          DIAGNOSE_USER: ${{ inputs.diagnose_user }}
+        shell: bash
         run: |
+          set -euo pipefail
+          if [[ "$DIAGNOSE_ONLY" = true && -n "$DIAGNOSE_USER" ]]; then
+            DEPLOY_USER="$DIAGNOSE_USER"
+          fi
+          : "${DEPLOY_HOST:?Cadastre DEPLOY_HOST nos secrets do repositório}"
+          : "${DEPLOY_USER:?Cadastre DEPLOY_USER nos secrets do repositório}"
+          : "${DEPLOY_SSH_PRIVATE_KEY:?Cadastre DEPLOY_SSH_PRIVATE_KEY}"
           PORT="${DEPLOY_PORT:-22}"
+          [[ "$PORT" =~ ^[0-9]+$ ]] && (( PORT > 0 && PORT < 65536 )) || { echo 'Porta SSH inválida'; exit 1; }
+          [[ "$DEPLOY_HOST" =~ ^[a-zA-Z0-9.:-]+$ ]] || { echo 'Host SSH inválido'; exit 1; }
+          [[ "$DEPLOY_USER" =~ ^[a-zA-Z_][a-zA-Z0-9_-]*$ ]] || { echo 'Usuário SSH inválido'; exit 1; }
+          umask 077
+          printf '%s\n' "$DEPLOY_SSH_PRIVATE_KEY" | tr -d '\r' > "$RUNNER_TEMP/morelidev-key"
+          ssh-keygen -y -P '' -f "$RUNNER_TEMP/morelidev-key" > /dev/null
+          cp deploy/known_hosts "$RUNNER_TEMP/morelidev-known-hosts"
+          cat > "$RUNNER_TEMP/morelidev-ssh" <<EOF
+          Host production
+            HostName $DEPLOY_HOST
+            User $DEPLOY_USER
+            Port $PORT
+            IdentityFile $RUNNER_TEMP/morelidev-key
+            IdentitiesOnly yes
+            BatchMode yes
+            PreferredAuthentications publickey
+            PasswordAuthentication no
+            StrictHostKeyChecking yes
+            HostKeyAlias morelidev-production
+            UserKnownHostsFile $RUNNER_TEMP/morelidev-known-hosts
+            ConnectTimeout 15
+            ServerAliveInterval 15
+            ServerAliveCountMax 4
+          EOF
 
-          # Injeta o JWT_SECRET no servidor como variável de ambiente
-          ssh -p "$PORT" "$DEPLOY_USER@$DEPLOY_HOST" "echo 'JWT_SECRET=${JWT_SECRET}' > /opt/morelidev/.env"
+      - name: Verify server access
+        shell: bash
+        run: |
+          ssh -F "$RUNNER_TEMP/morelidev-ssh" production \
+            'test -d /opt/morelidev && command -v docker >/dev/null && docker compose version && printf "SSH e diretório de deploy verificados.\n"'
 
-          ssh -p "$PORT" "$DEPLOY_USER@$DEPLOY_HOST" bash -s <<'ENDSSH'
-            set -e
-            cd /opt/morelidev
+      - name: Deploy exact revision
+        if: ${{ !inputs.diagnose_only }}
+        env:
+          DEPLOY_REVISION: ${{ github.sha }}
+          DEPLOY_REF: ${{ github.ref }}
+        shell: bash
+        run: |
+          test "$DEPLOY_REF" = 'refs/heads/main' || { echo 'Publicação permitida somente a partir da main.'; exit 1; }
+          ssh -F "$RUNNER_TEMP/morelidev-ssh" production \
+            bash -s -- "$DEPLOY_REVISION" < deploy/deploy.sh
 
-            git fetch --all
-            git reset --hard origin/main
+      - name: Verify public release
+        if: ${{ !inputs.diagnose_only }}
+        env:
+          DEPLOY_REVISION: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 12); do
+            if curl --fail --silent --show-error --max-time 15 \
+              "https://morelidev.com/api/health?release=$DEPLOY_REVISION" > "$RUNNER_TEMP/health.json" \
+              && jq -e --arg revision "$DEPLOY_REVISION" '.status == "ok" and .version == $revision' "$RUNNER_TEMP/health.json" >/dev/null; then
+              echo 'Versão publicada e banco de dados verificados no domínio público.'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'O domínio público não retornou a versão esperada.' >&2
+          exit 1
 
-            # Garante que a rede Traefik existe
-            docker network create legalreports_public 2>/dev/null || true
-
-            docker compose -p morelidev -f docker-compose.prod.yml up -d --build --remove-orphans
-
-            echo "Deploy concluído."
-          ENDSSH
+      - name: Remove temporary SSH identity
+        if: ${{ always() }}
+        shell: bash
+        run: rm -f "$RUNNER_TEMP/morelidev-key" "$RUNNER_TEMP/morelidev-ssh"

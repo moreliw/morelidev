@@ -1,0 +1,66 @@
+name: Validate production image
+
+on:
+  push:
+    branches: ["main", "codex/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Build production image
+        run: docker build --build-arg APP_VERSION="$GITHUB_SHA" --tag morelidev:validation .
+
+      - name: Start isolated smoke test
+        shell: bash
+        run: |
+          export JWT_SECRET="$(openssl rand -hex 32)"
+          echo "::add-mask::$JWT_SECRET"
+          docker run --detach --name morelidev-smoke \
+            --publish 127.0.0.1:3002:3000 \
+            --env JWT_SECRET --env DATABASE_URL=file:/app/data/test.db \
+            morelidev:validation
+
+      - name: Verify application and migrations
+        shell: bash
+        run: |
+          set -euo pipefail
+          ready=false
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3002/api/health > /tmp/morelidev-health.json; then
+              ready=true
+              break
+            fi
+            sleep 2
+          done
+          test "$ready" = true
+          jq -e --arg revision "$GITHUB_SHA" '.status == "ok" and .version == $revision' /tmp/morelidev-health.json
+          curl --fail --silent http://127.0.0.1:3002/ > /tmp/morelidev-home.html
+          grep -q 'Software que' /tmp/morelidev-home.html
+          curl --fail --silent http://127.0.0.1:3002/projetos/empresa-capixaba > /dev/null
+          test "$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:3002/api/messages)" = 401
+          curl --fail --silent --header 'Content-Type: application/json' \
+            --data '{"name":"CI validation","email":"ci@example.invalid","message":"Temporary container smoke test."}' \
+            http://127.0.0.1:3002/api/contact | jq -e '.ok == true'
+
+      - name: Container diagnostics
+        if: ${{ failure() }}
+        run: docker logs morelidev-smoke 2>&1 || true
+
+      - name: Remove smoke-test container
+        if: ${{ always() }}
+        run: docker rm --force --volumes morelidev-smoke 2>/dev/null || true
