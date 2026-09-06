@@ -6,6 +6,8 @@ O deploy usa a revisão exata da `main`, verifica a chave pública do servidor e
 
 A publicação só termina com sucesso quando o container e `https://morelidev.com/api/health` retornam banco disponível e a revisão esperada. Falhas de migrations interrompem a inicialização. O volume de dados, uploads e a rede compartilhada do Traefik são preservados.
 
+O script também mantém a configuração Nginx de `morelidev.com`, valida-a antes de recarregar o serviço e amplia o certificado Let's Encrypt para `www.morelidev.com` quando necessário. `www` redireciona permanentemente para o domínio principal. A configuração anterior é restaurada automaticamente se essa etapa falhar.
+
 ## Configuração necessária
 
 Secrets do repositório:

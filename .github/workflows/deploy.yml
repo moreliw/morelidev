@@ -101,7 +101,8 @@ jobs:
           for attempt in $(seq 1 12); do
             if curl --fail --silent --show-error --max-time 15 \
               "https://morelidev.com/api/health?release=$DEPLOY_REVISION" > "$RUNNER_TEMP/health.json" \
-              && jq -e --arg revision "$DEPLOY_REVISION" '.status == "ok" and .version == $revision' "$RUNNER_TEMP/health.json" >/dev/null; then
+              && jq -e --arg revision "$DEPLOY_REVISION" '.status == "ok" and .version == $revision' "$RUNNER_TEMP/health.json" >/dev/null \
+              && test "$(curl --fail --silent --show-error --max-time 15 --output /dev/null --write-out '%{redirect_url}' https://www.morelidev.com/)" = 'https://morelidev.com/'; then
               echo 'Versão publicada e banco de dados verificados no domínio público.'
               exit 0
             fi
