@@ -69,4 +69,4 @@ curl --fail --silent --show-error --max-time 10 http://127.0.0.1:3002/api/health
       console.log("Container saudável e executando a versão esperada.");
     });'
 
-./deploy/configure-edge.sh
+bash ./deploy/configure-edge.sh
