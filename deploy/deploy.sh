@@ -18,8 +18,23 @@ git checkout --detach "$revision"
 export APP_VERSION="$revision"
 compose=(docker compose -p morelidev -f docker-compose.prod.yml)
 
-# O .env é administrado no servidor. Nunca substituí-lo por secrets vazios.
-test -f .env || { echo 'Arquivo /opt/morelidev/.env ausente. Configure JWT_SECRET antes de publicar.' >&2; exit 1; }
+# O .env é administrado no servidor. Cria somente o segredo ausente, no próprio host,
+# sem transmitir ou imprimir seu valor nos logs do GitHub Actions.
+test -f .env || { umask 077; : > .env; }
+if ! grep -Eq '^JWT_SECRET=.{32,}$' .env; then
+  secret="$(openssl rand -hex 32)"
+  env_temp="$(mktemp .env.XXXXXX)"
+  awk -v secret="$secret" '
+    BEGIN { replaced = 0 }
+    /^JWT_SECRET=/ && !replaced { print "JWT_SECRET=" secret; replaced = 1; next }
+    { print }
+    END { if (!replaced) print "JWT_SECRET=" secret }
+  ' .env > "$env_temp"
+  chmod 600 "$env_temp"
+  mv "$env_temp" .env
+  unset secret
+  echo 'JWT_SECRET seguro criado no servidor.'
+fi
 "${compose[@]}" config --quiet
 docker network inspect legalreports_public >/dev/null 2>&1 || docker network create legalreports_public
 
