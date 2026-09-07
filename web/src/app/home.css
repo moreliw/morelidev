@@ -181,11 +181,13 @@
   white-space: nowrap;
 }
 .ui-row b {
+  /* sem min-width: 0 — o nome nunca fica menor que a palavra mais longa */
   flex: 1;
-  min-width: 0;
 }
 .ui-row em {
-  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ui-side {
   background: var(--dark);
@@ -230,6 +232,7 @@
 }
 .ui-menu span::before {
   content: "";
+  flex-shrink: 0;
   width: 11px;
   height: 11px;
   border-radius: 3px;
@@ -384,8 +387,8 @@
 .ui-row em {
   margin-left: auto;
   font-style: normal;
-  font-size: 0.52rem;
-  padding: 0.12rem 0.4rem;
+  font-size: 0.5rem;
+  padding: 0.12rem 0.38rem;
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent-deep);
@@ -402,7 +405,7 @@
 }
 .ui-two {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1.32fr 1fr;
   gap: 0.5rem;
 }
 
@@ -1596,6 +1599,10 @@
   .ui-main {
     padding: 0.85rem 0.9rem 1rem;
   }
+  .ui-stat small {
+    font-size: 0.5rem;
+    letter-spacing: 0.02em;
+  }
   .ui-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1638,6 +1645,12 @@
   .cta-channels {
     flex-direction: column;
     gap: 0.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .ui-menu span {
+    font-size: 0.58rem;
   }
 }
 

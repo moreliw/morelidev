@@ -72,7 +72,6 @@ export function AppMock({ c }: { c: Copy }) {
               {agenda.map(([time, name, status, tone]) => (
                 <div className="ui-row" key={time}>
                   <time>{time}</time>
-                  <i />
                   <b>{name}</b>
                   <em data-tone={tone || undefined}>{status}</em>
                 </div>
