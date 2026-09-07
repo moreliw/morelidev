@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ArrowUpRight, Check, HeartPulse, Wallet } from "lucide-react";
 import type { Copy } from "./types";
 import { LINKS } from "@/content/site";
+import { OdontoAppMock, SaldoCasaMock } from "./ui/ProductMocks";
 
 /**
  * Showcase sticky: a composição da direita troca de produto conforme
@@ -51,11 +51,7 @@ export function Products({ c }: { c: Copy }) {
         c("Financeiro e relatórios", "Finance and reports"),
       ],
       href: LINKS.odontoapp,
-      image: "/images/premium/odontoapp.webp",
-      alt: c(
-        "Interface do OdontoApp em computador e celular",
-        "OdontoApp interface on desktop and mobile",
-      ),
+      mock: <OdontoAppMock c={c} />,
     },
     {
       name: "SaldoCasa",
@@ -79,11 +75,7 @@ export function Products({ c }: { c: Copy }) {
         c("Relatórios visuais", "Visual reports"),
       ],
       href: LINKS.saldocasa,
-      image: "/images/premium/saldocasa.webp",
-      alt: c(
-        "Interface do SaldoCasa em computador e celular",
-        "SaldoCasa interface on desktop and mobile",
-      ),
+      mock: <SaldoCasaMock c={c} />,
     },
   ];
 
@@ -124,16 +116,7 @@ export function Products({ c }: { c: Copy }) {
                   refs.current[index] = node;
                 }}
               >
-                <div className="prod-shot">
-                  <Image
-                    src={product.image}
-                    alt={product.alt}
-                    width={1200}
-                    height={800}
-                    sizes="100vw"
-                    loading="lazy"
-                  />
-                </div>
+                <div className="prod-shot">{product.mock}</div>
                 <span className="prod-brand">
                   <i>
                     <product.icon size={17} strokeWidth={1.7} aria-hidden />
@@ -172,21 +155,14 @@ export function Products({ c }: { c: Copy }) {
             <div className="products-visual">
               {products.map((product, index) => (
                 <figure key={product.name} data-on={active === index}>
-                  <Image
-                    src={product.image}
-                    alt={product.alt}
-                    width={1200}
-                    height={800}
-                    sizes="(max-width: 1023px) 100vw, 55vw"
-                    loading="lazy"
-                  />
+                  {product.mock}
                 </figure>
               ))}
-              <div className="products-dots" aria-hidden>
-                {products.map((product, index) => (
-                  <span key={product.name} data-on={active === index} />
-                ))}
-              </div>
+            </div>
+            <div className="products-dots" aria-hidden>
+              {products.map((product, index) => (
+                <span key={product.name} data-on={active === index} />
+              ))}
             </div>
           </div>
         </div>
