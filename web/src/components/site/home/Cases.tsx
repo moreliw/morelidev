@@ -17,10 +17,13 @@ export function Cases({ c }: { c: Copy }) {
         [c("Escopo", "Scope"), c("Design + desenvolvimento", "Design + development")],
         [c("Setor", "Sector"), c("Exportação", "Export")],
       ],
-      image: "/images/premium/mameri-studio.webp",
+      image: "/images/cases/mameri-site.webp",
+      width: 1280,
+      height: 520,
+      host: "mameriexport.com.br",
       alt: c(
-        "Website da Mameri Export apresentado sobre uma superfície de pedra natural",
-        "Mameri Export website shown on a natural stone surface",
+        "Página inicial do site da Mameri Export",
+        "Mameri Export website home page",
       ),
     },
     {
@@ -35,10 +38,13 @@ export function Cases({ c }: { c: Copy }) {
         [c("Escopo", "Scope"), c("Produto + engenharia", "Product + engineering")],
         [c("Setor", "Sector"), c("Operações", "Operations")],
       ],
-      image: "/images/premium/capixaba-studio.webp",
+      image: "/images/cases/empresa-capixaba.webp",
+      width: 1905,
+      height: 938,
+      host: c("Painel operacional", "Operations dashboard"),
       alt: c(
-        "Sistema de gestão operacional desenvolvido para a Empresa Capixaba",
-        "Operations management system built for Empresa Capixaba",
+        "Painel do sistema de gestão da Empresa Capixaba",
+        "Empresa Capixaba management system dashboard",
       ),
     },
   ];
@@ -83,18 +89,28 @@ export function Cases({ c }: { c: Copy }) {
               tabIndex={-1}
               aria-hidden
             >
-              <span className="case-index">0{i + 1}</span>
-              <Image
-                src={item.image}
-                alt=""
-                width={1280}
-                height={800}
-                sizes="(max-width: 1023px) 100vw, 60vw"
-                loading="lazy"
-              />
+              <figure className="case-frame">
+                <figcaption className="case-bar">
+                  <i />
+                  <i />
+                  <i />
+                  <u>{item.host}</u>
+                </figcaption>
+                <Image
+                  src={item.image}
+                  alt=""
+                  width={item.width}
+                  height={item.height}
+                  sizes="(max-width: 1023px) 100vw, 60vw"
+                  loading="lazy"
+                />
+              </figure>
             </Link>
             <div className="case-copy">
-              <p className="kicker">{item.kicker}</p>
+              <p className="kicker">
+                <span className="case-num">0{i + 1}</span>
+                {item.kicker}
+              </p>
               <h3>{item.name}</h3>
               <p>{item.text}</p>
               <div className="case-meta">
