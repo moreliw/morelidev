@@ -1530,24 +1530,6 @@ summary {
 .portfolio-cta h2 {
   margin-top: 0;
 }
-.case-article {
-  padding-top: 42px;
-}
-.case-article .case-title {
-  font-family: var(--font-editorial), Georgia, serif;
-  font-size: clamp(55px, 8vw, 100px);
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.025em;
-}
-.case-article .case-heading {
-  max-width: 850px;
-  margin-top: 48px;
-}
-.case-article .case-media {
-  border-radius: 6px;
-  margin-top: 45px;
-}
 @media (max-width: 767px) {
   .projects-index {
     padding-top: 45px;
@@ -1566,11 +1548,5 @@ summary {
   .portfolio-cta {
     flex-direction: column;
     align-items: flex-start;
-  }
-  .case-article {
-    padding-top: 25px;
-  }
-  .case-article .case-heading {
-    margin-top: 32px;
   }
 }
