@@ -1,87 +1,133 @@
+"use client";
+import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import type { Copy } from "./types";
-import { ArrowUpRight, Braces, Globe2, Layers3, Workflow } from "lucide-react";
 
+/**
+ * Acordeão horizontal no desktop, empilhado no mobile.
+ * Abre no hover e no foco — sem depender de clique.
+ */
 export function Solutions({ c }: { c: Copy }) {
-  const solutions = [
+  const [open, setOpen] = useState(0);
+  const items = [
     {
-      icon: Layers3,
-      title: c("Produtos digitais e SaaS", "Digital products & SaaS"),
+      title: c("Produtos digitais & SaaS", "Digital products & SaaS"),
       text: c(
-        "Da primeira versão à evolução do produto. Uma base sólida para sua ideia ganhar mercado.",
-        "From your first release to product growth. A solid foundation to bring your idea to market.",
+        "Da ideia ao mercado. Produtos digitais pensados para gerar valor e escalar.",
+        "From idea to market. Digital products designed to create value and scale.",
       ),
-      tag: c("DA IDEIA AO PRODUTO", "FROM IDEA TO PRODUCT"),
+      points: [
+        c("Descoberta e definição de MVP", "Discovery and MVP definition"),
+        c("Arquitetura preparada para escala", "Architecture ready to scale"),
+        c("Evolução contínua do produto", "Continuous product evolution"),
+      ],
+      bar: "78%",
     },
     {
-      icon: Braces,
-      title: c("Sistemas sob medida", "Custom software"),
+      title: c("Sistemas sob medida", "Custom systems"),
       text: c(
-        "Sua operação tem suas particularidades. Seu software também deveria ter.",
-        "Your operation has its own needs. Your software should be built around them.",
+        "Soluções desenhadas para processos e operações que não cabem em software de prateleira.",
+        "Solutions designed for processes and operations that off-the-shelf software cannot handle.",
       ),
-      tag: c("MENOS ATRITO, MAIS EFICIÊNCIA", "LESS FRICTION, MORE EFFICIENCY"),
+      points: [
+        c("Processos mapeados com o time", "Processes mapped with your team"),
+        c("Integração com o que já existe", "Integration with what already exists"),
+        c("Controle e visibilidade da operação", "Control and visibility of operations"),
+      ],
+      bar: "64%",
     },
     {
-      icon: Globe2,
       title: c("Websites premium", "Premium websites"),
       text: c(
-        "Design que traduz sua marca. Performance e experiência que transformam visitas em oportunidades.",
-        "Design that reflects your brand. Performance and experiences that turn visits into opportunities.",
+        "Sites institucionais e experiências digitais que posicionam a marca com clareza.",
+        "Corporate websites and digital experiences that position your brand with clarity.",
       ),
-      tag: c("PRESENÇA QUE GERA VALOR", "A PRESENCE THAT CREATES VALUE"),
+      points: [
+        c("Narrativa e direção visual", "Narrative and visual direction"),
+        c("Performance e SEO técnico", "Performance and technical SEO"),
+        c("Conteúdo fácil de manter", "Content that is easy to maintain"),
+      ],
+      bar: "92%",
     },
     {
-      icon: Workflow,
-      title: c("Automações e integrações", "Automation & integrations"),
+      title: c("Automações & integrações", "Automation & integrations"),
       text: c(
-        "Conecte ferramentas, elimine tarefas repetitivas e devolva tempo para sua equipe.",
-        "Connect tools, eliminate repetitive tasks and give your team their time back.",
+        "Conectamos sistemas, pessoas e dados para eliminar o trabalho repetitivo.",
+        "We connect systems, people and data to eliminate repetitive work.",
       ),
-      tag: c("TUDO TRABALHANDO JUNTO", "EVERYTHING WORKING TOGETHER"),
+      points: [
+        c("APIs, ERPs e pagamentos", "APIs, ERPs and payments"),
+        c("Fluxos automatizados ponta a ponta", "End-to-end automated workflows"),
+        c("Dados consolidados em um lugar", "Data consolidated in one place"),
+      ],
+      bar: "71%",
     },
   ];
   return (
     <section
-      id="servicos"
-      className="solutions-section section-space"
+      id="solucoes"
+      className="solutions section-space"
       aria-labelledby="solutions-title"
     >
       <div className="container-site">
-        <div className="section-heading">
+        <div className="solutions-head">
           <div>
-            <p className="kicker">
-              {c(
-                "O QUE PODEMOS CONSTRUIR JUNTOS",
-                "WHAT WE CAN BUILD TOGETHER",
-              )}
+            <p className="kicker" data-reveal>
+              {c("SOLUÇÕES", "SOLUTIONS")}
             </p>
-            <h2 id="solutions-title" className="editorial-title">
-              {c(
-                "O próximo passo do seu negócio",
-                "Your next business milestone",
-              )}
-              <br />
-              {c(
-                "começa com a solução certa.",
-                "starts with the right solution.",
-              )}
+            <h2
+              id="solutions-title"
+              data-reveal
+              style={{ "--i": 1 } as React.CSSProperties}
+            >
+              {c("Tecnologia para desafios reais.", "Technology for real challenges.")}
             </h2>
           </div>
+          <p data-reveal style={{ "--i": 2 } as React.CSSProperties}>
+            {c(
+              "Quatro frentes de trabalho, um mesmo compromisso: menos ruído entre a necessidade do negócio e o que chega à produção.",
+              "Four areas of work, one commitment: less noise between the business need and what actually reaches production.",
+            )}
+          </p>
         </div>
-        <div className="solutions-grid">
-          {solutions.map((s, i) => (
-            <a href="#contato" className="solution-card" key={s.title}>
-              <div className="solution-top">
-                <s.icon size={27} strokeWidth={1.3} aria-hidden />
-                <span>0{i + 1}</span>
-              </div>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-              <div className="solution-bottom">
-                <span>{s.tag}</span>
-                <ArrowUpRight size={18} aria-hidden />
-              </div>
-            </a>
+      </div>
+      <div className="container-site">
+        <div className="sol-list" data-reveal>
+          {items.map((item, i) => (
+            <button
+              type="button"
+              className="sol-item"
+              key={item.title}
+              data-open={open === i}
+              aria-expanded={open === i}
+              onMouseEnter={() => setOpen(i)}
+              onFocus={() => setOpen(i)}
+              onClick={() => setOpen(i)}
+            >
+              <span className="sol-num">0{i + 1}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <span className="sol-reveal">
+                <span>
+                  <span className="sol-mini">
+                    {item.points.map((point) => (
+                      <span key={point}>{point}</span>
+                    ))}
+                    <span
+                      className="sol-bar"
+                      style={{ "--w": item.bar } as React.CSSProperties}
+                      aria-hidden
+                    >
+                      <i />
+                    </span>
+                  </span>
+                </span>
+              </span>
+              <span className="sol-more">
+                {c("Saiba mais", "Learn more")}
+                <ArrowRight size={15} aria-hidden />
+              </span>
+            </button>
           ))}
         </div>
       </div>

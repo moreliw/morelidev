@@ -57,8 +57,8 @@ export function ProjectsIndex() {
           </h1>
           <p>
             {c(
-              "Sistemas, produtos digitais e experiências web. Conheça o que construímos para negócios no Brasil e em Angola.",
-              "Systems, digital products and web experiences. Explore what we build for businesses in Brazil and Angola.",
+              "Sistemas, produtos digitais e experiências web. Conheça o que construímos para empresas de diferentes setores.",
+              "Systems, digital products and web experiences. Explore what we build for companies across different sectors.",
             )}
           </p>
         </header>

@@ -1,118 +1,83 @@
+import { ArrowRight, ArrowUpRight, Star } from "lucide-react";
 import type { Copy } from "./types";
-import { ArrowDown, ArrowUpRight, Globe2 } from "lucide-react";
-import Image from "next/image";
+import { AppMock, Sparkline } from "./ui/AppMock";
 
 export function Hero({ c }: { c: Copy }) {
   return (
-    <section className="hero-section" aria-labelledby="hero-title">
-      <div className="container-site">
-        <div className="hero-layout">
-          <div className="hero-copy">
-            <p className="kicker">
-              <span className="status-dot" />
-              {c(
-                "TECNOLOGIA REAL. RESULTADOS REAIS.",
-                "REAL TECHNOLOGY. REAL RESULTS.",
-              )}
-            </p>
-            <h1 id="hero-title" className="hero-title">
-              {c("Software que", "Software that")}
-              <br />
-              {c("move negócios.", "moves business.")}
-            </h1>
-            <p className="hero-description">
-              {c(
-                "Desenvolvemos sistemas, SaaS e experiências digitais sob medida para empresas que querem crescer com tecnologia de verdade.",
-                "We build custom systems, SaaS and digital experiences for businesses ready to grow with technology that makes a difference.",
-              )}
-            </p>
-            <div className="hero-buttons">
-              <a href="#contato" className="btn btn-primary">
-                {c("Falar sobre um projeto", "Let’s discuss your project")}
-                <ArrowUpRight size={17} aria-hidden />
-              </a>
-              <a href="#projetos" className="btn btn-secondary">
-                {c("Conhecer projetos", "Explore our work")}
-                <ArrowDown size={16} aria-hidden />
-              </a>
-            </div>
-            <div className="hero-proof">
-              <span className="proof-symbol">
-                <Globe2 size={21} strokeWidth={1.3} aria-hidden />
-              </span>
-              <p>
-                <strong>
-                  {c(
-                    "Do Brasil para novos horizontes.",
-                    "From Brazil to new horizons.",
-                  )}
-                </strong>
-                <span>
-                  {c(
-                    "Soluções em produção no Brasil e em Angola.",
-                    "Solutions in production in Brazil and Angola.",
-                  )}
-                </span>
-              </p>
-            </div>
-          </div>
-          <figure className="hero-visual">
-            <span className="visual-index" aria-hidden>
-              01 / MORELIDEV STUDIO
-            </span>
-            <Image
-              src="/images/premium/software-hero.webp"
-              alt={c(
-                "Mockup ilustrativo de um sistema de gestão MoreliDev em um notebook",
-                "Illustrative MoreliDev management dashboard on a laptop",
-              )}
-              width={1536}
-              height={1024}
-              sizes="(max-width: 767px) 100vw, (max-width: 1200px) 60vw, 790px"
-              preload
-              className="hero-image"
-            />
-            <figcaption className="visual-caption">
-              <span>
-                {c("IDEIAS. SISTEMAS. PESSOAS.", "IDEAS. SYSTEMS. PEOPLE.")}
-              </span>
-              <span>{c("MAIS DO QUE CÓDIGO.", "MORE THAN CODE.")}</span>
-            </figcaption>
-          </figure>
-        </div>
-        <div className="trust-strip">
-          <p className="kicker">
-            {c("CONFIANÇA QUE GERA", "TRUST THAT CREATES")}
-            <br />
-            {c("NOVAS HISTÓRIAS", "NEW POSSIBILITIES")}
+    <section className="hero" aria-labelledby="hero-title">
+      <div className="container-site hero-grid">
+        <div className="hero-copy">
+          <p className="kicker hero-eyebrow fade-up">
+            {c(
+              "DESIGN · SOFTWARE · PRODUTOS DIGITAIS",
+              "DESIGN · SOFTWARE · DIGITAL PRODUCTS",
+            )}
           </p>
-          <div>
-            <strong>
-              5<span>+</span>
-            </strong>
-            <p>{c("anos de experiência", "years of experience")}</p>
+          <h1 id="hero-title" className="hero-title">
+            <span className="line" style={{ "--i": 0 } as React.CSSProperties}>
+              <span>{c("Software feito", "Software built")}</span>
+            </span>
+            <span className="line" style={{ "--i": 1 } as React.CSSProperties}>
+              <span>
+                {c("para ", "to ")}
+                <b>{c("mover", "move")}</b>
+              </span>
+            </span>
+            <span className="line" style={{ "--i": 2 } as React.CSSProperties}>
+              <span>{c("negócios.", "business.")}</span>
+            </span>
+          </h1>
+          <p className="hero-sub fade-up" style={{ "--i": 2 } as React.CSSProperties}>
+            {c(
+              "Estratégia, design e engenharia para criar sistemas, produtos digitais e experiências que simplificam operações e ajudam empresas a crescer.",
+              "Strategy, design and engineering to build systems, digital products and experiences that simplify operations and help companies grow.",
+            )}
+          </p>
+          <div
+            className="hero-actions fade-up"
+            style={{ "--i": 3 } as React.CSSProperties}
+          >
+            <a href="#contato" className="btn btn-primary" data-magnetic>
+              {c("Falar sobre um projeto", "Start a project")}
+              <ArrowRight size={17} aria-hidden />
+            </a>
+            <a href="#cases" className="btn btn-secondary">
+              {c("Conhecer nosso trabalho", "See our work")}
+              <ArrowUpRight size={17} aria-hidden />
+            </a>
           </div>
-          <div>
-            <strong className="trust-place">
-              Brasil <span>+</span> Angola
-            </strong>
-            <p>
-              {c(
-                "conexões que atravessam fronteiras",
-                "connections that cross borders",
-              )}
-            </p>
-          </div>
-          <div>
-            <strong className="trust-services">
-              SaaS · {c("Sistemas", "Systems")} · Websites
-            </strong>
-            <p>
-              {c(
-                "tecnologia para empresas que não param",
-                "technology for businesses that keep moving",
-              )}
-            </p>
+          <p className="hero-note fade-up" style={{ "--i": 4 } as React.CSSProperties}>
+            {c(
+              "Atuação remota · projetos locais e internacionais",
+              "Remote studio · local and international projects",
+            )}
+          </p>
+        </div>
+
+        <div className="hero-stage fade-up" style={{ "--i": 2 } as React.CSSProperties}>
+          <p className="stage-mark">
+            {c(
+              "Tecnologia que aproxima pessoas do resultado.",
+              "Technology that brings people closer to results.",
+            )}
+          </p>
+          <div className="stage-inner" data-parallax>
+            <AppMock c={c} />
+            <div className="ui-float stage-float stage-float--a" aria-hidden>
+              <small>{c("SATISFAÇÃO", "SATISFACTION")}</small>
+              <b>4,9</b>
+              <span className="ui-stars">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <Star key={i} size={11} fill="currentColor" strokeWidth={0} />
+                ))}
+              </span>
+            </div>
+            <div className="ui-float stage-float stage-float--b" aria-hidden>
+              <small>{c("RECEITA", "REVENUE")}</small>
+              <b>+18%</b>
+              <u>{c("vs. mês anterior", "vs. last month")}</u>
+              <Sparkline height={30} />
+            </div>
           </div>
         </div>
       </div>

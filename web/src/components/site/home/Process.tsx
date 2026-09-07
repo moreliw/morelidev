@@ -1,69 +1,77 @@
 import type { Copy } from "./types";
-import { ArrowRight, Check } from "lucide-react";
 
 export function Process({ c }: { c: Copy }) {
   const steps = [
     [
-      c("Entendimento", "Discovery"),
+      c("Descoberta", "Discovery"),
       c(
-        "Ouvimos, perguntamos e mergulhamos no seu negócio, nos objetivos e nos desafios.",
-        "We listen, ask questions and get to know your business, goals and challenges.",
+        "Entendemos o contexto, os processos e os objetivos.",
+        "We map the context, processes and goals.",
       ),
     ],
     [
-      c("Planejamento", "Planning"),
+      c("Estratégia", "Strategy"),
       c(
-        "Definimos escopo, prioridades e um caminho claro. Você sabe o que esperar de cada etapa.",
-        "We define scope, priorities and a clear path. You know what to expect at every stage.",
+        "Definimos escopo, arquitetura e o caminho até o valor.",
+        "We define scope, architecture and the path to value.",
+      ),
+    ],
+    [
+      c("Design", "Design"),
+      c(
+        "Transformamos decisões em interfaces claras.",
+        "We turn decisions into clear interfaces.",
       ),
     ],
     [
       c("Desenvolvimento", "Development"),
       c(
-        "Construímos com entregas incrementais, cuidado nos detalhes e você por perto.",
-        "We build through incremental releases, attention to detail and close collaboration.",
+        "Construímos com entregas incrementais e transparência.",
+        "We build with incremental delivery and transparency.",
       ),
     ],
     [
-      c("Entrega e evolução", "Launch & evolution"),
+      c("Evolução", "Evolution"),
       c(
-        "Acompanhamos o lançamento e seguimos juntos no suporte e nas melhorias.",
-        "We support the launch and stay alongside you for ongoing support and improvements.",
+        "Acompanhamos, otimizamos e escalamos com você.",
+        "We monitor, optimise and scale alongside you.",
       ),
     ],
   ];
   return (
     <section
       id="processo"
-      className="section-space process-section"
+      className="process section-space"
       aria-labelledby="process-title"
     >
       <div className="container-site">
-        <div className="section-heading">
+        <div className="process-head">
           <div>
-            <p className="kicker">{c("COMO TRABALHAMOS", "HOW WE WORK")}</p>
-            <h2 id="process-title" className="editorial-title">
-              {c("Um processo claro,", "A clear process,")}
-              <br />
-              {c("do início ao resultado.", "from first step to results.")}
+            <p className="kicker" data-reveal>
+              {c("COMO TRABALHAMOS", "HOW WE WORK")}
+            </p>
+            <h2
+              id="process-title"
+              data-reveal
+              style={{ "--i": 1 } as React.CSSProperties}
+            >
+              {c(
+                "Do primeiro problema à solução em produção.",
+                "From the first problem to software in production.",
+              )}
             </h2>
           </div>
-          <p className="section-intro">
+          <p data-reveal style={{ "--i": 2 } as React.CSSProperties}>
             {c(
-              "Boa tecnologia começa com uma boa conversa. Transparência, proximidade e decisões bem fundamentadas em todas as etapas.",
-              "Good technology starts with a good conversation. Transparency, close collaboration and thoughtful decisions at every step.",
+              "Um processo claro, colaborativo e focado em resultados reais.",
+              "A clear, collaborative process focused on real results.",
             )}
           </p>
         </div>
-        <ol className="process-grid">
+        <ol className="timeline" data-progress>
           {steps.map(([title, text], i) => (
-            <li key={title}>
-              <span className="step-number">
-                0{i + 1}
-                <span aria-hidden>
-                  {i === 3 ? <Check size={17} /> : <ArrowRight size={17} />}
-                </span>
-              </span>
+            <li className="step" key={title} style={{ "--i": i } as React.CSSProperties}>
+              <small>0{i + 1}</small>
               <h3>{title}</h3>
               <p>{text}</p>
             </li>

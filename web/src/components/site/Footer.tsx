@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ArrowUpRight, Github, Linkedin, ArrowUp } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Github, Linkedin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { LINKS } from "@/content/site";
 import { Brand } from "./Brand";
@@ -11,55 +11,16 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container-site">
-        <div className="footer-grid">
+        <div className="footer-top">
           <div className="footer-brand">
             <Brand />
             <p>
               {c(
-                "Tecnologia que move negócios. Um estúdio de software para quem acredita no próximo passo.",
-                "Technology that moves business. A software studio for those who believe in the next step.",
+                "Tecnologia para um futuro com mais possibilidades. Estratégia, design e engenharia em um só time.",
+                "Technology for a future with more possibilities. Strategy, design and engineering in a single team.",
               )}
             </p>
-          </div>
-          <nav aria-label={c("Navegação do rodapé", "Footer navigation")}>
-            <h2>Explore</h2>
-            <Link href="/#servicos">{c("Soluções", "Solutions")}</Link>
-            <Link href="/#produtos">{c("Produtos", "Products")}</Link>
-            <Link href="/projetos">{c("Projetos", "Projects")}</Link>
-            <Link href="/#empresa">{c("Sobre nós", "About us")}</Link>
-            <Link href="/#contato">{c("Contato", "Contact")}</Link>
-          </nav>
-          <nav aria-label={c("Nossos produtos", "Our products")}>
-            <h2>{c("Nossos produtos", "Our products")}</h2>
-            <a
-              href={LINKS.saldocasa}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SaldoCasa
-              <ArrowUpRight size={13} aria-hidden />
-            </a>
-            <a
-              href={LINKS.odontoapp}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              OdontoApp
-              <ArrowUpRight size={13} aria-hidden />
-            </a>
-            <Link href="/#processo">
-              {c("Como trabalhamos", "Our process")}
-            </Link>
-          </nav>
-          <div className="footer-location">
-            <h2>Brasil + Angola</h2>
-            <p>
-              {c(
-                "Proximidade em cada conversa. Qualidade em cada entrega. Onde seu negócio estiver.",
-                "Close collaboration in every conversation. Quality in every delivery. Wherever your business is.",
-              )}
-            </p>
-            <div className="social-links">
+            <div className="footer-social">
               <a
                 href={LINKS.linkedin}
                 target="_blank"
@@ -74,9 +35,46 @@ export function Footer() {
                 rel="noopener noreferrer"
                 aria-label="GitHub"
               >
-                <Github size={19} aria-hidden />
+                <Github size={18} aria-hidden />
               </a>
             </div>
+          </div>
+          <div className="footer-nav">
+            <nav aria-label={c("Soluções", "Solutions")}>
+              <h2>{c("Soluções", "Solutions")}</h2>
+              <Link href="/#solucoes">{c("Produtos digitais", "Digital products")}</Link>
+              <Link href="/#solucoes">{c("Sistemas sob medida", "Custom systems")}</Link>
+              <Link href="/#solucoes">{c("Websites premium", "Premium websites")}</Link>
+              <Link href="/#solucoes">
+                {c("Automações & integrações", "Automation & integrations")}
+              </Link>
+            </nav>
+            <nav aria-label={c("Produtos", "Products")}>
+              <h2>{c("Produtos", "Products")}</h2>
+              <a href={LINKS.odontoapp} target="_blank" rel="noopener noreferrer">
+                OdontoApp
+                <ArrowUpRight size={13} aria-hidden />
+              </a>
+              <a href={LINKS.saldocasa} target="_blank" rel="noopener noreferrer">
+                SaldoCasa
+                <ArrowUpRight size={13} aria-hidden />
+              </a>
+            </nav>
+            <nav aria-label={c("Empresa", "Company")}>
+              <h2>{c("Empresa", "Company")}</h2>
+              <Link href="/#empresa">{c("Sobre nós", "About us")}</Link>
+              <Link href="/#processo">{c("Como trabalhamos", "How we work")}</Link>
+              <Link href="/projetos">{c("Cases", "Work")}</Link>
+            </nav>
+            <nav aria-label={c("Contato", "Contact")}>
+              <h2>{c("Contato", "Contact")}</h2>
+              <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
+              <a href={LINKS.whatsapp} target="_blank" rel="noopener noreferrer">
+                WhatsApp
+                <ArrowUpRight size={13} aria-hidden />
+              </a>
+              <Link href="/#contato">{c("Falar sobre um projeto", "Start a project")}</Link>
+            </nav>
           </div>
         </div>
         <div className="footer-bottom">
@@ -84,8 +82,14 @@ export function Footer() {
             © {new Date().getFullYear()} MoreliDev.{" "}
             {c("Todos os direitos reservados.", "All rights reserved.")}
           </p>
+          <p className="footer-sign">
+            {c(
+              "Construindo hoje o amanhã que queremos.",
+              "Building today the tomorrow we want.",
+            )}
+          </p>
           <a href="#top">
-            {c("De volta ao topo", "Back to top")}
+            {c("Voltar ao topo", "Back to top")}
             <ArrowUp size={14} aria-hidden />
           </a>
         </div>

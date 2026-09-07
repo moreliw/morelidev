@@ -13,8 +13,8 @@ export const LINKS = {
 
 /** Linha de posicionamento — factual, sem números inventados. */
 export const SIGNAL = {
-  pt: "5+ anos de atuação · Sistemas em produção no Brasil e em Angola",
-  en: "5+ years in operation · Systems in production in Brazil and Angola",
+  pt: "5+ anos de atuação · Sistemas em produção em diferentes setores",
+  en: "5+ years in operation · Systems in production across different sectors",
 } as const;
 
 export const STACK = [
@@ -91,8 +91,8 @@ export const COPY = {
     breadcrumbProjects: { pt: "Projetos", en: "Projects" },
     allTitle: { pt: "Projetos", en: "Projects" },
     allSub: {
-      pt: "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas no Brasil e em Angola.",
-      en: "Corporate systems, marketplaces, apps and websites built by MoreliDev for companies in Brazil and Angola.",
+      pt: "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas de diferentes setores.",
+      en: "Corporate systems, marketplaces, apps and websites built by MoreliDev for companies across different sectors.",
     },
     backToProjects: { pt: "Voltar para projetos", en: "Back to projects" },
   },
@@ -200,12 +200,12 @@ export const COPY = {
     title: { pt: "MoreliDev", en: "MoreliDev" },
     paragraphs: {
       pt: [
-        "A MoreliDev é um estúdio de software brasileiro especializado na criação de sistemas, produtos digitais e experiências web.",
-        "Os projetos unem estratégia, UX e engenharia para transformar processos empresariais em software simples de utilizar, confiável e preparado para evoluir. Atuação em projetos no Brasil e em Angola.",
+        "A MoreliDev é um estúdio de software especializado na criação de sistemas, produtos digitais e experiências web.",
+        "Os projetos unem estratégia, UX e engenharia para transformar processos empresariais em software simples de utilizar, confiável e preparado para evoluir. Atuação remota em projetos locais e internacionais.",
       ],
       en: [
-        "MoreliDev is a Brazilian software studio specialized in building systems, digital products and web experiences.",
-        "Projects bring together strategy, UX and engineering to turn business processes into software that's simple to use, reliable and built to evolve. Working on projects in Brazil and Angola.",
+        "MoreliDev is a software studio specialized in building systems, digital products and web experiences.",
+        "Projects bring together strategy, UX and engineering to turn business processes into software that's simple to use, reliable and built to evolve. Working remotely on local and international projects.",
       ],
     },
     stackLabel: { pt: "Tecnologia adequada ao produto.", en: "Technology suited to the product." },
@@ -256,8 +256,8 @@ export const COPY = {
   },
   footer: {
     tagline: { pt: "Software & Produtos Digitais", en: "Software & Digital Products" },
-    location: { pt: "Brasil", en: "Brazil" },
-    coverage: { pt: "Projetos internacionais", en: "International projects" },
+    location: { pt: "Atuação remota", en: "Remote studio" },
+    coverage: { pt: "Projetos locais e internacionais", en: "Local and international projects" },
     rights: { pt: "Todos os direitos reservados.", en: "All rights reserved." },
     backToTop: { pt: "Voltar ao topo", en: "Back to top" },
   },

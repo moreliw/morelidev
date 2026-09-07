@@ -2,13 +2,15 @@
 import { useLanguage } from "@/context/LanguageContext";
 import type { Copy } from "./home/types";
 import { Hero } from "./home/Hero";
-import { Products } from "./home/Products";
-import { FeaturedWork } from "./home/FeaturedWork";
+import { Authority } from "./home/Authority";
+import { Manifesto } from "./home/Manifesto";
 import { Solutions } from "./home/Solutions";
+import { Products } from "./home/Products";
+import { Cases } from "./home/Cases";
+import { Shift } from "./home/Shift";
 import { Process } from "./home/Process";
-import { About } from "./home/About";
-import { FAQ } from "./home/FAQ";
-import { Contact } from "./home/Contact";
+import { Company } from "./home/Company";
+import { CTA } from "./home/CTA";
 
 export function HomeExperience() {
   const { language } = useLanguage();
@@ -16,13 +18,15 @@ export function HomeExperience() {
   return (
     <>
       <Hero c={c} />
-      <Products c={c} />
-      <FeaturedWork c={c} />
+      <Authority c={c} />
+      <Manifesto c={c} />
       <Solutions c={c} />
+      <Products c={c} />
+      <Cases c={c} />
+      <Shift c={c} />
       <Process c={c} />
-      <About c={c} />
-      <FAQ c={c} />
-      <Contact c={c} />
+      <Company c={c} />
+      <CTA c={c} />
     </>
   );
 }

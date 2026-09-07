@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ProjectCase } from "@/components/site/ProjectCase";
-import { ScrollReveals } from "@/components/site/ScrollReveals";
+import { Motion } from "@/components/site/Motion";
 import { PROJECTS, getProject } from "@/data/projects";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -89,7 +89,7 @@ export default async function ProjetoPage({ params }: Props) {
         <ProjectCase project={project} nextProject={nextProject} />
       </main>
       <Footer />
-      <ScrollReveals />
+      <Motion />
     </>
   );
 }

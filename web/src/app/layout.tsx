@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import "./premium.css";
+import "./chrome.css";
+import "./home.css";
 import { Providers } from "./providers";
 
 // Fonte de interface: variável, um único arquivo woff2 cobre todos os pesos.
@@ -19,10 +20,12 @@ const editorial = Instrument_Serif({
   weight: "400",
   style: ["normal", "italic"],
   display: "swap",
+  // usada apenas nas páginas de case — não disputa banda com o LCP da home.
+  preload: false,
 });
 
 export const viewport: Viewport = {
-  themeColor: "#f6f5f1",
+  themeColor: "#f6f7f9",
 };
 
 const SITE = "https://morelidev.com";
@@ -34,7 +37,7 @@ export const metadata: Metadata = {
     template: "%s — MoreliDev",
   },
   description:
-    "A MoreliDev projeta e desenvolve sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
+    "A MoreliDev projeta e desenvolve sistemas sob medida, produtos digitais, SaaS, websites premium e integrações para empresas que querem ir mais longe.",
   alternates: { canonical: SITE },
   icons: {
     icon: [{ url: "/icon-dev.png", type: "image/png" }],
@@ -44,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MoreliDev — Software que move negócios",
     description:
-      "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
+      "Sistemas sob medida, produtos digitais, SaaS, websites premium e integrações para empresas que querem ir mais longe.",
     type: "website",
     url: SITE,
     siteName: "MoreliDev",
@@ -64,7 +67,7 @@ export const metadata: Metadata = {
     title: "MoreliDev — Software que move negócios",
     images: ["/images/premium/software-hero.webp"],
     description:
-      "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações para empresas no Brasil e em Angola.",
+      "Sistemas sob medida, produtos digitais, SaaS, websites premium e integrações para empresas que querem ir mais longe.",
   },
 };
 
@@ -88,13 +91,8 @@ const jsonLd = {
       url: SITE,
       logo: `${SITE}/icon-dev.png`,
       founder: { "@id": `${SITE}/#founder` },
-      areaServed: ["BR", "AO"],
       description:
-        "Estúdio de engenharia de software especializado em sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações.",
-      address: {
-        "@type": "PostalAddress",
-        addressCountry: "BR",
-      },
+        "Estúdio de engenharia de software especializado em sistemas sob medida, produtos digitais, SaaS, websites premium e integrações.",
     },
     {
       "@type": "WebSite",
@@ -107,6 +105,9 @@ const jsonLd = {
   ],
 };
 
+const MOTION_FLAG =
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.motion='on'}catch(e){}";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -118,6 +119,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {/* Marca o documento antes da primeira pintura: só assim os reveals
+            partem escondidos — e nunca para quem pede movimento reduzido. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: MOTION_FLAG,
+          }}
         />
       </head>
       <body
