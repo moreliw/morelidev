@@ -2,7 +2,7 @@ export type Language = "pt" | "en";
 
 /** Links e contatos usados em todo o site — um único lugar para atualizar. */
 export const LINKS = {
-  email: "contato@morelidev.com",
+  email: "williammorelli07@gmail.com",
   whatsapp: "https://wa.me/5527999552024",
   linkedin: "https://www.linkedin.com/in/william-moreli",
   github: "https://github.com/moreliw",

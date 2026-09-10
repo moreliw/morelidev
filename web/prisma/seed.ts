@@ -95,7 +95,7 @@ async function main() {
     { key: "hero.headline.en", value: "Software Engineer | Full Stack Developer" },
     { key: "hero.desc.pt", value: "Construo aplicações web escaláveis com .NET, Angular, React e arquiteturas modernas." },
     { key: "hero.desc.en", value: "Building scalable web applications with .NET, Angular, React and modern architectures." },
-    { key: "contact.email", value: "contato@morelidev.com" },
+    { key: "contact.email", value: "williammorelli07@gmail.com" },
     { key: "contact.whatsapp", value: "https://wa.me/5527999999999" },
     { key: "social.linkedin", value: "https://www.linkedin.com/in/william-moreli" },
     { key: "social.github", value: "https://github.com/moreliw" },
