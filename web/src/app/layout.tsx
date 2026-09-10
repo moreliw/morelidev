@@ -37,9 +37,13 @@ export const metadata: Metadata = {
     "MoreliDev é um estúdio de tecnologia criativa: estratégia, design e engenharia para produtos digitais, sistemas sob medida e experiências web que empresas realmente usam.",
   alternates: { canonical: SITE },
   icons: {
-    icon: [{ url: "/icon-dev.png", type: "image/png" }],
-    shortcut: ["/icon-dev.png"],
-    apple: [{ url: "/icon-dev.png", type: "image/png" }],
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo-icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png" }],
   },
   openGraph: {
     title: "MoreliDev — Creative Technology Studio",
@@ -52,9 +56,9 @@ export const metadata: Metadata = {
     alternateLocale: "en_US",
     images: [
       {
-        url: "/images/premium/mameri-studio.webp",
-        width: 1536,
-        height: 1024,
+        url: "/open-graph-1200x630.jpg",
+        width: 1200,
+        height: 630,
         alt: "MoreliDev — Creative Technology Studio",
       },
     ],
@@ -62,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "MoreliDev — Creative Technology Studio",
-    images: ["/images/premium/mameri-studio.webp"],
+    images: ["/social-card-1200x675.jpg"],
     description:
       "Estratégia, design e engenharia para produtos digitais, sistemas sob medida e experiências web.",
   },
@@ -86,7 +90,7 @@ const jsonLd = {
       "@id": `${SITE}/#organization`,
       name: "MoreliDev",
       url: SITE,
-      logo: `${SITE}/icon-dev.png`,
+      logo: `${SITE}/android-chrome-512x512.png`,
       founder: { "@id": `${SITE}/#founder` },
       description:
         "Estúdio de tecnologia criativa especializado em produtos digitais, sistemas sob medida e experiências web.",

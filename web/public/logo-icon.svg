@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <g transform="translate(80,110)">
+    <path d="M70 600 L280 170 Q295 140 332 140 H430 L220 620 Q205 655 168 655 H70 Q45 655 60 625 Z" fill="#F7F8FA"/>
+    <path d="M260 600 L500 100 Q515 70 552 70 H655 L410 620 Q395 655 360 655 H255 Q232 655 245 625 Z" fill="url(#g)"/>
+    <path d="M445 360 L555 190 L760 620 Q775 655 738 655 H650 Q620 655 605 626 Z" fill="#2A3242"/>
+  </g>
+  <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3AA0FF"/><stop offset="0.55" stop-color="#2F6BFF"/><stop offset="1" stop-color="#5A6CFF"/></linearGradient></defs>
+</svg>

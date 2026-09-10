@@ -83,17 +83,28 @@ body.cursor-none summary {
 
 /* ─────────── Marca ─────────── */
 .brand {
+  position: relative;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   flex-shrink: 0;
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  height: clamp(22px, 5vw, 32px);
 }
-.brand-slash {
-  color: var(--accent);
-  margin-inline: 1px;
+.brand-logo {
+  display: block;
+  height: 100%;
+  width: auto;
+  transition: opacity var(--dur-2) var(--ease);
+}
+.brand-logo--light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.site-header:not([data-on-dark]) .brand-logo--dark {
+  opacity: 0;
+}
+.site-header:not([data-on-dark]) .brand-logo--light {
+  opacity: 1;
 }
 
 /* ─────────── Header ─────────── */
@@ -135,9 +146,6 @@ body.cursor-none summary {
 }
 .site-header[data-scrolled]::after {
   opacity: 1;
-}
-.brand-slash {
-  transition: color var(--dur-2) var(--ease);
 }
 
 .header-inner {
@@ -322,13 +330,9 @@ body.cursor-none summary {
   border-bottom: 1px solid var(--line-dark);
 }
 .footer-word {
-  font-size: clamp(3.2rem, 11vw, 9rem);
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
-}
-.footer-word span {
-  color: var(--accent-2);
+  display: block;
+  width: clamp(260px, 46vw, 760px);
+  height: auto;
 }
 .footer-tag {
   margin-top: 0.8rem;

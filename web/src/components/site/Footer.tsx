@@ -17,9 +17,8 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container-site">
         <div className="footer-top">
-          <p className="footer-word">
-            MORELI<span>/</span>DEV
-          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-horizontal-dark.svg" alt="MoreliDev" className="footer-word" />
           <p className="footer-tag">
             {c("Software. Produtos. Experiências.", "Software. Products. Experiences.")}
           </p>
