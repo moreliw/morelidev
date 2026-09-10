@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/site/Header";
+import { SiteChrome } from "@/components/site/SiteChrome";
 import { Footer } from "@/components/site/Footer";
 import { ProjectCase } from "@/components/site/ProjectCase";
 import { Motion } from "@/components/site/Motion";
@@ -84,7 +84,7 @@ export default async function ProjetoPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <Header />
+      <SiteChrome />
       <main id="conteudo">
         <ProjectCase project={project} nextProject={nextProject} />
       </main>

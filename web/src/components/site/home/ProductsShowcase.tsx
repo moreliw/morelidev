@@ -4,15 +4,17 @@ import { ArrowUpRight, Check, HeartPulse, Wallet } from "lucide-react";
 import type { Copy } from "./types";
 import { LINKS } from "@/content/site";
 import { OdontoAppMock, SaldoCasaMock } from "./ui/ProductMocks";
+import { ensureGsap, gsap } from "@/lib/gsap";
 
 /**
- * Showcase sticky: a composição da direita troca de produto conforme
- * o bloco de texto correspondente entra na viewport. Sem carrossel
- * automático e sem sequestrar o scroll.
+ * "Não construímos só para clientes." — showcase fixo: a composição da
+ * direita troca de produto conforme o bloco de texto correspondente
+ * cruza o centro da viewport. Sem carrossel automático.
  */
-export function Products({ c }: { c: Copy }) {
+export function ProductsShowcase({ c }: { c: Copy }) {
   const [active, setActive] = useState(0);
   const refs = useRef<(HTMLElement | null)[]>([]);
+  const visualRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const nodes = refs.current.filter(Boolean) as HTMLElement[];
@@ -25,12 +27,26 @@ export function Products({ c }: { c: Copy }) {
           }
         }
       },
-      // linha de leitura no centro da viewport: só um bloco a cruza por vez
       { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
     );
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    ensureGsap();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    visualRefs.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.to(el, {
+        opacity: i === active ? 1 : 0,
+        scale: reduced ? 1 : i === active ? 1 : 0.97,
+        duration: reduced ? 0.001 : 0.6,
+        ease: "power2.out",
+        pointerEvents: i === active ? "auto" : "none",
+      });
+    });
+  }, [active]);
 
   const products = [
     {
@@ -80,30 +96,17 @@ export function Products({ c }: { c: Copy }) {
   ];
 
   return (
-    <section id="produtos" className="products" aria-labelledby="products-title">
+    <section id="produtos" className="products" data-theme="dark" aria-labelledby="products-title">
       <div className="container-site">
         <div className="products-head">
-          <div>
-            <p className="kicker" data-reveal>
-              {c("PRODUTOS MORELIDEV", "MORELIDEV PRODUCTS")}
-            </p>
-            <h2
-              id="products-title"
-              data-reveal
-              style={{ "--i": 1 } as React.CSSProperties}
-            >
-              {c(
-                "Também construímos o que acreditamos.",
-                "We also build what we believe in.",
-              )}
-            </h2>
-          </div>
-          <p data-reveal style={{ "--i": 2 } as React.CSSProperties}>
-            {c(
-              "Nossos produtos próprios nascem da experiência real com o mercado — e voltam para os projetos dos clientes como repertório.",
-              "Our own products come from real market experience — and feed back into client projects as craft.",
-            )}
-          </p>
+          <p className="eyebrow">{c("PRODUTOS PRÓPRIOS", "OWN PRODUCTS")}</p>
+          <h2 id="products-title" className="h-section">
+            {c("Não construímos só para clientes.", "We don't just build for clients.")}
+            <br />
+            <span className="products-accent">
+              {c("Construímos os nossos.", "We build our own.")}
+            </span>
+          </h2>
         </div>
 
         <div className="products-stage">
@@ -125,7 +128,7 @@ export function Products({ c }: { c: Copy }) {
                 </span>
                 <h3>{product.title}</h3>
                 <p>{product.text}</p>
-                <div className="prod-tags">
+                <div className="prod-tags num">
                   {product.tags.map((tag) => (
                     <span key={tag}>{tag}</span>
                   ))}
@@ -139,13 +142,14 @@ export function Products({ c }: { c: Copy }) {
                   ))}
                 </ul>
                 <a
-                  className="btn btn-ghost-dark"
+                  className="text-link"
                   href={product.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-cursor="go"
                 >
                   {c(`Conhecer ${product.name}`, `Explore ${product.name}`)}
-                  <ArrowUpRight size={17} aria-hidden />
+                  <ArrowUpRight size={16} aria-hidden />
                 </a>
               </article>
             ))}
@@ -154,15 +158,21 @@ export function Products({ c }: { c: Copy }) {
           <div className="products-visual-col">
             <div className="products-visual">
               {products.map((product, index) => (
-                <figure key={product.name} data-on={active === index}>
+                <figure
+                  key={product.name}
+                  ref={(node) => {
+                    visualRefs.current[index] = node;
+                  }}
+                  style={{ opacity: index === 0 ? 1 : 0 }}
+                >
                   {product.mock}
                 </figure>
               ))}
-            </div>
-            <div className="products-dots" aria-hidden>
-              {products.map((product, index) => (
-                <span key={product.name} data-on={active === index} />
-              ))}
+              <div className="products-dots" aria-hidden>
+                {products.map((product, index) => (
+                  <span key={product.name} data-on={active === index || undefined} />
+                ))}
+              </div>
             </div>
           </div>
         </div>

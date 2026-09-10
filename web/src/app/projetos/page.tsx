@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/site/Header";
+import { SiteChrome } from "@/components/site/SiteChrome";
 import { Footer } from "@/components/site/Footer";
 import { ProjectsIndex } from "@/components/site/ProjectsIndex";
 import { Motion } from "@/components/site/Motion";
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function ProjetosPage() {
   return (
     <>
-      <Header />
+      <SiteChrome />
       <main id="conteudo">
         <ProjectsIndex />
       </main>

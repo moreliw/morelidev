@@ -47,10 +47,10 @@ export function ProjectsIndex() {
     <section className="projects-index section-space">
       <div className="container-site">
         <header className="projects-heading">
-          <p className="kicker">
+          <p className="eyebrow">
             {c("IDEIAS QUE GANHARAM VIDA", "IDEAS BROUGHT TO LIFE")}
           </p>
-          <h1 className="editorial-title">
+          <h1 className="h-section">
             {c("Cada desafio,", "Every challenge,")}
             <br />
             <em>{c("uma nova possibilidade.", "a new possibility.")}</em>
@@ -105,7 +105,7 @@ export function ProjectsIndex() {
               </div>
               <div className="portfolio-caption">
                 <div>
-                  <p className="kicker">{project.category[language]}</p>
+                  <p className="eyebrow">{project.category[language]}</p>
                   <h2>{project.title}</h2>
                   <p>{project.shortDesc[language]}</p>
                 </div>
@@ -115,7 +115,7 @@ export function ProjectsIndex() {
           ))}
         </div>
         <div className="portfolio-cta">
-          <h2 className="editorial-title">
+          <h2 className="h-section">
             {c("O próximo pode ser o seu.", "Yours could be next.")}
           </h2>
           <Link className="btn btn-primary" href="/#contato">
