@@ -11,7 +11,8 @@ export function Header() {
   const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [current, setCurrent] = useState<string | null>(null);
   const pt = language === "pt";
   const home = pathname === "/";
   // Hero (home) nasce escuro; páginas internas nascem sobre claro — o
@@ -19,22 +20,29 @@ export function Header() {
   const [onDark, setOnDark] = useState(home);
   const toggle = useRef<HTMLButtonElement>(null);
   const links: [string, string][] = [
-    ["capacidades", pt ? "Capacidades" : "Capabilities"],
-    ["trabalhos", pt ? "Trabalhos" : "Work"],
     ["estudio", pt ? "Estúdio" : "Studio"],
+    ["servicos", pt ? "Serviços" : "Services"],
+    ["trabalhos", pt ? "Projetos" : "Work"],
+    ["processo", pt ? "Processo" : "Process"],
     ["contato", pt ? "Contato" : "Contact"],
   ];
   const href = (id: string) => `${home ? "" : "/"}#${id}`;
 
+  // Esconde ao descer, mostra ao subir — o conteúdo ganha a tela inteira.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - lastY) < 6) return;
+      setHidden(y > lastY && y > 480);
+      lastY = y;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Navbar contextual: inverte texto/ícones conforme a seção escura ou clara
-  // que está por baixo do header fixo. Páginas internas nascem sobre claro.
+  // que está por baixo do header fixo, e marca o link da seção atual.
   useEffect(() => {
     if (!home) return;
     ensureGsap();
@@ -45,10 +53,12 @@ export function Header() {
     const triggers = sections.map((section) =>
       ScrollTrigger.create({
         trigger: section,
-        start: "top top+=90",
-        end: "bottom top+=90",
+        start: "top top+=60",
+        end: "bottom top+=60",
         onToggle: (self) => {
-          if (self.isActive) setOnDark(section.dataset.theme === "dark");
+          if (!self.isActive) return;
+          setOnDark(section.dataset.theme === "dark");
+          setCurrent(section.id || null);
         },
       }),
     );
@@ -78,17 +88,19 @@ export function Header() {
   return (
     <header
       className="site-header"
-      data-scrolled={scrolled || undefined}
-      data-on-dark={onDark || undefined}
+      data-on-dark={onDark || open || undefined}
+      data-hidden={(hidden && !open) || undefined}
     >
       <div className="container-site header-inner">
         <Brand />
-        <nav
-          className="desktop-nav"
-          aria-label={pt ? "Navegação principal" : "Main navigation"}
-        >
+        <nav className="desktop-nav" aria-label={pt ? "Navegação principal" : "Main navigation"}>
           {links.map(([id, label]) => (
-            <a key={id} href={href(id)} data-cursor="link">
+            <a
+              key={id}
+              href={href(id)}
+              data-cursor="link"
+              aria-current={home && current === id ? "location" : undefined}
+            >
               {label}
             </a>
           ))}
@@ -105,12 +117,8 @@ export function Header() {
             <span aria-hidden>/</span>
             {pt ? "EN" : "PT"}
           </button>
-          <a
-            className="header-cta"
-            href={href("contato")}
-            data-cursor="go"
-          >
-            {pt ? "Falar sobre um projeto" : "Start a project"}
+          <a className="header-cta" href={href("contato")} data-cursor="go">
+            {pt ? "Fale com a MoreliDev" : "Talk to MoreliDev"}
             <ArrowUpRight size={15} aria-hidden />
           </a>
           <button
@@ -118,15 +126,7 @@ export function Header() {
             type="button"
             className="menu-toggle"
             data-cursor="link"
-            aria-label={
-              open
-                ? pt
-                  ? "Fechar menu"
-                  : "Close menu"
-                : pt
-                  ? "Abrir menu"
-                  : "Open menu"
-            }
+            aria-label={open ? (pt ? "Fechar menu" : "Close menu") : pt ? "Abrir menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen(!open)}
@@ -137,10 +137,7 @@ export function Header() {
       </div>
 
       <div id="mobile-menu" className="mobile-menu" hidden={!open}>
-        <nav
-          className="container-site"
-          aria-label={pt ? "Menu principal (móvel)" : "Main menu (mobile)"}
-        >
+        <nav className="container-site" aria-label={pt ? "Menu principal (móvel)" : "Main menu (mobile)"}>
           {links.map(([id, label], index) => (
             <a key={id} href={href(id)} onClick={() => setOpen(false)}>
               <span className="menu-number">0{index + 1}</span>
@@ -150,12 +147,8 @@ export function Header() {
           ))}
         </nav>
         <div className="container-site mobile-menu-foot">
-          <a
-            className="btn btn-primary"
-            href={href("contato")}
-            onClick={() => setOpen(false)}
-          >
-            {pt ? "Falar sobre um projeto" : "Start a project"}
+          <a className="pill pill-accent" href={href("contato")} onClick={() => setOpen(false)}>
+            {pt ? "Iniciar um projeto" : "Start a project"}
             <ArrowRight size={16} aria-hidden />
           </a>
           <p>{LINKS.email}</p>

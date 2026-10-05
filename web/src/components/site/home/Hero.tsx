@@ -1,117 +1,140 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import type { Copy } from "./types";
-import { HeroCanvas } from "./canvas/HeroCanvas";
-import { ensureGsap, gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
+import { ensureGsap, gsap, ScrollTrigger } from "@/lib/gsap";
+import { useCanvasScene } from "./three/useCanvasScene";
+import type { HeroSceneController } from "./three/heroScene";
 
 export function Hero({ c }: { c: Copy }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const groupRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { ctrl, status } = useCanvasScene<HeroSceneController>(
+    canvasRef,
+    async (canvas, reduced) => {
+      const { createHeroScene } = await import("./three/heroScene");
+      return createHeroScene(canvas, { reduced });
+    },
+    { eager: true, rootMargin: "0px" },
+  );
 
   useEffect(() => {
     ensureGsap();
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const section = sectionRef.current;
-    const headline = headlineRef.current;
-    const group = groupRef.current;
-    if (!section || !headline || !group) return;
+    if (!section) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Quem pede movimento reduzido recebe o hero inteiro, já no estado
-    // final — sem reveal, sem decomposição no scroll, sem paralaxe.
-    if (reduced) return;
+    // Ponteiro → rotação do símbolo 3D (só mouse/trackpad).
+    const onMove = (e: PointerEvent) => {
+      ctrl.current?.setPointer(
+        (e.clientX / window.innerWidth) * 2 - 1,
+        (e.clientY / window.innerHeight) * 2 - 1,
+      );
+    };
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    if (fine && !reduced) window.addEventListener("pointermove", onMove, { passive: true });
 
-    let onMove: ((e: PointerEvent) => void) | null = null;
-
+    // Saída do hero: o símbolo se decompõe e o texto sobe e esmaece.
     const ctx = gsap.context(() => {
-      const split = SplitText.create(headline, {
-        type: "lines",
-        mask: "lines",
-        linesClass: "hero-line",
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => ctrl.current?.setScroll(self.progress),
       });
-
-      const tl = gsap.timeline({ delay: 0.15 });
-      tl.from(
-        split.lines,
-        { yPercent: 112, duration: 1.1, stagger: 0.09, ease: "expo.out" },
-        0,
-      )
-        .from(".hero-eyebrow", { opacity: 0, y: 10, duration: 0.7 }, 0.15)
-        .from(".hero-sub", { opacity: 0, y: 10, duration: 0.7 }, 0.45)
-        .from(".hero-cue", { opacity: 0, duration: 0.8 }, 0.9);
-
-      {
-        // Decomposição sutil: as duas linhas se afastam em velocidades
-        // diferentes conforme o hero sai de cena, dando lugar ao manifesto.
-        const lines = split.lines as HTMLElement[];
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.4,
-          onUpdate: (self) => {
-            const p = self.progress;
-            lines.forEach((line, i) => {
-              gsap.set(line, {
-                yPercent: -p * (26 + i * 22),
-                opacity: 1 - p * 1.15,
-              });
-            });
-            gsap.set(".hero-eyebrow, .hero-sub, .hero-cue", {
-              opacity: 1 - p * 1.6,
-              y: -p * 20,
-            });
+      if (!reduced) {
+        // fromTo explícito: no momento da criação, os elementos de entrada
+        // ainda podem estar ocultos pelo preloader.
+        gsap.fromTo(
+          ".hx-content",
+          { yPercent: 0, opacity: 1 },
+          {
+            yPercent: -18,
+            opacity: 0.1,
+            ease: "none",
+            immediateRender: false,
+            scrollTrigger: { trigger: section, start: "top top", end: "bottom top", scrub: true },
           },
-        });
-
-        // Paralaxe de ponteiro — poucos pixels, só em mouse/trackpad.
-        if (window.matchMedia("(pointer: fine)").matches) {
-          const moveX = gsap.quickTo(group, "x", { duration: 0.6, ease: "power3" });
-          const moveY = gsap.quickTo(group, "y", { duration: 0.6, ease: "power3" });
-          onMove = (e: PointerEvent) => {
-            const rect = section.getBoundingClientRect();
-            const px = (e.clientX - rect.left) / rect.width - 0.5;
-            const py = (e.clientY - rect.top) / rect.height - 0.5;
-            moveX(px * 14);
-            moveY(py * 10);
-          };
-          section.addEventListener("pointermove", onMove);
-        }
+        );
+        gsap.fromTo(
+          ".hx-bar",
+          { opacity: 1 },
+          {
+            opacity: 0,
+            ease: "none",
+            immediateRender: false,
+            scrollTrigger: { trigger: section, start: "top top", end: "20% top", scrub: true },
+          },
+        );
       }
     }, section);
 
     return () => {
-      if (onMove) section.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointermove", onMove);
       ctx.revert();
     };
-  }, []);
+  }, [ctrl]);
 
   return (
     <section
       ref={sectionRef}
-      className="hero"
+      id="inicio"
+      className="hx"
       data-theme="dark"
+      data-scene={status}
       aria-labelledby="hero-title"
     >
-      <HeroCanvas />
-      <div className="hero-vignette" aria-hidden />
-      <div className="container-site hero-inner" ref={groupRef}>
-        <p className="eyebrow hero-eyebrow">
-          MORELI/DEV — {c("ESTÚDIO DE TECNOLOGIA CRIATIVA", "CREATIVE TECHNOLOGY STUDIO")}
+      <div className="hx-glow" aria-hidden />
+      <canvas ref={canvasRef} className="hx-canvas" aria-hidden />
+      {/* Sem WebGL: o símbolo estático, com o mesmo brilho. */}
+      {status === "fallback" && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="hx-fallback" src="/logo-icon.svg" alt="" aria-hidden />
+      )}
+      <div className="hx-grain" aria-hidden />
+
+      <div className="container-site hx-content">
+        <p className="hx-tags" data-intro>
+          <span>{c("Sistemas sob medida", "Custom systems")}</span>
+          <span>{c("Produtos digitais", "Digital products")}</span>
+          <span>{c("Sites de alta performance", "High-performance websites")}</span>
         </p>
-        <h1 id="hero-title" className="hero-title h-hero" ref={headlineRef}>
-          {c("A gente constrói", "We build")}
-          <br />
-          {c("o que vem ", "what's ")}
-          <span className="hero-accent">{c("depois.", "next.")}</span>
+        <h1 id="hero-title" className="hx-title">
+          <span className="hx-line">{c("Software que faz", "Software that makes")}</span>
+          <span className="hx-line">
+            <em>{c("empresas crescerem.", "companies grow.")}</em>
+          </span>
         </h1>
-        <p className="hero-sub num">
-          {c("ESTRATÉGIA — DESIGN — ENGENHARIA", "STRATEGY — DESIGN — ENGINEERING")}
-        </p>
+        <div className="hx-foot">
+          <p className="hx-sub" data-intro>
+            {c(
+              "A MoreliDev projeta e desenvolve sistemas, produtos digitais e sites — da estratégia ao código em produção, com a qualidade de quem constrói para durar.",
+              "MoreliDev designs and builds systems, digital products and websites — from strategy to production code, built by people who build to last.",
+            )}
+          </p>
+          <div className="hx-ctas" data-intro>
+            <a href="#contato" className="pill pill-accent" data-cursor="go">
+              {c("Iniciar um projeto", "Start a project")}
+              <ArrowRight size={16} aria-hidden />
+            </a>
+            <a href="#trabalhos" className="pill pill-ghost" data-cursor="link">
+              {c("Ver projetos", "See our work")}
+            </a>
+          </div>
+        </div>
       </div>
-      <div className="hero-cue" aria-hidden>
-        <span className="hero-cue-line" />
-        <span className="num">{c("ROLE", "SCROLL")}</span>
+
+      <div className="container-site hx-bar" data-intro>
+        <span className="hx-status num">
+          <i aria-hidden />
+          {c("Agenda aberta para novos projetos", "Booking new projects")}
+        </span>
+        <a href="#estudio" className="hx-scroll num" data-cursor="link">
+          {c("Role para explorar", "Scroll to explore")}
+          <ArrowDown size={13} aria-hidden />
+        </a>
+        <span className="hx-meta num">PT · EN — {c("Remoto", "Remote")}</span>
       </div>
     </section>
   );

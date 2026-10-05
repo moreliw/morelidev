@@ -23,20 +23,25 @@
 
   /* ── Inversão · seções escuras (hero, capabilities, produtos, cta) ──
      Mesma paleta, invertida — não é uma segunda identidade. */
-  --dark: #0a0a0b;
-  --dark-2: #131315;
-  --dark-3: #1b1b1e;
-  --on-dark: #f5f4f1;
-  --on-dark-muted: rgb(245 244 241 / 58%);
-  --on-dark-muted-2: rgb(245 244 241 / 50%);
-  --line-dark: rgb(245 244 241 / 12%);
-  --line-dark-2: rgb(245 244 241 / 22%);
+  --dark: #070a12;
+  --dark-2: #0c111d;
+  --dark-3: #141b2b;
+  --night: #04060b;
+  --on-dark: #f3f4f7;
+  --on-dark-muted: rgb(243 244 247 / 62%);
+  --on-dark-muted-2: rgb(243 244 247 / 50%);
+  --line-dark: rgb(243 244 247 / 11%);
+  --line-dark-2: rgb(243 244 247 / 22%);
 
   /* ── Marca — uma única cor, usada com intenção ── */
   --accent: #2457ff;
   --accent-2: #6d8bff;
   --accent-deep: #1b45d6;
   --accent-dim: rgb(36 87 255 / 10%);
+  --accent-sky: #3aa0ff;
+  --accent-violet: #5a6cff;
+  /* Mesmo degradê do símbolo da marca — usado nas palavras em itálico. */
+  --accent-gradient: linear-gradient(100deg, #9cbcff 0%, #3aa0ff 38%, #2f6bff 70%, #7d8cff 100%);
 
   --ok: #17845a;
   --err: #d0402a;
@@ -63,6 +68,7 @@
 
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --serif: var(--font-serif), "Times New Roman", serif;
 }
 
 @theme inline {

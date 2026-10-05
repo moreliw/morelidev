@@ -1,4 +1,5 @@
 import type { Copy } from "../types";
+import "./product-mocks.css";
 
 /**
  * Recriações da interface dos nossos produtos em HTML/CSS.

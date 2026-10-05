@@ -3,26 +3,25 @@ import { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { ensureGsap, ScrollTrigger } from "@/lib/gsap";
 import type { Copy } from "./home/types";
+import { Preloader } from "./home/Preloader";
 import { Hero } from "./home/Hero";
-import { Manifesto } from "./home/Manifesto";
-import { Capabilities } from "./home/Capabilities";
-import { SelectedWork } from "./home/SelectedWork";
-import { ProductsShowcase } from "./home/ProductsShowcase";
-import { Transformation } from "./home/Transformation";
-import { Process } from "./home/Process";
+import { WordMarquee } from "./home/WordMarquee";
 import { Studio } from "./home/Studio";
-import { TechMarquee } from "./home/TechMarquee";
-import { FinalCTA } from "./home/FinalCTA";
+import { Services } from "./home/Services";
+import { WorkReel } from "./home/WorkReel";
+import { Products } from "./home/Products";
+import { Process } from "./home/Process";
+import { Reach } from "./home/Reach";
+import { Contact } from "./home/Contact";
+import { SectionNav } from "./home/SectionNav";
 
 export function HomeExperience() {
   const { language } = useLanguage();
   const c: Copy = (pt, en) => (language === "pt" ? pt : en);
 
-  // Várias seções mudam sua própria altura depois de montar (o track fixo
-  // de Capabilities vira 400vh; fontes carregando reflow o texto). Cada
-  // seção cria seus próprios ScrollTriggers no momento em que monta — antes
-  // dessas mudanças acontecerem — então sem um refresh geral, os limites de
-  // início/fim de tudo que vem depois de Capabilities ficam desalinhados.
+  // As seções fixas (serviços, projetos) mudam a altura da página depois de
+  // montar e as fontes reflow o texto — sem um refresh geral, os limites
+  // dos ScrollTriggers seguintes ficam desalinhados.
   useEffect(() => {
     ensureGsap();
     const refresh = () => ScrollTrigger.refresh();
@@ -32,25 +31,28 @@ export function HomeExperience() {
     });
     document.fonts?.ready.then(refresh).catch(() => {});
     window.addEventListener("load", refresh);
+    window.addEventListener("md:loaded", refresh);
     return () => {
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
       window.removeEventListener("load", refresh);
+      window.removeEventListener("md:loaded", refresh);
     };
   }, []);
 
   return (
     <>
+      <Preloader />
       <Hero c={c} />
-      <Manifesto c={c} />
-      <Capabilities c={c} />
-      <SelectedWork c={c} />
-      <ProductsShowcase c={c} />
-      <Transformation c={c} />
-      <Process c={c} />
+      <WordMarquee c={c} />
       <Studio c={c} />
-      <TechMarquee c={c} />
-      <FinalCTA c={c} />
+      <Services c={c} />
+      <WorkReel c={c} />
+      <Products c={c} />
+      <Process c={c} />
+      <Reach c={c} />
+      <Contact c={c} />
+      <SectionNav c={c} />
     </>
   );
 }

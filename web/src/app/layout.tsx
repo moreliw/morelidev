@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "./chrome.css";
@@ -21,8 +21,18 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+// Serifa itálica só para a palavra de ênfase dos títulos — o contraste
+// grotesk + itálico é a assinatura tipográfica da home.
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
-  themeColor: "#0a0a0b",
+  themeColor: "#05070d",
 };
 
 const SITE = "https://morelidev.com";
@@ -106,8 +116,10 @@ const jsonLd = {
   ],
 };
 
+// Também marca se o preloader já rodou nesta sessão — assim ele nunca
+// pisca numa segunda navegação para a home.
 const MOTION_FLAG =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.motion='on'}catch(e){}";
+  "try{var d=document.documentElement;if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.motion='on';if(sessionStorage.getItem('md-loaded'))d.dataset.loaded='1'}catch(e){}";
 
 export default function RootLayout({
   children,
@@ -115,7 +127,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" id="top" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html
+      lang="pt-br"
+      id="top"
+      data-scroll-behavior="smooth"
+      className={`${geist.variable} ${geistMono.variable} ${serif.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           type="application/ld+json"
@@ -125,7 +143,7 @@ export default function RootLayout({
             partem escondidos — e nunca para quem pede movimento reduzido. */}
         <script dangerouslySetInnerHTML={{ __html: MOTION_FLAG }} />
       </head>
-      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         <a href="#conteudo" className="skip-link">
           Pular para o conteúdo
         </a>

@@ -11,10 +11,10 @@ import { gsap } from "@/lib/gsap";
  * `data-cursor="link" | "view" | "drag" | "go"` — delegação de evento em
  * vez de um listener por elemento.
  */
-const LABELS: Record<string, string> = {
-  view: "VIEW",
-  drag: "DRAG",
-  go: "GO",
+const LABELS: Record<string, [string, string]> = {
+  view: ["VER", "VIEW"],
+  drag: ["ARRASTE", "DRAG"],
+  go: ["FALAR", "LET'S GO"],
 };
 
 export function CustomCursor() {
@@ -51,7 +51,9 @@ export function CustomCursor() {
 
     const setState = (state: string | null) => {
       dot.dataset.state = state ?? "default";
-      label.textContent = state ? (LABELS[state] ?? "") : "";
+      const pt = document.documentElement.lang.startsWith("pt");
+      const pair = state ? LABELS[state] : undefined;
+      label.textContent = pair ? pair[pt ? 0 : 1] : "";
     };
 
     const onOver = (event: PointerEvent) => {

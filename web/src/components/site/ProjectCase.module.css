@@ -42,7 +42,8 @@
   align-items: center;
   gap: 13px;
   font-size: 11px;
-  padding-top: 28px;
+  /* Abaixo do header fixo (84px). */
+  padding-top: 104px;
   color: var(--case-muted);
 }
 .breadcrumb a {
@@ -656,7 +657,7 @@
     width: 100%;
   }
   .breadcrumb {
-    padding-top: 18px;
+    padding-top: 86px;
     font-size: 10px;
     gap: 8px;
   }
