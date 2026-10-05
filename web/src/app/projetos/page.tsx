@@ -7,12 +7,12 @@ import { Motion } from "@/components/site/Motion";
 export const metadata: Metadata = {
   title: "Projetos",
   description:
-    "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas de diferentes setores.",
+    "Sistemas, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev.",
   alternates: { canonical: "https://morelidev.com/projetos" },
   openGraph: {
-    title: "Projetos — MoreliDev",
+    title: "Projetos | MoreliDev",
     description:
-      "Sistemas corporativos, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev para empresas de diferentes setores.",
+      "Sistemas, marketplaces, aplicativos e sites desenvolvidos pela MoreliDev.",
     url: "https://morelidev.com/projetos",
     type: "website",
   },

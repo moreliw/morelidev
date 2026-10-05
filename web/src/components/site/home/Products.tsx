@@ -19,10 +19,10 @@ export function Products({ c }: { c: Copy }) {
       name: "OdontoApp",
       icon: HeartPulse,
       kind: c("SaaS · Odontologia", "SaaS · Dentistry"),
-      title: c("Gestão simples para clínicas que querem cuidar melhor.", "Simple management for clinics that want to care better."),
+      title: c("Gestão para clínicas odontológicas.", "Management for dental clinics."),
       text: c(
-        "Agenda, pacientes, prontuário e financeiro em um só lugar — com a rotina da clínica no centro do produto.",
-        "Scheduling, patients, records and finance in one place — with the clinic's routine at the centre of the product.",
+        "Agenda, pacientes, prontuário e financeiro em um só sistema.",
+        "Scheduling, patients, records and finance in one system.",
       ),
       href: LINKS.odontoapp,
       mock: <OdontoAppMock c={c} />,
@@ -31,10 +31,10 @@ export function Products({ c }: { c: Copy }) {
       name: "SaldoCasa",
       icon: Wallet,
       kind: c("App · Finanças pessoais", "App · Personal finance"),
-      title: c("Finanças pessoais sem complicação.", "Personal finance without the friction."),
+      title: c("Controle financeiro pessoal.", "Personal finance tracking."),
       text: c(
-        "Controle de gastos, metas e relatórios visuais para transformar planos em conquistas — no ritmo da vida real.",
-        "Expense tracking, goals and visual reports that turn plans into achievements — at the pace of real life.",
+        "Gastos, metas e relatórios em um aplicativo simples.",
+        "Expenses, goals and reports in a simple app.",
       ),
       href: LINKS.saldocasa,
       mock: <SaldoCasaMock c={c} />,
@@ -66,16 +66,16 @@ export function Products({ c }: { c: Copy }) {
         <div className="sec-head">
           <div>
             <p className="kicker">
-              <span>04</span> {c("Produtos próprios", "Own products")}
+              {c("Produtos próprios", "Own products")}
             </p>
             <h2 id="products-title" className="h-big">
-              {c("Também construímos", "We also build")} <em>{c("os nossos.", "our own.")}</em>
+              {c("Produtos", "Products")} <em>{c("da MoreliDev.", "by MoreliDev.")}</em>
             </h2>
           </div>
           <p className="sec-lead">
             {c(
-              "Produtos que nós mesmos desenhamos, desenvolvemos e operamos. O mesmo cuidado vai para cada projeto de cliente.",
-              "Products we design, build and run ourselves. The same care goes into every client project.",
+              "Plataformas que desenvolvemos e mantemos em operação.",
+              "Platforms we build and keep running.",
             )}
           </p>
         </div>

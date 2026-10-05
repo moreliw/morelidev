@@ -7,11 +7,11 @@ export function Process({ c }: { c: Copy }) {
   const ref = useRef<HTMLDivElement>(null);
 
   const steps: [string, string][] = [
-    [c("Descoberta", "Discovery"), c("Entendemos o negócio, o processo e o objetivo.", "We map the business, the process and the goal.")],
-    [c("Arquitetura", "Architecture"), c("Escopo, prioridades e a base técnica certa.", "Scope, priorities and the right technical base.")],
-    [c("Design", "Design"), c("Fluxos e telas validados antes do código.", "Flows and screens validated before code.")],
-    [c("Construção", "Build"), c("Entregas incrementais, testadas e acompanhadas.", "Incremental, tested, closely tracked deliveries.")],
-    [c("Evolução", "Evolution"), c("Publicação, monitoramento e melhoria contínua.", "Launch, monitoring and continuous improvement.")],
+    [c("Descoberta", "Discovery"), c("Levantamento do processo e dos objetivos.", "Mapping the process and goals.")],
+    [c("Planejamento", "Planning"), c("Escopo, prioridades e arquitetura.", "Scope, priorities and architecture.")],
+    [c("Design", "Design"), c("Fluxos e telas validados antes do desenvolvimento.", "Flows and screens validated before development.")],
+    [c("Desenvolvimento", "Development"), c("Entregas incrementais e testadas.", "Incremental, tested releases.")],
+    [c("Suporte", "Support"), c("Publicação, monitoramento e melhorias.", "Launch, monitoring and improvements.")],
   ];
 
   useEffect(() => {
@@ -62,16 +62,16 @@ export function Process({ c }: { c: Copy }) {
         <div className="sec-head">
           <div>
             <p className="kicker">
-              <span>05</span> {c("Como trabalhamos", "How we work")}
+              {c("Processo", "Process")}
             </p>
             <h2 id="process-title" className="h-big">
-              {c("Da ideia", "From idea")} <em>{c("à produção.", "to production.")}</em>
+              {c("Como", "How we")} <em>{c("trabalhamos.", "work.")}</em>
             </h2>
           </div>
           <p className="sec-lead">
             {c(
-              "Um processo curto e transparente: você acompanha cada etapa e vê o produto ganhando forma a cada entrega.",
-              "A short, transparent process: you follow every stage and see the product take shape with every delivery.",
+              "Etapas claras e acompanhamento em todas as entregas.",
+              "Clear stages and visibility on every release.",
             )}
           </p>
         </div>
@@ -81,10 +81,9 @@ export function Process({ c }: { c: Copy }) {
             <span className="pr-fill" />
           </span>
           <ol>
-            {steps.map(([title, text], i) => (
+            {steps.map(([title, text]) => (
               <li className="pr-step" key={title}>
                 <span className="pr-dot" aria-hidden />
-                <span className="pr-n">0{i + 1}</span>
                 <h3>{title}</h3>
                 <p>{text}</p>
               </li>

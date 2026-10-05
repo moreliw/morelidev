@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Code2, Compass, PenTool, type LucideIcon } from "lucide-react";
 import type { Copy } from "./types";
 import { LINKS } from "@/content/site";
 import { ensureGsap, gsap, SplitText } from "@/lib/gsap";
@@ -10,30 +10,21 @@ export function Studio({ c }: { c: Copy }) {
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
 
-  const pillars: [string, string, string][] = [
+  const pillars: [LucideIcon, string, string][] = [
     [
-      "01",
+      Compass,
       c("Estratégia", "Strategy"),
-      c(
-        "Entendemos o negócio, o processo e o objetivo antes de escrever uma linha de código.",
-        "We understand the business, the process and the goal before writing a single line of code.",
-      ),
+      c("Entendemos o processo antes de propor a solução.", "We map the process before proposing a solution."),
     ],
     [
-      "02",
+      PenTool,
       c("Design", "Design"),
-      c(
-        "Interfaces que fazem a complexidade desaparecer para quem usa todos os dias.",
-        "Interfaces that make complexity disappear for the people who use them every day.",
-      ),
+      c("Interfaces simples para quem usa no dia a dia.", "Simple interfaces for everyday users."),
     ],
     [
-      "03",
+      Code2,
       c("Engenharia", "Engineering"),
-      c(
-        "Código sólido, testado e preparado para evoluir junto com a empresa.",
-        "Solid, tested code built to evolve alongside the company.",
-      ),
+      c("Código testado, seguro e fácil de manter.", "Tested, secure and maintainable code."),
     ],
   ];
 
@@ -89,16 +80,14 @@ export function Studio({ c }: { c: Copy }) {
     >
       <div className="container-site">
         <p className="kicker">
-          <span>01</span> {c("O estúdio", "The studio")}
+          {c("O estúdio", "The studio")}
         </p>
         <h2 id="studio-title" className="st-text" ref={textRef}>
-          {c("A MoreliDev é um estúdio de software. Transformamos ", "MoreliDev is a software studio. We turn ")}
-          <em>{c("processos complexos, ideias e operações", "complex processes, ideas and operations")}</em>
           {c(
-            " em sistemas simples de usar, rápidos e ",
-            " into systems that are simple to use, fast and ",
+            "A MoreliDev desenvolve sistemas, produtos digitais e sites para empresas que precisam de ",
+            "MoreliDev builds systems, digital products and websites for companies that need ",
           )}
-          <em>{c("prontos para crescer.", "ready to grow.")}</em>
+          <em>{c("tecnologia confiável e fácil de usar.", "reliable, easy-to-use technology.")}</em>
         </h2>
 
         <div className="st-grid">
@@ -113,17 +102,15 @@ export function Studio({ c }: { c: Copy }) {
               height={1024}
               sizes="(max-width: 1023px) 100vw, 46vw"
             />
-            <figcaption className="num">
-              <span>{c("Da ideia", "From idea")}</span>
-              <span>{c("À produção", "To production")}</span>
-            </figcaption>
           </figure>
 
           <div className="st-side">
             <ol className="st-pillars">
-              {pillars.map(([n, title, text]) => (
-                <li className="st-pillar" key={n}>
-                  <span className="st-n">{n}</span>
+              {pillars.map(([Icon, title, text]) => (
+                <li className="st-pillar" key={title}>
+                  <span className="st-n" aria-hidden>
+                    <Icon size={20} strokeWidth={1.6} />
+                  </span>
                   <div>
                     <h3>{title}</h3>
                     <p>{text}</p>
@@ -137,8 +124,8 @@ export function Studio({ c }: { c: Copy }) {
                 <strong>William Moreli</strong>
                 <span>
                   {c(
-                    "Fundador — arquitetura e engenharia de todos os projetos.",
-                    "Founder — architecture and engineering on every project.",
+                    "Fundador e responsável técnico pelos projetos.",
+                    "Founder and technical lead on every project.",
                   )}
                 </span>
               </p>

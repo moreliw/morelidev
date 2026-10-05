@@ -10,7 +10,6 @@ import { gsap, ensureGsap } from "@/lib/gsap";
  */
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const countRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -28,7 +27,6 @@ export function Preloader() {
     }
 
     ensureGsap();
-    const counter = { v: 0 };
     // Esconde em vez de remover: o nó pertence ao React.
     const tl = gsap.timeline({ onComplete: () => void (root.style.display = "none") });
     tl.to(root.querySelectorAll(".pl-mark path"), {
@@ -38,19 +36,6 @@ export function Preloader() {
       stagger: 0.12,
       ease: "expo.out",
     })
-      .to(
-        counter,
-        {
-          v: 100,
-          duration: 1.15,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            if (countRef.current)
-              countRef.current.textContent = String(Math.round(counter.v)).padStart(3, "0");
-          },
-        },
-        0,
-      )
       .to(root.querySelector(".pl-bar i"), { scaleX: 1, duration: 1.15, ease: "power2.inOut" }, 0)
       .to(root.querySelector(".pl-inner"), { opacity: 0, y: -24, duration: 0.45, ease: "power2.in" }, 1.25)
       .add(done, 1.45)
@@ -88,12 +73,7 @@ export function Preloader() {
             <path d="M445 360 L555 190 L760 620 Q775 655 738 655 H650 Q620 655 605 626 Z" fill="#3a4458" />
           </g>
         </svg>
-        <div className="pl-meta">
-          <span className="pl-name">MORELI/DEV</span>
-          <span className="pl-count num" ref={countRef}>
-            000
-          </span>
-        </div>
+        <p className="pl-name">MORELI/DEV</p>
         <div className="pl-bar">
           <i />
         </div>

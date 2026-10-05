@@ -250,7 +250,7 @@ export function createHeroScene(
     const visW = visH * camera.aspect;
     // Desktop: acima e à direita do título, enquadrando-o sem cobri-lo.
     if (camera.aspect > 1.15) {
-      layout = { x: visW * 0.27, y: visH * 0.08, s: visH / 6.8 };
+      layout = { x: visW * 0.315, y: visH * 0.13, s: visH / 8 };
     } else if (camera.aspect > 0.8) {
       layout = { x: visW * 0.14, y: visH * 0.17, s: visH / 8 };
     } else {

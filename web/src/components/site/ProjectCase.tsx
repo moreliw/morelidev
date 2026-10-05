@@ -24,12 +24,8 @@ const artDirection = {
       en: ["Loading performance", "Search visibility", "Content autonomy"],
     },
     headline: {
-      pt: "A força da origem. Uma presença à altura.",
-      en: "The strength of origin. A presence to match.",
-    },
-    subtitle: {
-      pt: "Natural Stones. Global Business.",
-      en: "Natural Stones. Global Business.",
+      pt: "Site institucional para uma exportadora de pedras naturais.",
+      en: "Business website for a natural stone exporter.",
     },
     pillars: {
       pt: [
@@ -50,12 +46,8 @@ const artDirection = {
       en: ["Business logic", "System interfaces", "Operational data"],
     },
     headline: {
-      pt: "Pessoas, serviços e rotinas. Tudo conectado.",
-      en: "People, services and routines. All connected.",
-    },
-    subtitle: {
-      pt: "Gestão operacional. Visão de ponta a ponta.",
-      en: "Operational management. End-to-end visibility.",
+      pt: "Equipes, serviços e rotinas em um único sistema.",
+      en: "Teams, services and routines in a single system.",
     },
     pillars: {
       pt: [
@@ -97,6 +89,7 @@ export function ProjectCase({ project, nextProject }: Props) {
     <article className={`${styles.case} ${dark ? styles.dark : ""}`}>
       <header
         className={`${styles.hero} ${project.cover ? styles.cinematic : styles.standard}`}
+        data-header-theme={dark ? "dark" : "light"}
       >
         <div className={styles.heroVisual}>
           <Image
@@ -106,7 +99,7 @@ export function ProjectCase({ project, nextProject }: Props) {
                 ? pt
                   ? `Apresentação visual do projeto ${project.title} em um notebook`
                   : `Visual presentation of ${project.title} on a laptop`
-                : `${project.title} — ${l(project.category)}`
+                : `${project.title}, ${l(project.category)}`
             }
             fill
             loading="eager"
@@ -137,16 +130,16 @@ export function ProjectCase({ project, nextProject }: Props) {
                 : project.title}
             </h1>
             <p className={styles.subtitle}>
-              {direction ? l(direction.subtitle) : l(project.resultTitle)}
+              {l(project.resultTitle)}
             </p>
             <p className={styles.heroDescription}>{l(project.shortDesc)}</p>
             <a href="#historia" className={styles.heroButton}>
-              {pt ? "Explore o projeto" : "Explore the project"}
+              {pt ? "Ver detalhes" : "See details"}
               <ArrowDown size={18} aria-hidden />
             </a>
           </div>
           <div className={styles.heroFoot}>
-            <span>MORELI/DEV — {pt ? "ESTUDO DE CASO" : "CASE STUDY"}</span>
+            <span>{pt ? "ESTUDO DE CASO" : "CASE STUDY"}</span>
             <span>
               {pt
                 ? "ESTRATÉGIA / DESIGN / TECNOLOGIA"
@@ -156,16 +149,16 @@ export function ProjectCase({ project, nextProject }: Props) {
         </div>
       </header>
 
-      <div className={styles.pillarBand}>
+      <div className={styles.pillarBand} data-header-theme={dark ? "dark" : "light"}>
         <div className={`container-site ${styles.pillars}`}>
           <p className={styles.eyebrow}>
-            {pt
-              ? "Tecnologia aplicada.\nValor no dia a dia."
-              : "Applied technology.\nEveryday value."}
+            {pt ? "Destaques" : "Highlights"}
           </p>
-          {pillars.map((pillar, index) => (
+          {pillars.map((pillar) => (
             <div key={pillar}>
-              <span className={styles.pillarNumber}>0{index + 1}</span>
+              <span className={styles.pillarNumber} aria-hidden>
+                <Check size={16} />
+              </span>
               <p>{pillar}</p>
             </div>
           ))}
@@ -179,21 +172,20 @@ export function ProjectCase({ project, nextProject }: Props) {
         <div className={`container-site ${styles.chapterInner}`}>
           <span className={styles.chapterBrand}>{project.title}</span>
           <div>
-            {sections.map(([id, label], index) => (
+            {sections.map(([id, label]) => (
               <a href={`#${id}`} key={id}>
-                <span>0{index + 1}</span>
                 {label}
               </a>
             ))}
           </div>
           <Link href="/#contato" className={styles.chapterContact}>
-            {pt ? "Vamos conversar" : "Let’s talk"}
+            {pt ? "Solicitar orçamento" : "Request a quote"}
             <ArrowUpRight size={16} aria-hidden />
           </Link>
         </div>
       </nav>
 
-      <div className="container-site">
+      <div className="container-site" data-header-theme="light">
         <section
           id="historia"
           className={styles.story}
@@ -201,7 +193,7 @@ export function ProjectCase({ project, nextProject }: Props) {
         >
           <div data-reveal>
             <p className={styles.eyebrow}>
-              01 / {pt ? "O ponto de partida" : "The starting point"}
+              {pt ? "Contexto" : "Context"}
             </p>
             <h2 id="story-title">
               {direction ? l(direction.headline) : l(project.resultTitle)}
@@ -228,12 +220,10 @@ export function ProjectCase({ project, nextProject }: Props) {
           <div className={styles.sectionHeading} data-reveal>
             <div>
               <p className={styles.eyebrow}>
-                02 / {pt ? "Design que funciona" : "Design that works"}
+                {pt ? "Solução" : "Solution"}
               </p>
               <h2 id="experience-title">
-                {pt
-                  ? "Da estratégia à experiência."
-                  : "From strategy to experience."}
+                {pt ? "O que foi desenvolvido." : "What we built."}
               </h2>
             </div>
             <p>{l(project.solution)}</p>
@@ -271,13 +261,13 @@ export function ProjectCase({ project, nextProject }: Props) {
             )}
             <figcaption>
               <span>
-                {pt ? "O projeto em detalhes" : "The project in detail"}
+                {pt ? "Demonstração" : "Demo"}
               </span>
               <span>
                 {project.videoUrl
                   ? pt
-                    ? "Dê o play para conhecer a experiência"
-                    : "Press play to explore the experience"
+                    ? "Vídeo do projeto"
+                    : "Project video"
                   : l(project.category)}
               </span>
             </figcaption>
@@ -295,15 +285,16 @@ export function ProjectCase({ project, nextProject }: Props) {
       <section
         id="resultado"
         className={styles.outcome}
+        data-header-theme="dark"
         aria-labelledby="outcome-title"
       >
         <div className={`container-site ${styles.outcomeInner}`}>
           <div data-reveal>
             <p className={styles.eyebrow}>
-              03 / {pt ? "Do digital ao real" : "From digital to real"}
+              {pt ? "Resultado" : "Outcome"}
             </p>
             <h2 id="outcome-title">
-              {pt ? "O que muda\nna prática." : "What changes\nin practice."}
+              {pt ? "O que mudou." : "What changed."}
             </h2>
           </div>
           <div data-reveal>
@@ -312,23 +303,23 @@ export function ProjectCase({ project, nextProject }: Props) {
             </span>
             <p className={styles.resultText}>{l(project.result)}</p>
             <span className={styles.outcomeSignature}>
-              {project.title} <span aria-hidden>—</span> {l(project.category)}
+              {project.title} <span aria-hidden>·</span> {l(project.category)}
             </span>
           </div>
         </div>
       </section>
 
-      <div className="container-site">
+      <div className="container-site" data-header-theme="light">
         <section
           className={styles.engineering}
           aria-labelledby="engineering-title"
         >
           <div data-reveal>
             <p className={styles.eyebrow}>
-              {pt ? "Por trás da experiência" : "Behind the experience"}
+              {pt ? "Tecnologia" : "Technology"}
             </p>
             <h2 id="engineering-title">
-              {pt ? "Qualidade em cada decisão." : "Quality in every decision."}
+              {pt ? "Decisões técnicas." : "Technical decisions."}
             </h2>
             <div className={styles.stack}>
               {project.stack.map((item) => (
@@ -347,7 +338,6 @@ export function ProjectCase({ project, nextProject }: Props) {
               return (
                 <details key={`${project.slug}-${index}`} open={index === 0}>
                   <summary>
-                    <span className={styles.decisionNumber}>0{index + 1}</span>
                     <span>{label}</span>
                     <Plus size={18} aria-hidden />
                   </summary>
@@ -381,22 +371,18 @@ export function ProjectCase({ project, nextProject }: Props) {
           data-reveal
         >
           <p className={styles.eyebrow}>
-            {pt
-              ? "O próximo capítulo pode ser seu"
-              : "The next chapter could be yours"}
+            {pt ? "Contato" : "Contact"}
           </p>
           <h2 id="case-contact-title">
-            {pt
-              ? "Seu negócio.\nNovas possibilidades."
-              : "Your business.\nNew possibilities."}
+            {pt ? "Tem um projeto parecido?" : "Have a similar project?"}
           </h2>
           <p>
             {pt
-              ? "Conte o que você quer transformar. A gente ajuda a encontrar o caminho."
-              : "Tell us what you want to transform. We’ll help you find the way."}
+              ? "Conte o que você precisa. Respondemos em até um dia útil."
+              : "Tell us what you need. We reply within one business day."}
           </p>
           <Link href="/#contato" className="btn btn-primary">
-            {pt ? "Falar sobre meu projeto" : "Let’s talk about my project"}
+            {pt ? "Solicitar orçamento" : "Request a quote"}
             <ArrowUpRight size={18} aria-hidden />
           </Link>
         </section>
@@ -415,7 +401,7 @@ export function ProjectCase({ project, nextProject }: Props) {
           </div>
           <div>
             <span className={styles.eyebrow}>
-              {pt ? "Continue explorando" : "Keep exploring"}
+              {pt ? "Próximo projeto" : "Next project"}
             </span>
             <h2>{nextProject.title}</h2>
             <p>{l(nextProject.category)}</p>

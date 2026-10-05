@@ -321,14 +321,6 @@ body.cursor-none summary {
   margin-left: auto;
   color: var(--on-dark-muted-2);
 }
-.menu-number {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.1rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  color: var(--accent-2);
-}
 .mobile-menu-foot {
   position: relative;
   margin-top: auto;

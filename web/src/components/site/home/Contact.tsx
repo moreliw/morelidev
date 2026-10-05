@@ -43,15 +43,15 @@ export function Contact({ c }: { c: Copy }) {
       <div className="container-site ct-grid">
         <div className="ct-copy">
           <p className="kicker ct-reveal">
-            <span>07</span> {c("Contato", "Contact")}
+            {c("Contato", "Contact")}
           </p>
           <h2 id="contact-title" className="ct-title" ref={titleRef}>
-            {c("O próximo sistema", "Your next system")} <em>{c("começa com uma conversa.", "starts with a conversation.")}</em>
+            {c("Vamos falar sobre", "Let's talk about")} <em>{c("o seu projeto.", "your project.")}</em>
           </h2>
           <p className="sec-lead ct-reveal">
             {c(
-              "Conte o problema, o cenário atual e onde sua empresa quer chegar. Respondemos em até um dia útil com os próximos passos.",
-              "Tell us the problem, where things stand and where your company wants to go. We reply within one business day with next steps.",
+              "Descreva o que você precisa. Respondemos em até um dia útil.",
+              "Tell us what you need. We reply within one business day.",
             )}
           </p>
           <div className="ct-channels ct-reveal">
@@ -78,7 +78,7 @@ export function Contact({ c }: { c: Copy }) {
           </div>
         </div>
         <div className="ct-card ct-reveal">
-          <h3>{c("Inicie seu projeto", "Start your project")}</h3>
+          <h3>{c("Solicitar orçamento", "Request a quote")}</h3>
           <p>{c("Campos com * são obrigatórios.", "Fields marked * are required.")}</p>
           <ContactForm />
         </div>

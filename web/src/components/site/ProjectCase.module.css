@@ -165,9 +165,10 @@
   gap: 18px;
 }
 .pillarNumber {
-  color: var(--case-muted);
-  font-size: 10px;
-  padding-top: 6px;
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--accent);
 }
 .pillars > div p {
   font-family: var(--font-sans);
@@ -203,10 +204,6 @@
   gap: 9px;
   min-height: 48px;
   font-size: 11px;
-}
-.chapterInner a span {
-  color: var(--muted);
-  font-size: 9px;
 }
 .chapterInner a:hover {
   color: var(--accent);
@@ -467,10 +464,6 @@
 }
 .decisions summary::-webkit-details-marker {
   display: none;
-}
-.decisionNumber {
-  font-size: 10px;
-  color: var(--muted);
 }
 .decisions summary svg {
   margin-left: auto;

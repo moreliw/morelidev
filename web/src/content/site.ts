@@ -56,8 +56,8 @@ export const COPY = {
   },
   manifesto: {
     text: {
-      pt: "Cada sistema que entregamos nasce de um problema real de negócio — não de uma lista de tecnologias da moda.",
-      en: "Every system we ship starts from a real business problem — not a list of trendy technologies.",
+      pt: "Cada sistema que entregamos parte de um problema real de negócio.",
+      en: "Every system we ship starts from a real business problem.",
     },
   },
   cases: {
@@ -161,8 +161,8 @@ export const COPY = {
       {
         title: { pt: "Desenvolvimento", en: "Development" },
         desc: {
-          pt: "Entregas incrementais, acompanhadas e testadas — sem meses de silêncio até o resultado final.",
-          en: "Incremental deliveries, followed and tested — no months of silence before the final result.",
+          pt: "Entregas incrementais, acompanhadas e testadas.",
+          en: "Incremental, tracked and tested deliveries.",
         },
       },
       {

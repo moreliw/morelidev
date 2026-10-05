@@ -48,17 +48,15 @@ export function ProjectsIndex() {
       <div className="container-site">
         <header className="projects-heading">
           <p className="eyebrow">
-            {c("IDEIAS QUE GANHARAM VIDA", "IDEAS BROUGHT TO LIFE")}
+            {c("PORTFÓLIO", "PORTFOLIO")}
           </p>
           <h1 className="h-section">
-            {c("Cada desafio,", "Every challenge,")}
-            <br />
-            <em>{c("uma nova possibilidade.", "a new possibility.")}</em>
+            {c("Projetos", "Projects")}
           </h1>
           <p>
             {c(
-              "Sistemas, produtos digitais e experiências web. Conheça o que construímos para empresas de diferentes setores.",
-              "Systems, digital products and web experiences. Explore what we build for companies across different sectors.",
+              "Sistemas, produtos digitais e sites desenvolvidos pela MoreliDev.",
+              "Systems, digital products and websites built by MoreliDev.",
             )}
           </p>
         </header>
@@ -78,9 +76,6 @@ export function ProjectsIndex() {
               onClick={() => setGroup(item.id)}
             >
               {item[language]}
-              <span>
-                {item.id === "all" ? PROJECTS.length : item.slugs.length}
-              </span>
             </button>
           ))}
         </div>
@@ -97,7 +92,7 @@ export function ProjectsIndex() {
               <div className="portfolio-image">
                 <Image
                   src={project.cover ?? project.poster}
-                  alt={`${project.title} — ${project.category[language]}`}
+                  alt={`${project.title}, ${project.category[language]}`}
                   fill
                   sizes="(max-width: 767px) 100vw, 50vw"
                   preload={index === 0}
@@ -116,10 +111,10 @@ export function ProjectsIndex() {
         </div>
         <div className="portfolio-cta">
           <h2 className="h-section">
-            {c("O próximo pode ser o seu.", "Yours could be next.")}
+            {c("Tem um projeto em mente?", "Have a project in mind?")}
           </h2>
           <Link className="btn btn-primary" href="/#contato">
-            {c("Falar sobre um projeto", "Let’s talk about your project")}
+            {c("Solicitar orçamento", "Request a quote")}
             <ArrowUpRight size={17} aria-hidden />
           </Link>
         </div>

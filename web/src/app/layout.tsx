@@ -40,11 +40,11 @@ const SITE = "https://morelidev.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "MoreliDev — Creative Technology Studio",
-    template: "%s — MoreliDev",
+    default: "MoreliDev | Desenvolvimento de software sob medida",
+    template: "%s | MoreliDev",
   },
   description:
-    "MoreliDev é um estúdio de tecnologia criativa: estratégia, design e engenharia para produtos digitais, sistemas sob medida e experiências web que empresas realmente usam.",
+    "Desenvolvimento de sistemas, produtos digitais e sites sob medida para empresas.",
   alternates: { canonical: SITE },
   icons: {
     icon: [
@@ -56,9 +56,8 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", type: "image/png" }],
   },
   openGraph: {
-    title: "MoreliDev — Creative Technology Studio",
-    description:
-      "Estratégia, design e engenharia para produtos digitais, sistemas sob medida e experiências web.",
+    title: "MoreliDev | Desenvolvimento de software sob medida",
+    description: "Desenvolvimento de sistemas, produtos digitais e sites sob medida para empresas.",
     type: "website",
     url: SITE,
     siteName: "MoreliDev",
@@ -69,16 +68,15 @@ export const metadata: Metadata = {
         url: "/open-graph-1200x630.jpg",
         width: 1200,
         height: 630,
-        alt: "MoreliDev — Creative Technology Studio",
+        alt: "MoreliDev",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MoreliDev — Creative Technology Studio",
+    title: "MoreliDev | Desenvolvimento de software sob medida",
     images: ["/social-card-1200x675.jpg"],
-    description:
-      "Estratégia, design e engenharia para produtos digitais, sistemas sob medida e experiências web.",
+    description: "Desenvolvimento de sistemas, produtos digitais e sites sob medida para empresas.",
   },
 };
 
@@ -103,7 +101,7 @@ const jsonLd = {
       logo: `${SITE}/android-chrome-512x512.png`,
       founder: { "@id": `${SITE}/#founder` },
       description:
-        "Estúdio de tecnologia criativa especializado em produtos digitais, sistemas sob medida e experiências web.",
+        "Estúdio de desenvolvimento de software: sistemas, produtos digitais e sites sob medida.",
     },
     {
       "@type": "WebSite",

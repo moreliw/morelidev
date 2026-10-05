@@ -34,8 +34,8 @@ export const PROJECTS: ProjectData[] = [
     featured: true,
     category: { pt: "Sistema operacional", en: "Operations system" },
     resultTitle: {
-      pt: "Mais controle. Uma operação conectada.",
-      en: "More control. A connected operation.",
+      pt: "Sistema de gestão para acompanhar a operação em um só lugar.",
+      en: "Management system to track operations in one place.",
     },
     shortDesc: {
       pt: "Sistema de gestão empresarial com monitoramento operacional e relatórios.",
@@ -81,8 +81,8 @@ export const PROJECTS: ProjectData[] = [
     confidential: true,
     category: { pt: "Sistema corporativo", en: "Corporate system" },
     resultTitle: {
-      pt: "Uma operação inteira, centralizada em um único sistema.",
-      en: "An entire operation, centralized in a single system.",
+      pt: "Gestão da operação centralizada em um único sistema.",
+      en: "Operations management centralized in a single system.",
     },
     shortDesc: {
       pt: "Sistema corporativo com gestão integrada, fluxos personalizados e relatórios em tempo real.",
@@ -128,8 +128,8 @@ export const PROJECTS: ProjectData[] = [
     featured: true,
     category: { pt: "Marketplace", en: "Marketplace" },
     resultTitle: {
-      pt: "De redes sociais a um marketplace estruturado.",
-      en: "From social media to a structured marketplace.",
+      pt: "Marketplace para vendedores que antes vendiam só pelas redes sociais.",
+      en: "Marketplace for sellers who used to rely on social media.",
     },
     shortDesc: {
       pt: "Marketplace angolano com catálogo, carrinho, checkout e painel do vendedor integrados.",
@@ -144,8 +144,8 @@ export const PROJECTS: ProjectData[] = [
       en: "Sellers had no structured digital channel to list products, receive orders and track sales in one place.",
     },
     solution: {
-      pt: "Marketplace mobile-first com catálogo, carrinho, checkout e painel do vendedor — do cadastro do produto ao acompanhamento do pedido.",
-      en: "Mobile-first marketplace with catalog, cart, checkout and seller panel — from product listing to order tracking.",
+      pt: "Marketplace mobile-first com catálogo, carrinho, checkout e painel do vendedor, do cadastro do produto ao acompanhamento do pedido.",
+      en: "Mobile-first marketplace with catalog, cart, checkout and seller panel, from product listing to order tracking.",
     },
     result: {
       pt: "Plataforma em produção com vendedores ativos e uma experiência de compra pensada para redes móveis instáveis.",
@@ -174,8 +174,8 @@ export const PROJECTS: ProjectData[] = [
     featured: true,
     category: { pt: "Aplicativo de reservas", en: "Booking app" },
     resultTitle: {
-      pt: "Reservas por WhatsApp viraram agenda em tempo real.",
-      en: "WhatsApp bookings became a real-time schedule.",
+      pt: "Reservas de quadra com agenda em tempo real e pagamento no app.",
+      en: "Court bookings with a real-time schedule and in-app payment.",
     },
     shortDesc: {
       pt: "Aplicativo de reservas de quadras com agenda em tempo real, pagamento e ranking de jogadores.",
@@ -218,8 +218,8 @@ export const PROJECTS: ProjectData[] = [
     title: "Will Market",
     category: { pt: "E-commerce", en: "E-commerce" },
     resultTitle: {
-      pt: "Uma loja de bairro ganhou canal de vendas próprio.",
-      en: "A neighborhood store got its own sales channel.",
+      pt: "Loja online própria para uma loja de bairro.",
+      en: "An online store for a neighborhood shop.",
     },
     shortDesc: {
       pt: "E-commerce completo com catálogo, checkout, pagamentos e painel administrativo.",
@@ -264,8 +264,8 @@ export const PROJECTS: ProjectData[] = [
     demoUrl: LINKS.saldocasa,
     category: { pt: "Finanças pessoais", en: "Personal finance" },
     resultTitle: {
-      pt: "Extratos soltos viraram uma visão clara do mês.",
-      en: "Loose statements became a clear view of the month.",
+      pt: "Controle de gastos e metas em um único painel.",
+      en: "Expenses and goals tracked in a single dashboard.",
     },
     shortDesc: {
       pt: "App de finanças com dashboards interativos, metas e categorização automática de gastos.",
@@ -309,8 +309,8 @@ export const PROJECTS: ProjectData[] = [
     cover: "/images/premium/mameri-studio.webp",
     category: { pt: "Site institucional", en: "Institutional site" },
     resultTitle: {
-      pt: "De invisível no Google a encontrado por quem buscava o serviço.",
-      en: "From invisible on Google to found by people searching for the service.",
+      pt: "Site institucional encontrado por quem busca o serviço no Google.",
+      en: "Business website found by people searching for the service on Google.",
     },
     shortDesc: {
       pt: "Site institucional minimalista com identidade visual cuidadosa, SEO técnico e CMS leve.",

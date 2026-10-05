@@ -41,13 +41,13 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Navbar contextual: inverte texto/ícones conforme a seção escura ou clara
-  // que está por baixo do header fixo, e marca o link da seção atual.
+  // Navbar contextual: inverte texto/ícones conforme a área escura ou clara
+  // que está por baixo do header fixo (seções da home com data-theme, ou
+  // blocos de páginas internas com data-header-theme) e marca o link atual.
   useEffect(() => {
-    if (!home) return;
     ensureGsap();
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("section[data-theme]"),
+      document.querySelectorAll<HTMLElement>("section[data-theme], [data-header-theme]"),
     );
     if (!sections.length) return;
     const triggers = sections.map((section) =>
@@ -57,13 +57,13 @@ export function Header() {
         end: "bottom top+=60",
         onToggle: (self) => {
           if (!self.isActive) return;
-          setOnDark(section.dataset.theme === "dark");
-          setCurrent(section.id || null);
+          setOnDark((section.dataset.headerTheme ?? section.dataset.theme) === "dark");
+          if (home) setCurrent(section.id || null);
         },
       }),
     );
     return () => triggers.forEach((t) => t.kill());
-  }, [home]);
+  }, [home, pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -138,9 +138,8 @@ export function Header() {
 
       <div id="mobile-menu" className="mobile-menu" hidden={!open}>
         <nav className="container-site" aria-label={pt ? "Menu principal (móvel)" : "Main menu (mobile)"}>
-          {links.map(([id, label], index) => (
+          {links.map(([id, label]) => (
             <a key={id} href={href(id)} onClick={() => setOpen(false)}>
-              <span className="menu-number">0{index + 1}</span>
               {label}
               <ArrowUpRight size={20} aria-hidden />
             </a>
@@ -148,7 +147,7 @@ export function Header() {
         </nav>
         <div className="container-site mobile-menu-foot">
           <a className="pill pill-accent" href={href("contato")} onClick={() => setOpen(false)}>
-            {pt ? "Iniciar um projeto" : "Start a project"}
+            {pt ? "Solicitar orçamento" : "Request a quote"}
             <ArrowRight size={16} aria-hidden />
           </a>
           <p>{LINKS.email}</p>

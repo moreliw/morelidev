@@ -98,24 +98,24 @@ export function Hero({ c }: { c: Copy }) {
         <p className="hx-tags" data-intro>
           <span>{c("Sistemas sob medida", "Custom systems")}</span>
           <span>{c("Produtos digitais", "Digital products")}</span>
-          <span>{c("Sites de alta performance", "High-performance websites")}</span>
+          <span>{c("Sites institucionais", "Business websites")}</span>
         </p>
         <h1 id="hero-title" className="hx-title">
-          <span className="hx-line">{c("Software que faz", "Software that makes")}</span>
+          <span className="hx-line">{c("Software sob medida", "Custom software")}</span>
           <span className="hx-line">
-            <em>{c("empresas crescerem.", "companies grow.")}</em>
+            <em>{c("para a sua empresa.", "for your business.")}</em>
           </span>
         </h1>
         <div className="hx-foot">
           <p className="hx-sub" data-intro>
             {c(
-              "A MoreliDev projeta e desenvolve sistemas, produtos digitais e sites — da estratégia ao código em produção, com a qualidade de quem constrói para durar.",
-              "MoreliDev designs and builds systems, digital products and websites — from strategy to production code, built by people who build to last.",
+              "Sistemas, produtos digitais e sites desenvolvidos do planejamento à publicação.",
+              "Systems, digital products and websites, from planning to launch.",
             )}
           </p>
           <div className="hx-ctas" data-intro>
             <a href="#contato" className="pill pill-accent" data-cursor="go">
-              {c("Iniciar um projeto", "Start a project")}
+              {c("Solicitar orçamento", "Request a quote")}
               <ArrowRight size={16} aria-hidden />
             </a>
             <a href="#trabalhos" className="pill pill-ghost" data-cursor="link">
@@ -128,13 +128,17 @@ export function Hero({ c }: { c: Copy }) {
       <div className="container-site hx-bar" data-intro>
         <span className="hx-status num">
           <i aria-hidden />
-          {c("Agenda aberta para novos projetos", "Booking new projects")}
+          {c("Disponível para novos projetos", "Available for new projects")}
         </span>
-        <a href="#estudio" className="hx-scroll num" data-cursor="link">
-          {c("Role para explorar", "Scroll to explore")}
-          <ArrowDown size={13} aria-hidden />
+        <a
+          href="#estudio"
+          className="hx-scroll"
+          data-cursor="link"
+          aria-label={c("Ir para o conteúdo", "Go to content")}
+        >
+          <ArrowDown size={16} aria-hidden />
         </a>
-        <span className="hx-meta num">PT · EN — {c("Remoto", "Remote")}</span>
+        <span className="hx-meta num">{c("Atendimento remoto · PT / EN", "Remote · PT / EN")}</span>
       </div>
     </section>
   );

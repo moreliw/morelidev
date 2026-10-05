@@ -287,8 +287,8 @@ export function SaldoCasaMock({ c }: { c: Copy }) {
               <b>{c("Olá, William", "Hi, William")}</b>
               <span>
                 {c(
-                  "Casa Silva — setembro de 2026",
-                  "Casa Silva — September 2026",
+                  "Casa Silva · setembro de 2026",
+                  "Casa Silva · September 2026",
                 )}
               </span>
             </div>

@@ -129,10 +129,10 @@ export function WorkReel({ c }: { c: Copy }) {
       <div className="container-site wr-head">
         <div>
           <p className="kicker">
-            <span>03</span> {c("Projetos", "Work")}
+            {c("Projetos", "Work")}
           </p>
           <h2 id="work-title" className="h-big">
-            {c("Sistemas em produção,", "Systems in production,")} <em>{c("não protótipos.", "not prototypes.")}</em>
+            {c("Projetos", "Projects")} <em>{c("em produção.", "in production.")}</em>
           </h2>
         </div>
         <Link href="/projetos" className="pill pill-ghost" data-cursor="link">
@@ -162,7 +162,7 @@ export function WorkReel({ c }: { c: Copy }) {
                     data-decorative={decorative || undefined}
                     aria-hidden={decorative || undefined}
                     tabIndex={decorative ? -1 : undefined}
-                    aria-label={decorative ? undefined : `${p.title} — ${p.category[language]}`}
+                    aria-label={decorative ? undefined : `${p.title}, ${p.category[language]}`}
                   >
                     <Image
                       src={IMAGE[p.slug] ?? p.poster}
@@ -172,7 +172,7 @@ export function WorkReel({ c }: { c: Copy }) {
                       sizes="(max-width: 767px) 78vw, 36vw"
                     />
                     <span className="wr-card-tag num">
-                      {String((i % n) + 1).padStart(2, "0")} — {p.category[language]}
+                      {p.category[language]}
                     </span>
                   </Link>
                 );
@@ -181,9 +181,6 @@ export function WorkReel({ c }: { c: Copy }) {
           </div>
 
           <div className="container-site wr-info">
-            <div className="wr-count num" aria-hidden>
-              <b>{String(active + 1).padStart(2, "0")}</b> / {String(n).padStart(2, "0")}
-            </div>
             <div className="wr-meta" aria-live="polite">
               <h3 key={current.slug}>{current.title}</h3>
               <p>{current.resultTitle[language]}</p>
@@ -210,7 +207,7 @@ export function WorkReel({ c }: { c: Copy }) {
                 <ArrowRight size={17} aria-hidden />
               </button>
               <Link href={`/projetos/${current.slug}`} className="pill pill-accent" data-cursor="view">
-                {c("Ver case", "View case")}
+                {c("Ver projeto", "View project")}
                 <ArrowUpRight size={15} aria-hidden />
               </Link>
             </div>

@@ -403,6 +403,15 @@ section[data-theme="dark"] {
    pedido. GSAP então parte do estado inicial definido aqui. */
 [data-motion="on"] [data-reveal] {
   opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+/* Motion.tsx adiciona .is-in quando o elemento entra na viewport. */
+[data-motion="on"] [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
 }
 .split-line {
   overflow: hidden;

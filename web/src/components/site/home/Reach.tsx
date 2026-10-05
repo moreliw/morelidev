@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { Check } from "lucide-react";
 import type { Copy } from "./types";
 import { ensureGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { useCanvasScene } from "./three/useCanvasScene";
@@ -50,10 +51,10 @@ export function Reach({ c }: { c: Copy }) {
       ctrl.current?.setReveal(1);
   }, [status, ctrl]);
 
-  const stats: [string, string][] = [
-    ["5+", c("anos construindo software em produção", "years building production software")],
-    ["PT · EN", c("atendimento em português e inglês", "service in Portuguese and English")],
-    ["100%", c("remoto, com comunicação direta", "remote, with direct communication")],
+  const facts = [
+    c("Contato direto com quem desenvolve", "Direct contact with the developers"),
+    c("Atendimento em português e inglês", "Service in Portuguese and English"),
+    c("Projetos locais e internacionais", "Local and international projects"),
   ];
 
   return (
@@ -61,31 +62,28 @@ export function Reach({ c }: { c: Copy }) {
       <div className="container-site rc-grid">
         <div className="rc-copy">
           <p className="kicker rc-reveal">
-            <span>06</span> {c("Alcance", "Reach")}
+            {c("Atuação", "Where we work")}
           </p>
           <h2 id="reach-title" className="h-big rc-reveal">
-            {c("Conectar ideias.", "Connecting ideas.")} <em>{c("Entregar sistemas.", "Shipping systems.")}</em>
+            {c("Atendimento remoto,", "Remote service,")} <em>{c("onde você estiver.", "wherever you are.")}</em>
           </h2>
           <p className="sec-lead rc-reveal">
             {c(
-              "Um estúdio remoto que trabalha lado a lado com empresas de diferentes setores — sem intermediários entre quem decide e quem constrói.",
-              "A remote studio working side by side with companies across different sectors — no middlemen between who decides and who builds.",
+              "Trabalhamos com empresas de diferentes setores, com reuniões online e acompanhamento direto.",
+              "We work with companies across sectors through online meetings and direct follow-up.",
             )}
           </p>
-          <dl className="rc-stats rc-reveal">
-            {stats.map(([value, label]) => (
-              <div key={value}>
-                <dt>{value}</dt>
-                <dd>{label}</dd>
-              </div>
+          <ul className="rc-facts rc-reveal">
+            {facts.map((fact) => (
+              <li key={fact}>
+                <Check size={16} strokeWidth={2} aria-hidden />
+                {fact}
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
         <div className="rc-visual" aria-hidden>
           <canvas ref={canvasRef} className="rc-canvas" />
-          <span className="rc-chip num">
-            <i /> {c("Projetos conectados", "Connected projects")}
-          </span>
         </div>
       </div>
     </section>

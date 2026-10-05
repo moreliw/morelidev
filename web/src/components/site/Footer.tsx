@@ -19,8 +19,8 @@ export function Footer() {
       <div className="container-site">
         <div className="footer-top">
           <p className="footer-statement">
-            {c("Software que faz", "Software that makes")}{" "}
-            <em>{c("empresas crescerem.", "companies grow.")}</em>
+            {c("Software sob medida", "Custom software")}{" "}
+            <em>{c("para a sua empresa.", "for your business.")}</em>
           </p>
           <a href="#top" className="pill pill-ghost" data-cursor="link">
             {c("Voltar ao topo", "Back to top")}
@@ -55,7 +55,8 @@ export function Footer() {
           <div>
             <h3>{c("Estúdio", "Studio")}</h3>
             <ul>
-              <li>{c("Estúdio de software · remoto", "Software studio · remote")}</li>
+              <li>{c("Estúdio de software", "Software studio")}</li>
+              <li>{c("Atendimento remoto", "Remote service")}</li>
               <li>{c("Projetos locais e internacionais", "Local and international projects")}</li>
             </ul>
             <div className="footer-social">
@@ -79,7 +80,7 @@ export function Footer() {
         <span>
           © {new Date().getFullYear()} MoreliDev. {c("Todos os direitos reservados.", "All rights reserved.")}
         </span>
-        <span>{c("Construído do zero pela MoreliDev", "Built from scratch by MoreliDev")}</span>
+        <span>{c("Português · English", "Português · English")}</span>
       </div>
     </footer>
   );

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "MoreliDev — Engenharia de software e produtos digitais",
+    name: "MoreliDev | Desenvolvimento de software",
     short_name: "MoreliDev",
     description:
       "Sistemas sob medida, produtos digitais, SaaS, sites institucionais e integrações.",
