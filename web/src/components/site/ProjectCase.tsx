@@ -156,9 +156,6 @@ export function ProjectCase({ project, nextProject }: Props) {
           </p>
           {pillars.map((pillar) => (
             <div key={pillar}>
-              <span className={styles.pillarNumber} aria-hidden>
-                <Check size={16} />
-              </span>
               <p>{pillar}</p>
             </div>
           ))}

@@ -315,7 +315,7 @@ body.cursor-none summary {
   border-bottom: 1px solid var(--line-dark);
   font-size: clamp(1.8rem, 8vw, 2.4rem);
   font-weight: 500;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.027em;
 }
 .mobile-menu nav a svg {
   margin-left: auto;
@@ -448,18 +448,11 @@ body.cursor-none summary {
   font-size: clamp(2.2rem, 4.6vw, 4.6rem);
   font-weight: 600;
   line-height: 0.98;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.034em;
 }
 .footer-statement em {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  padding-right: 0.08em;
+  font-style: normal;
+  color: #7d97ff;
 }
 .footer-cols {
   display: grid;
@@ -516,7 +509,7 @@ body.cursor-none summary {
   font-size: clamp(3.2rem, 15.4vw, 20rem);
   font-weight: 800;
   line-height: 0.82;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.05em;
   white-space: nowrap;
   user-select: none;
   background: linear-gradient(180deg, rgb(243 244 247 / 95%) 15%, rgb(243 244 247 / 6%) 92%);
@@ -534,7 +527,7 @@ body.cursor-none summary {
 .footer-giant small {
   font-size: 1em;
   font-weight: 300;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.027em;
 }
 .footer-bottom {
   position: relative;
@@ -649,7 +642,7 @@ body.cursor-none summary {
 .portfolio-caption h2 {
   font-size: 1.6rem;
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   margin-top: 0.4rem;
 }
 .portfolio-caption > svg {

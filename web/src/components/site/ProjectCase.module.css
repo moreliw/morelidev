@@ -128,10 +128,6 @@
   font-size: 9px;
   letter-spacing: 0.13em;
 }
-.heroFoot span:last-child {
-  background: var(--case-bg);
-  padding: 6px 10px;
-}
 .standard .heroVisual {
   inset: 10% 4% 10% 50%;
 }
@@ -439,14 +435,13 @@
 .stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 18px;
   margin-top: 30px;
 }
 .stack span {
-  border: 1px solid var(--hairline);
-  padding: 9px 13px;
-  font-size: 10px;
-  border-radius: 2px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
 }
 .decisions details {
   border-bottom: 1px solid var(--hairline);

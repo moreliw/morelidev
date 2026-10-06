@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Mail, MessageCircle, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Copy } from "./types";
 import { LINKS } from "@/content/site";
 import { ContactForm } from "../ContactForm";
@@ -56,9 +56,6 @@ export function Contact({ c }: { c: Copy }) {
           </p>
           <div className="ct-channels ct-reveal">
             <a href={`mailto:${LINKS.email}`} data-cursor="link">
-              <i>
-                <Mail size={17} strokeWidth={1.7} aria-hidden />
-              </i>
               <span>
                 <small className="num">E-mail</small>
                 {LINKS.email}
@@ -66,9 +63,6 @@ export function Contact({ c }: { c: Copy }) {
               <ArrowUpRight size={16} aria-hidden />
             </a>
             <a href={LINKS.whatsapp} target="_blank" rel="noopener noreferrer" data-cursor="link">
-              <i>
-                <MessageCircle size={17} strokeWidth={1.7} aria-hidden />
-              </i>
               <span>
                 <small className="num">WhatsApp</small>
                 +55 27 99955-2024

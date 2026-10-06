@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Code2, Compass, PenTool, type LucideIcon } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Copy } from "./types";
 import { LINKS } from "@/content/site";
 import { ensureGsap, gsap, SplitText } from "@/lib/gsap";
@@ -10,19 +10,16 @@ export function Studio({ c }: { c: Copy }) {
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
 
-  const pillars: [LucideIcon, string, string][] = [
+  const pillars: [string, string][] = [
     [
-      Compass,
       c("Estratégia", "Strategy"),
       c("Entendemos o processo antes de propor a solução.", "We map the process before proposing a solution."),
     ],
     [
-      PenTool,
       c("Design", "Design"),
       c("Interfaces simples para quem usa no dia a dia.", "Simple interfaces for everyday users."),
     ],
     [
-      Code2,
       c("Engenharia", "Engineering"),
       c("Código testado, seguro e fácil de manter.", "Tested, secure and maintainable code."),
     ],
@@ -106,11 +103,8 @@ export function Studio({ c }: { c: Copy }) {
 
           <div className="st-side">
             <ol className="st-pillars">
-              {pillars.map(([Icon, title, text]) => (
+              {pillars.map(([title, text]) => (
                 <li className="st-pillar" key={title}>
-                  <span className="st-n" aria-hidden>
-                    <Icon size={20} strokeWidth={1.6} />
-                  </span>
                   <div>
                     <h3>{title}</h3>
                     <p>{text}</p>

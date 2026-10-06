@@ -1,33 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "./chrome.css";
 import "./home.css";
 import { Providers } from "./providers";
 
-// Uma única família para toda a interface — grotesk geométrica, boa em
-// pesos extremos (100–900), o suficiente para carregar o site sozinha.
-const geist = Geist({
+// Uma única família para todo o site: Manrope, grotesk geométrica moderna,
+// variável de 200 a 800. Títulos, texto e rótulos usam a mesma fonte.
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-geist",
-  display: "swap",
-});
-
-// Mono só para detalhes técnicos: labels, índices, coordenadas — nunca corpo de texto.
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-});
-
-// Serifa itálica só para a palavra de ênfase dos títulos — o contraste
-// grotesk + itálico é a assinatura tipográfica da home.
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -129,7 +112,7 @@ export default function RootLayout({
       lang="pt-br"
       id="top"
       data-scroll-behavior="smooth"
-      className={`${geist.variable} ${geistMono.variable} ${serif.variable}`}
+      className={manrope.variable}
       suppressHydrationWarning
     >
       <head>

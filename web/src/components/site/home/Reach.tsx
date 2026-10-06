@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Check } from "lucide-react";
 import type { Copy } from "./types";
 import { ensureGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { useCanvasScene } from "./three/useCanvasScene";
@@ -75,10 +74,7 @@ export function Reach({ c }: { c: Copy }) {
           </p>
           <ul className="rc-facts rc-reveal">
             {facts.map((fact) => (
-              <li key={fact}>
-                <Check size={16} strokeWidth={2} aria-hidden />
-                {fact}
-              </li>
+              <li key={fact}>{fact}</li>
             ))}
           </ul>
         </div>

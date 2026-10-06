@@ -171,9 +171,6 @@ export function WorkReel({ c }: { c: Copy }) {
                       height={664}
                       sizes="(max-width: 767px) 78vw, 36vw"
                     />
-                    <span className="wr-card-tag num">
-                      {p.category[language]}
-                    </span>
                   </Link>
                 );
               })}

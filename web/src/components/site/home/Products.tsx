@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, HeartPulse, Wallet } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Copy } from "./types";
 import { LINKS } from "@/content/site";
 import { OdontoAppMock, SaldoCasaMock } from "./ui/ProductMocks";
@@ -17,7 +17,6 @@ export function Products({ c }: { c: Copy }) {
   const products = [
     {
       name: "OdontoApp",
-      icon: HeartPulse,
       kind: c("SaaS · Odontologia", "SaaS · Dentistry"),
       title: c("Gestão para clínicas odontológicas.", "Management for dental clinics."),
       text: c(
@@ -29,7 +28,6 @@ export function Products({ c }: { c: Copy }) {
     },
     {
       name: "SaldoCasa",
-      icon: Wallet,
       kind: c("App · Finanças pessoais", "App · Personal finance"),
       title: c("Controle financeiro pessoal.", "Personal finance tracking."),
       text: c(
@@ -95,9 +93,6 @@ export function Products({ c }: { c: Copy }) {
               </div>
               <div className="pd-body">
                 <p className="pd-brand">
-                  <i>
-                    <p.icon size={16} strokeWidth={1.8} aria-hidden />
-                  </i>
                   <span>
                     <b>{p.name}</b>
                     <small className="num">{p.kind}</small>

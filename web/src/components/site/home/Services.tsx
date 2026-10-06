@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Blocks, Boxes, Globe2, Workflow, type LucideIcon } from "lucide-react";
 import type { Copy } from "./types";
 import { ensureGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "../motion/SmoothScroll";
@@ -9,7 +8,6 @@ import { AutomationVisual } from "./ui/AutomationVisual";
 
 type Service = {
   key: string;
-  icon: LucideIcon;
   tab: string;
   label: string;
   title: string;
@@ -33,7 +31,6 @@ export function Services({ c }: { c: Copy }) {
   const services: Service[] = [
     {
       key: "systems",
-      icon: Blocks,
       tab: c("Sistemas", "Systems"),
       label: c("Sistemas", "Systems"),
       title: c("Sistemas de gestão sob medida", "Custom management systems"),
@@ -51,7 +48,6 @@ export function Services({ c }: { c: Copy }) {
     },
     {
       key: "products",
-      icon: Boxes,
       tab: c("Produtos", "Products"),
       label: c("Produtos", "Products"),
       title: c("Produtos digitais e SaaS", "Digital products and SaaS"),
@@ -69,7 +65,6 @@ export function Services({ c }: { c: Copy }) {
     },
     {
       key: "web",
-      icon: Globe2,
       tab: c("Sites", "Websites"),
       label: c("Sites", "Websites"),
       title: c("Sites institucionais", "Business websites"),
@@ -87,7 +82,6 @@ export function Services({ c }: { c: Copy }) {
     },
     {
       key: "automation",
-      icon: Workflow,
       tab: c("Automação", "Automation"),
       label: c("Automação", "Automation"),
       title: c("Integrações e automações", "Integrations and automation"),
@@ -203,7 +197,6 @@ export function Services({ c }: { c: Copy }) {
               >
                 <div className="sv-copy">
                   <p className="sv-label num" data-stagger>
-                    <s.icon size={15} strokeWidth={1.6} aria-hidden />
                     {s.label}
                   </p>
                   <h3 data-stagger>{s.title}</h3>

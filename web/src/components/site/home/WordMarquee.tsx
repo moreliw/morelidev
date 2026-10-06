@@ -66,10 +66,8 @@ export function WordMarquee({ c }: { c: Copy }) {
         <div className="wm-track" ref={trackRef}>
           {words.map((w, i) => (
             <span key={w} className="wm-item">
-              <span className={i % 2 ? "wm-word wm-word--serif" : "wm-word"}>{w}</span>
-              <svg className="wm-star" viewBox="0 0 24 24" aria-hidden>
-                <path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0Z" />
-              </svg>
+              <span className={i % 2 ? "wm-word wm-word--strong" : "wm-word"}>{w}</span>
+              <span className="wm-dot" aria-hidden />
             </span>
           ))}
         </div>

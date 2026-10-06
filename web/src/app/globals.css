@@ -66,9 +66,9 @@
   --z-cursor: 200;
   --z-skip: 210;
 
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  --serif: var(--font-serif), "Times New Roman", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Rótulos usam a mesma família do site; o token fica por compatibilidade. */
+  --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {
@@ -78,8 +78,8 @@
   --color-muted: var(--muted);
   --color-hairline: var(--line);
   --color-accent: var(--accent);
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* compat: admin e formulário ainda leem estes nomes */
@@ -195,21 +195,21 @@ section[data-theme="dark"] {
    100 a 900) fazem o trabalho que cores/decorações fariam em outro sistema. */
 .h-hero {
   font-weight: 600;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
   line-height: 0.88;
   text-wrap: balance;
 }
 .h-display,
 .display {
   font-weight: 600;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.027em;
   line-height: 0.94;
   text-wrap: balance;
 }
 .h-section {
   font-size: clamp(2.4rem, 3vw + 1.2rem, 5.2rem);
   font-weight: 600;
-  letter-spacing: -0.038em;
+  letter-spacing: -0.025em;
   line-height: 0.98;
   text-wrap: balance;
 }
@@ -228,21 +228,14 @@ section[data-theme="dark"] {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted-2);
 }
 [data-theme="dark"] .eyebrow {
   color: var(--on-dark-muted);
-}
-.eyebrow::before {
-  content: "";
-  width: 1.5em;
-  height: 1px;
-  background: var(--accent);
 }
 .lead {
   font-size: clamp(1.05rem, 0.5vw + 0.95rem, 1.3rem);
