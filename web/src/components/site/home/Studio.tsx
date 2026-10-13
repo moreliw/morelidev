@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 import type { Copy } from "./types";
-import { LINKS } from "@/content/site";
 import { ensureGsap, gsap, SplitText } from "@/lib/gsap";
 
 export function Studio({ c }: { c: Copy }) {
@@ -76,9 +74,6 @@ export function Studio({ c }: { c: Copy }) {
       aria-labelledby="studio-title"
     >
       <div className="container-site">
-        <p className="kicker">
-          {c("O estúdio", "The studio")}
-        </p>
         <h2 id="studio-title" className="st-text" ref={textRef}>
           {c(
             "A MoreliDev desenvolve sistemas, produtos digitais e sites para empresas que precisam de ",
@@ -112,27 +107,6 @@ export function Studio({ c }: { c: Copy }) {
                 </li>
               ))}
             </ol>
-            <div className="st-founder">
-              <Image src="/picture.png" alt="" width={48} height={48} />
-              <p>
-                <strong>William Moreli</strong>
-                <span>
-                  {c(
-                    "Fundador e responsável técnico pelos projetos.",
-                    "Founder and technical lead on every project.",
-                  )}
-                </span>
-              </p>
-              <a
-                href={LINKS.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cursor="link"
-                aria-label={c("LinkedIn de William Moreli", "William Moreli on LinkedIn")}
-              >
-                <ArrowUpRight size={18} aria-hidden />
-              </a>
-            </div>
           </div>
         </div>
       </div>

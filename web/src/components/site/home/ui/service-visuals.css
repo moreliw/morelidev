@@ -1,0 +1,700 @@
+/* ───────────────────────────────────────────
+   COMPOSIÇÕES DOS SERVIÇOS
+   Um único sistema visual para as quatro frentes: fundo azul-noite com a
+   mesma luz, janelas com o mesmo cromo, cards com o mesmo raio. Tudo em
+   `em`; o `em` é uma fração da largura do card (container query).
+   ─────────────────────────────────────────── */
+.svx {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  background:
+    radial-gradient(90% 80% at 82% 0%, rgb(47 107 255 / 30%), transparent 60%),
+    radial-gradient(70% 70% at 0% 100%, rgb(58 160 255 / 13%), transparent 65%),
+    #0a0f1d;
+}
+.svx::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(160 185 255 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(160 185 255 / 5%) 1px, transparent 1px);
+  background-size: 2.4cqw 2.4cqw;
+  -webkit-mask-image: radial-gradient(80% 80% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(80% 80% at 50% 40%, #000, transparent);
+}
+.svx-stage {
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-sans);
+  font-size: 1.42cqw;
+  line-height: 1.35;
+  color: #e8ecf8;
+  letter-spacing: 0;
+}
+.svx-stage b,
+.svx-stage small,
+.svx-stage em,
+.svx-stage i,
+.svx-stage u {
+  font-style: normal;
+  text-decoration: none;
+}
+
+/* ── Janela ── */
+.svx-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1em;
+  background: #0d1426;
+  border: 1px solid rgb(160 185 255 / 14%);
+  box-shadow:
+    0 2.4em 5em -1.6em rgb(0 0 0 / 70%),
+    0 0 0 1px rgb(0 0 0 / 25%);
+}
+.svx-bar {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 2.4em;
+  padding: 0 1em;
+  background: #0b1121;
+  border-bottom: 1px solid rgb(160 185 255 / 8%);
+}
+.svx-dots {
+  display: flex;
+  gap: 0.45em;
+}
+.svx-dots i {
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  background: rgb(160 185 255 / 22%);
+}
+.svx-url {
+  margin-inline: auto;
+  padding: 0.3em 1.6em;
+  border-radius: 0.5em;
+  background: rgb(160 185 255 / 7%);
+  font-size: 0.78em;
+  color: #8592b0;
+}
+
+/* ── Peças comuns de interface ── */
+.svx-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+.svx-head b {
+  display: block;
+  font-size: 1.35em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.svx-head small {
+  font-size: 0.8em;
+  color: #8592b0;
+}
+.svx-seg {
+  display: flex;
+  padding: 0.25em;
+  border-radius: 0.6em;
+  background: rgb(160 185 255 / 7%);
+  font-size: 0.78em;
+}
+.svx-seg i {
+  padding: 0.35em 0.85em;
+  border-radius: 0.45em;
+  color: #8592b0;
+}
+.svx-seg i[data-on] {
+  background: #1b2643;
+  color: #e8ecf8;
+}
+.svx-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8em;
+}
+.svx-kpis--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.svx-card {
+  min-width: 0;
+  padding: 0.9em 1em;
+  border-radius: 0.8em;
+  background: #111a2f;
+  border: 1px solid rgb(160 185 255 / 9%);
+}
+.svx-card small {
+  display: block;
+  font-size: 0.78em;
+  color: #8592b0;
+  white-space: nowrap;
+}
+.svx-card > b {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 1.55em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.svx-card > em {
+  font-size: 0.75em;
+  font-weight: 600;
+  color: #34d399;
+}
+.svx-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 0.8em;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Sistema de gestão ── */
+.svx-sys {
+  left: 5%;
+  top: 8%;
+  width: 90%;
+  height: 84%;
+}
+.svx-sys-body {
+  display: grid;
+  grid-template-columns: 11.5em minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+.svx-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  padding: 1.2em 0.9em;
+  border-right: 1px solid rgb(160 185 255 / 8%);
+  font-size: 0.92em;
+  color: #8592b0;
+}
+.svx-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-bottom: 1em;
+  color: #e8ecf8;
+}
+.svx-brand i {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 0.45em;
+  background: linear-gradient(135deg, #3aa0ff, #2f6bff 60%, #5a6cff);
+}
+.svx-brand b {
+  font-weight: 700;
+}
+.svx-side > span {
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+  padding: 0.55em 0.7em;
+  border-radius: 0.55em;
+  white-space: nowrap;
+}
+.svx-side > span i {
+  width: 0.85em;
+  height: 0.85em;
+  border-radius: 0.25em;
+  border: 1.5px solid currentColor;
+  opacity: 0.7;
+}
+.svx-side > span[data-on] {
+  background: rgb(79 124 255 / 15%);
+  color: #dfe6ff;
+}
+.svx-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  min-width: 0;
+  padding: 1.3em 1.4em;
+}
+.svx-chart,
+.svx-bars {
+  display: flex;
+  flex-direction: column;
+}
+.svx-chart svg {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  margin-top: 0.7em;
+}
+.svx-grid {
+  stroke: rgb(160 185 255 / 9%);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.svx-line {
+  fill: none;
+  stroke: #6d8bff;
+  stroke-width: 2.2;
+  vector-effect: non-scaling-stroke;
+}
+.svx-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  padding-block: 0.55em;
+  border-top: 1px solid rgb(160 185 255 / 7%);
+  font-size: 0.82em;
+}
+.svx-list small + .svx-row {
+  margin-top: 0.5em;
+}
+.svx-row span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.svx-row em {
+  flex-shrink: 0;
+  padding: 0.2em 0.65em;
+  border-radius: 99px;
+  font-size: 0.86em;
+  font-weight: 600;
+}
+.svx-row em[data-tone="ok"] {
+  color: #34d399;
+  background: rgb(52 211 153 / 12%);
+}
+.svx-row em[data-tone="run"] {
+  color: #8fa8ff;
+  background: rgb(79 124 255 / 15%);
+}
+.svx-row em[data-tone="wait"] {
+  color: #fbbf24;
+  background: rgb(251 191 36 / 12%);
+}
+.svx-toast {
+  position: absolute;
+  left: 3%;
+  bottom: 8%;
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.9em 1.3em 0.9em 0.9em;
+  border-radius: 0.9em;
+  background: rgb(246 248 252 / 97%);
+  color: #0d1426;
+  box-shadow: 0 1.6em 3.6em -1em rgb(0 0 0 / 60%);
+}
+.svx-toast i {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.1em;
+  height: 2.1em;
+  border-radius: 50%;
+  background: #1fb57a;
+}
+.svx-toast i::after {
+  content: "";
+  position: absolute;
+  left: 0.72em;
+  top: 0.5em;
+  width: 0.5em;
+  height: 0.9em;
+  border: solid #fff;
+  border-width: 0 0.16em 0.16em 0;
+  transform: rotate(45deg);
+}
+.svx-toast b {
+  display: block;
+  font-size: 0.95em;
+  font-weight: 700;
+}
+.svx-toast small {
+  font-size: 0.78em;
+  color: #5b6478;
+}
+
+/* ── SaaS + aplicativo ── */
+.svx-saas {
+  left: 5%;
+  top: 8%;
+  width: 74%;
+  height: 84%;
+}
+.svx-saas-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  flex: 1;
+  min-height: 0;
+  padding: 1.3em 1.4em;
+}
+.svx-btn {
+  padding: 0.55em 1em;
+  border-radius: 0.55em;
+  background: #4f7cff;
+  font-size: 0.78em;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+.svx-bars > div {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  gap: 0.45em;
+  min-height: 0;
+  margin-top: 0.8em;
+}
+.svx-bars i {
+  flex: 1;
+  border-radius: 0.3em 0.3em 0.1em 0.1em;
+  background: rgb(109 139 255 / 32%);
+}
+.svx-bars i[data-on] {
+  background: linear-gradient(180deg, #9db7ff, #4f7cff);
+}
+.svx-plans > div {
+  margin-top: 0.85em;
+}
+.svx-plans span {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82em;
+}
+.svx-plans span b {
+  font-weight: 700;
+}
+.svx-plans u {
+  display: block;
+  height: 0.4em;
+  margin-top: 0.4em;
+  border-radius: 99px;
+  background: rgb(160 185 255 / 10%);
+  overflow: hidden;
+}
+.svx-plans u i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #6d8bff;
+}
+.svx-phone {
+  position: absolute;
+  right: 5%;
+  top: 14%;
+  width: 25%;
+  aspect-ratio: 9 / 18.5;
+  padding: 0.55em;
+  border-radius: 2.4em;
+  background: linear-gradient(160deg, #2a3552, #121a2e);
+  box-shadow:
+    0 2.6em 5em -1.4em rgb(0 0 0 / 75%),
+    inset 0 0 0 1px rgb(255 255 255 / 8%);
+}
+.svx-phone-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  height: 100%;
+  padding: 2.6em 1em 1em;
+  border-radius: 1.9em;
+  background: #f5f6fa;
+  color: #0d1426;
+  font-size: 0.92em;
+  overflow: hidden;
+}
+.svx-notch {
+  position: absolute;
+  top: 0.65em;
+  left: 34%;
+  width: 32%;
+  height: 1.1em;
+  border-radius: 99px;
+  background: #0d1426;
+}
+.svx-phone-screen > small {
+  font-weight: 700;
+  color: #5b6478;
+}
+.svx-balance {
+  padding: 1em;
+  border-radius: 1em;
+  background: linear-gradient(135deg, #3aa0ff, #2f6bff 55%, #5a6cff);
+  color: #fff;
+}
+.svx-balance small {
+  display: block;
+  color: rgb(255 255 255 / 80%);
+  font-size: 0.82em;
+}
+.svx-balance b {
+  display: block;
+  margin: 0.1em 0;
+  font-size: 1.8em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.svx-balance em {
+  font-size: 0.76em;
+  opacity: 0.85;
+}
+.svx-phone-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65em 0.8em;
+  border-radius: 0.75em;
+  background: #fff;
+  box-shadow: 0 1px 0 rgb(13 20 38 / 6%);
+  font-size: 0.85em;
+  font-weight: 600;
+}
+.svx-phone-row em {
+  color: #2f6bff;
+  font-weight: 700;
+}
+.svx-usage {
+  padding: 0.7em 0.8em;
+  border-radius: 0.75em;
+  background: #fff;
+  box-shadow: 0 1px 0 rgb(13 20 38 / 6%);
+  font-size: 0.8em;
+}
+.svx-usage span {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+.svx-usage span b {
+  color: #2f6bff;
+}
+.svx-usage u {
+  display: block;
+  height: 0.45em;
+  margin-top: 0.5em;
+  border-radius: 99px;
+  background: #e6e9f2;
+  overflow: hidden;
+}
+.svx-usage u i {
+  display: block;
+  width: 64%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3aa0ff, #2f6bff);
+}
+.svx-phone-cta {
+  margin-top: auto;
+  padding: 0.75em;
+  border-radius: 0.75em;
+  background: #0d1426;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+}
+
+/* ── Site institucional + resultado de busca ── */
+.svx-web {
+  left: 5%;
+  top: 8%;
+  width: 90%;
+  height: 84%;
+}
+.svx-site {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: #f4f1ec;
+  color: #1d1a16;
+}
+.svx-site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.6em;
+  padding: 1.1em 1.8em;
+  border-bottom: 1px solid rgb(29 26 22 / 8%);
+  font-size: 0.82em;
+  color: #5c564d;
+}
+.svx-site-nav b {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-right: auto;
+  font-size: 1.2em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #1d1a16;
+}
+.svx-site-nav b i {
+  width: 0.95em;
+  height: 0.95em;
+  background: #1d1a16;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.svx-site-nav em {
+  padding: 0.6em 1.1em;
+  border-radius: 0.4em;
+  background: #1d1a16;
+  font-weight: 600;
+  color: #f4f1ec;
+}
+.svx-site-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 2em;
+  flex: 1;
+  min-height: 0;
+  padding: 2.6em 1.8em 0;
+}
+.svx-site-copy small {
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7f70;
+}
+.svx-site-copy h4 {
+  margin-top: 0.55em;
+  font-size: 2.55em;
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.svx-site-copy p {
+  max-width: 24em;
+  margin-top: 1em;
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: #5c564d;
+}
+.svx-site-btn {
+  display: inline-block;
+  margin-top: 1.4em;
+  padding: 0.8em 1.3em;
+  border-radius: 0.4em;
+  background: #1d1a16;
+  font-size: 0.82em;
+  font-weight: 600;
+  color: #f4f1ec;
+}
+/* "Foto" de interior feita só com luz e planos — sem imagem externa. */
+.svx-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.6em 0.6em 0 0;
+  background: #cdbca3;
+}
+.svx-photo i {
+  position: absolute;
+  display: block;
+}
+.svx-photo-wall {
+  inset: 0 0 30% 0;
+  background: linear-gradient(90deg, #c9b79c, #e3d8c6 58%, #d2c1a6);
+}
+.svx-photo-window {
+  top: 13%;
+  left: 40%;
+  width: 34%;
+  height: 50%;
+  border: 0.45em solid #8a775e;
+  border-bottom-width: 0.7em;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.18em), #8a775e calc(50% - 0.18em), #8a775e calc(50% + 0.18em), transparent calc(50% + 0.18em)),
+    linear-gradient(180deg, #fbf7ef, #efe3cf);
+  box-shadow: 0 0 3.5em rgb(255 244 220 / 85%);
+}
+.svx-photo-floor {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  background: linear-gradient(180deg, #a08a6c, #7a6750);
+}
+.svx-photo-sun {
+  z-index: 2;
+  left: 26%;
+  bottom: 3%;
+  width: 46%;
+  height: 31%;
+  background: rgb(255 240 210 / 45%);
+  transform: skewX(-30deg);
+  filter: blur(0.35em);
+}
+.svx-serp {
+  position: absolute;
+  left: 2.5%;
+  bottom: 5%;
+  width: 50%;
+  padding: 1.1em 1.3em;
+  border-radius: 0.9em;
+  background: #fff;
+  color: #202124;
+  box-shadow: 0 1.8em 4em -1em rgb(0 0 0 / 60%);
+}
+.svx-serp-site {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.svx-serp-site > i {
+  position: relative;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  background: #f1f3f4;
+}
+.svx-serp-site > i::after {
+  content: "";
+  position: absolute;
+  inset: 0.5em;
+  background: #1d1a16;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.svx-serp-site b {
+  display: block;
+  font-size: 0.82em;
+  font-weight: 600;
+}
+.svx-serp-site small {
+  display: block;
+  font-size: 0.72em;
+  color: #4d5156;
+}
+.svx-serp-title {
+  display: block;
+  margin-top: 0.55em;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #1a0dab;
+}
+.svx-serp > small {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 0.8em;
+  line-height: 1.45;
+  color: #4d5156;
+}
+
+/* ── Automação ── */
+.svx--automation .av {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

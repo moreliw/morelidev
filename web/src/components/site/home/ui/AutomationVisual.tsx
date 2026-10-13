@@ -7,7 +7,7 @@ const HUB = { x: 300, y: 200 };
  * com pulsos de dados correndo pelas conexões (CSS offset-path — pausa
  * sozinho para quem pede movimento reduzido).
  */
-export function AutomationVisual({ c }: { c: Copy }) {
+export function AutomationVisual({ c, decorative }: { c: Copy; decorative?: boolean }) {
   const nodes: { label: string; x: number; y: number }[] = [
     { label: "ERP", x: 96, y: 78 },
     { label: c("Pagamentos", "Payments"), x: 504, y: 78 },
@@ -22,10 +22,20 @@ export function AutomationVisual({ c }: { c: Copy }) {
   };
 
   return (
-    <svg className="av" viewBox="0 0 600 400" role="img" aria-label={c(
-      "Diagrama: ERP, pagamentos, CRM, WhatsApp, e-mail e dashboard conectados a um núcleo de integração",
-      "Diagram: ERP, payments, CRM, WhatsApp, email and dashboard connected to an integration core",
-    )}>
+    <svg
+      className="av"
+      viewBox="0 0 600 400"
+      preserveAspectRatio="xMidYMid slice"
+      {...(decorative
+        ? { "aria-hidden": true }
+        : {
+            role: "img",
+            "aria-label": c(
+              "Diagrama: ERP, pagamentos, CRM, WhatsApp, e-mail e dashboard conectados a um núcleo de integração",
+              "Diagram: ERP, payments, CRM, WhatsApp, email and dashboard connected to an integration core",
+            ),
+          })}
+    >
       <defs>
         <pattern id="av-grid" width="24" height="24" patternUnits="userSpaceOnUse">
           <path d="M24 0H0V24" fill="none" stroke="rgba(160,185,255,0.07)" />
@@ -40,7 +50,6 @@ export function AutomationVisual({ c }: { c: Copy }) {
           <stop offset="1" stopColor="#5A6CFF" />
         </linearGradient>
       </defs>
-      <rect width="600" height="400" fill="#080d1a" />
       <rect width="600" height="400" fill="url(#av-grid)" />
       <circle cx={HUB.x} cy={HUB.y} r="150" fill="url(#av-glow)" />
 

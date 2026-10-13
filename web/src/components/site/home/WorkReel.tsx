@@ -9,11 +9,16 @@ import { useLanguage } from "@/context/LanguageContext";
 import { ensureGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "../motion/SmoothScroll";
 
-// Ordem editorial da vitrine e a melhor imagem de cada projeto.
-const ORDER = ["mameri", "empresa-capixaba", "cipritex", "takki", "saldo-casa", "padel", "will-market"];
-const IMAGE: Record<string, string> = {
-  "empresa-capixaba": "/images/cases/empresa-capixaba.webp",
-};
+// Ordem editorial da vitrine.
+const ORDER = [
+  "mameri",
+  "empresa-capixaba",
+  "site-empresa-capixaba",
+  "corujitos",
+  "intimite",
+  "odontoapp",
+  "saldo-casa",
+];
 
 /**
  * Projetos numa fita curva em 3D (vista por dentro do cilindro, como um
@@ -128,9 +133,6 @@ export function WorkReel({ c }: { c: Copy }) {
     <section id="trabalhos" className="wr" data-theme="dark" aria-labelledby="work-title">
       <div className="container-site wr-head">
         <div>
-          <p className="kicker">
-            {c("Projetos", "Work")}
-          </p>
           <h2 id="work-title" className="h-big">
             {c("Projetos", "Projects")} <em>{c("em produção.", "in production.")}</em>
           </h2>
@@ -165,10 +167,10 @@ export function WorkReel({ c }: { c: Copy }) {
                     aria-label={decorative ? undefined : `${p.title}, ${p.category[language]}`}
                   >
                     <Image
-                      src={IMAGE[p.slug] ?? p.poster}
+                      src={p.poster}
                       alt=""
-                      width={1280}
-                      height={664}
+                      width={1920}
+                      height={943}
                       sizes="(max-width: 767px) 78vw, 36vw"
                     />
                   </Link>

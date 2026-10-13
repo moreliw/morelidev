@@ -42,9 +42,6 @@ export function Contact({ c }: { c: Copy }) {
       <div className="ct-glow" aria-hidden />
       <div className="container-site ct-grid">
         <div className="ct-copy">
-          <p className="kicker ct-reveal">
-            {c("Contato", "Contact")}
-          </p>
           <h2 id="contact-title" className="ct-title" ref={titleRef}>
             {c("Vamos falar sobre", "Let's talk about")} <em>{c("o seu projeto.", "your project.")}</em>
           </h2>

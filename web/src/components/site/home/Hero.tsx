@@ -58,7 +58,7 @@ export function Hero({ c }: { c: Copy }) {
           },
         );
         gsap.fromTo(
-          ".hx-bar",
+          ".hx-scroll",
           { opacity: 1 },
           {
             opacity: 0,
@@ -95,11 +95,6 @@ export function Hero({ c }: { c: Copy }) {
       <div className="hx-grain" aria-hidden />
 
       <div className="container-site hx-content">
-        <p className="hx-tags" data-intro>
-          <span>{c("Sistemas sob medida", "Custom systems")}</span>
-          <span>{c("Produtos digitais", "Digital products")}</span>
-          <span>{c("Sites institucionais", "Business websites")}</span>
-        </p>
         <h1 id="hero-title" className="hx-title">
           <span className="hx-line">{c("Software sob medida", "Custom software")}</span>
           <span className="hx-line">
@@ -125,21 +120,15 @@ export function Hero({ c }: { c: Copy }) {
         </div>
       </div>
 
-      <div className="container-site hx-bar" data-intro>
-        <span className="hx-status num">
-          <i aria-hidden />
-          {c("Disponível para novos projetos", "Available for new projects")}
-        </span>
-        <a
-          href="#estudio"
-          className="hx-scroll"
-          data-cursor="link"
-          aria-label={c("Ir para o conteúdo", "Go to content")}
-        >
-          <ArrowDown size={16} aria-hidden />
-        </a>
-        <span className="hx-meta num">{c("Atendimento remoto · PT / EN", "Remote · PT / EN")}</span>
-      </div>
+      <a
+        href="#estudio"
+        className="hx-scroll"
+        data-intro
+        data-cursor="link"
+        aria-label={c("Ir para o conteúdo", "Go to content")}
+      >
+        <ArrowDown size={16} aria-hidden />
+      </a>
     </section>
   );
 }

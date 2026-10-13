@@ -148,84 +148,64 @@ body.cursor-none summary {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 0.15rem;
-  padding: 0.3rem;
-  border-radius: 999px;
-  border: 1px solid var(--line-dark);
-  background: rgb(10 14 26 / 46%);
-  backdrop-filter: saturate(150%) blur(16px);
-  -webkit-backdrop-filter: saturate(150%) blur(16px);
-  transition:
-    background-color var(--dur-2) var(--ease),
-    border-color var(--dur-2) var(--ease);
-}
-.site-header:not([data-on-dark]) .desktop-nav {
-  background: rgb(255 255 255 / 66%);
-  border-color: var(--line);
+  gap: clamp(1.4rem, 2.4vw, 2.4rem);
 }
 .desktop-nav a {
-  padding: 0.5rem 0.95rem;
-  border-radius: 999px;
-  font-size: 0.84rem;
-  font-weight: 450;
+  position: relative;
+  padding-block: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 500;
   color: inherit;
-  opacity: 0.74;
-  transition:
-    opacity var(--dur-1) var(--ease),
-    background-color var(--dur-1) var(--ease);
+  opacity: 0.7;
+  transition: opacity var(--dur-1) var(--ease);
 }
-.desktop-nav a:hover {
-  opacity: 1;
-  background: rgb(255 255 255 / 7%);
+/* Sublinhado fino, que cresce da esquerda: hover e seção atual. */
+.desktop-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
 }
+.desktop-nav a:hover,
 .desktop-nav a[aria-current] {
   opacity: 1;
-  background: rgb(255 255 255 / 12%);
 }
-.site-header:not([data-on-dark]) .desktop-nav a:hover {
-  background: rgb(10 10 11 / 5%);
-}
-.site-header:not([data-on-dark]) .desktop-nav a[aria-current] {
-  background: rgb(10 10 11 / 8%);
+.desktop-nav a:hover::after,
+.desktop-nav a[aria-current]::after {
+  transform: scaleX(1);
 }
 
 .header-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: 1.2rem;
 }
 .header-cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  min-height: 42px;
-  padding: 0 1.05rem;
-  border-radius: 999px;
-  border: 1px solid var(--line-dark-2);
-  background: rgb(10 14 26 / 40%);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  font-size: 0.84rem;
-  font-weight: 500;
-  transition:
-    background-color var(--dur-1) var(--ease),
-    color var(--dur-1) var(--ease),
-    border-color var(--dur-1) var(--ease);
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-bottom: 1px solid currentColor;
+  min-height: 0;
+  padding-bottom: 0.15rem;
+  transition: opacity var(--dur-1) var(--ease);
 }
 .header-cta:hover {
-  background: var(--on-dark);
-  color: var(--dark);
-  border-color: var(--on-dark);
+  opacity: 0.7;
 }
-.site-header:not([data-on-dark]) .header-cta {
-  border-color: var(--line-2);
-  background: rgb(255 255 255 / 60%);
+.header-cta svg {
+  transition: transform var(--dur-1) var(--ease);
 }
-.site-header:not([data-on-dark]) .header-cta:hover {
-  background: var(--ink);
-  color: var(--bg);
-  border-color: var(--ink);
+.header-cta:hover svg {
+  transform: translate(2px, -2px);
 }
 .language-toggle {
   display: inline-flex;
@@ -253,19 +233,11 @@ body.cursor-none summary {
   height: 44px;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  border: 1px solid var(--line-dark-2);
-  background: rgb(10 14 26 / 40%);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  margin-right: -10px;
 }
 .menu-toggle svg {
-  width: 20px;
-  height: 20px;
-}
-.site-header:not([data-on-dark]) .menu-toggle {
-  border-color: var(--line-2);
-  background: rgb(255 255 255 / 60%);
+  width: 22px;
+  height: 22px;
 }
 
 /* ─────────── Menu mobile fullscreen ─────────── */
@@ -567,7 +539,7 @@ body.cursor-none summary {
   max-width: 900px;
 }
 .projects-heading .h-section {
-  margin-top: 1.2rem;
+  margin-top: 0;
 }
 .projects-heading > p:last-child {
   font-size: 1.05rem;
@@ -614,20 +586,18 @@ body.cursor-none summary {
 }
 .portfolio-image {
   position: relative;
-  aspect-ratio: 1.55;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
   background: var(--surface-2);
   overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 30px 60px -40px rgb(10 10 11 / 35%);
 }
 .portfolio-image img {
   object-fit: cover;
   object-position: top;
   transition: transform 700ms var(--ease);
-}
-.portfolio-mameri img {
-  object-position: center 73%;
-}
-.portfolio-empresa-capixaba img {
-  object-position: center 60%;
 }
 .portfolio-card:hover .portfolio-image img {
   transform: scale(1.03);
@@ -638,6 +608,10 @@ body.cursor-none summary {
   align-items: flex-start;
   gap: 1.5rem;
   justify-content: space-between;
+}
+.portfolio-category {
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 .portfolio-caption h2 {
   font-size: 1.6rem;

@@ -43,8 +43,8 @@ export default async function ProjetoPage({ params }: Props) {
   const project = getProject(slug);
   if (!project) notFound();
 
-  const relatedSlug = slug === "mameri" ? "empresa-capixaba" : "mameri";
-  const related = getProject(relatedSlug) ?? PROJECTS[0];
+  // Próximo projeto na ordem da vitrine, voltando ao primeiro no fim.
+  const related = PROJECTS[(PROJECTS.indexOf(project) + 1) % PROJECTS.length];
   const nextProject = {
     slug: related.slug,
     title: related.title,

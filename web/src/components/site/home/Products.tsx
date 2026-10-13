@@ -63,9 +63,6 @@ export function Products({ c }: { c: Copy }) {
       <div className="container-site">
         <div className="sec-head">
           <div>
-            <p className="kicker">
-              {c("Produtos próprios", "Own products")}
-            </p>
             <h2 id="products-title" className="h-big">
               {c("Produtos", "Products")} <em>{c("da MoreliDev.", "by MoreliDev.")}</em>
             </h2>

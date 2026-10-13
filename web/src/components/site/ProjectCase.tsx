@@ -78,11 +78,16 @@ export function ProjectCase({ project, nextProject }: Props) {
   const l = (value: { pt: string; en: string }) => value[language];
   const direction = artDirection[project.slug as keyof typeof artDirection];
   const dark = project.slug === "empresa-capixaba";
-  const pillars = direction?.pillars[language] ?? project.stack.slice(0, 3);
+  const pillars = direction?.pillars[language] ?? project.stack?.slice(0, 3) ?? [];
+  // Projetos sem estudo de caso completo mostram só a apresentação e a
+  // imagem do projeto; nada de texto inventado para preencher seções.
+  const story = project.context && project.problem ? { context: project.context, problem: project.problem } : null;
+  const decisions = project.decisions?.[language] ?? [];
+  const stack = project.stack ?? [];
   const sections = [
-    ["historia", pt ? "O desafio" : "The challenge"],
+    ...(story ? [["historia", pt ? "O desafio" : "The challenge"]] : []),
     ["experiencia", pt ? "A experiência" : "The experience"],
-    ["resultado", pt ? "O resultado" : "The outcome"],
+    ...(project.result ? [["resultado", pt ? "O resultado" : "The outcome"]] : []),
   ];
 
   return (
@@ -121,7 +126,6 @@ export function ProjectCase({ project, nextProject }: Props) {
             <span aria-current="page">{project.title}</span>
           </nav>
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>{l(project.category)}</p>
             <h1>
               {project.cover
                 ? project.title
@@ -133,35 +137,38 @@ export function ProjectCase({ project, nextProject }: Props) {
               {l(project.resultTitle)}
             </p>
             <p className={styles.heroDescription}>{l(project.shortDesc)}</p>
-            <a href="#historia" className={styles.heroButton}>
+            <a href={story ? "#historia" : "#experiencia"} className={styles.heroButton}>
               {pt ? "Ver detalhes" : "See details"}
               <ArrowDown size={18} aria-hidden />
             </a>
-          </div>
-          <div className={styles.heroFoot}>
-            <span>{pt ? "ESTUDO DE CASO" : "CASE STUDY"}</span>
-            <span>
-              {pt
-                ? "ESTRATÉGIA / DESIGN / TECNOLOGIA"
-                : "STRATEGY / DESIGN / TECHNOLOGY"}
-            </span>
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.liveLink}
+              >
+                {t(COPY.projects.liveDemo, language)}
+                <ArrowUpRight size={18} aria-hidden />
+              </a>
+            )}
           </div>
         </div>
       </header>
 
-      <div className={styles.pillarBand} data-header-theme={dark ? "dark" : "light"}>
-        <div className={`container-site ${styles.pillars}`}>
-          <p className={styles.eyebrow}>
-            {pt ? "Destaques" : "Highlights"}
-          </p>
-          {pillars.map((pillar) => (
-            <div key={pillar}>
-              <p>{pillar}</p>
-            </div>
-          ))}
+      {pillars.length > 0 && (
+        <div className={styles.pillarBand} data-header-theme={dark ? "dark" : "light"}>
+          <div className={`container-site ${styles.pillars}`}>
+            {pillars.map((pillar) => (
+              <div key={pillar}>
+                <p>{pillar}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
+      {sections.length > 1 && (
       <nav
         className={styles.chapterNav}
         aria-label={pt ? "Neste case" : "In this case"}
@@ -181,33 +188,31 @@ export function ProjectCase({ project, nextProject }: Props) {
           </Link>
         </div>
       </nav>
+      )}
 
       <div className="container-site" data-header-theme="light">
+        {story && (
         <section
           id="historia"
           className={styles.story}
           aria-labelledby="story-title"
         >
           <div data-reveal>
-            <p className={styles.eyebrow}>
-              {pt ? "Contexto" : "Context"}
-            </p>
             <h2 id="story-title">
               {direction ? l(direction.headline) : l(project.resultTitle)}
             </h2>
           </div>
           <div className={styles.storyBody} data-reveal>
-            <p className={styles.lead}>{l(project.context)}</p>
+            <p className={styles.lead}>{l(story.context)}</p>
             <h3>{pt ? "O desafio" : "The challenge"}</h3>
-            <p>{l(project.problem)}</p>
+            <p>{l(story.problem)}</p>
             <div className={styles.scope}>
-              <span className={styles.eyebrow}>
-                {pt ? "NOSSA ENTREGA" : "OUR CONTRIBUTION"}
-              </span>
+              <h3>{pt ? "Nossa entrega" : "Our contribution"}</h3>
               <p>{t(COPY.projects.companyRoleValue, language)}</p>
             </div>
           </div>
         </section>
+        )}
 
         <section
           id="experiencia"
@@ -216,14 +221,11 @@ export function ProjectCase({ project, nextProject }: Props) {
         >
           <div className={styles.sectionHeading} data-reveal>
             <div>
-              <p className={styles.eyebrow}>
-                {pt ? "Solução" : "Solution"}
-              </p>
               <h2 id="experience-title">
                 {pt ? "O que foi desenvolvido." : "What we built."}
               </h2>
             </div>
-            <p>{l(project.solution)}</p>
+            <p>{l(project.solution ?? project.shortDesc)}</p>
           </div>
           <figure className={styles.showcase}>
             <div className={styles.windowBar} aria-hidden="true">
@@ -257,9 +259,7 @@ export function ProjectCase({ project, nextProject }: Props) {
               />
             )}
             <figcaption>
-              <span>
-                {pt ? "Demonstração" : "Demo"}
-              </span>
+              <span>{project.title}</span>
               <span>
                 {project.videoUrl
                   ? pt
@@ -279,6 +279,7 @@ export function ProjectCase({ project, nextProject }: Props) {
         </section>
       </div>
 
+      {project.result && (
       <section
         id="resultado"
         className={styles.outcome}
@@ -287,9 +288,6 @@ export function ProjectCase({ project, nextProject }: Props) {
       >
         <div className={`container-site ${styles.outcomeInner}`}>
           <div data-reveal>
-            <p className={styles.eyebrow}>
-              {pt ? "Resultado" : "Outcome"}
-            </p>
             <h2 id="outcome-title">
               {pt ? "O que mudou." : "What changed."}
             </h2>
@@ -305,30 +303,29 @@ export function ProjectCase({ project, nextProject }: Props) {
           </div>
         </div>
       </section>
+      )}
 
       <div className="container-site" data-header-theme="light">
+        {(decisions.length > 0 || stack.length > 0) && (
         <section
           className={styles.engineering}
           aria-labelledby="engineering-title"
         >
           <div data-reveal>
-            <p className={styles.eyebrow}>
-              {pt ? "Tecnologia" : "Technology"}
-            </p>
             <h2 id="engineering-title">
               {pt ? "Decisões técnicas." : "Technical decisions."}
             </h2>
             <div className={styles.stack}>
-              {project.stack.map((item) => (
+              {stack.map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>
           </div>
           <div className={styles.decisions}>
-            {project.decisions[language].map((decision, index) => {
+            {decisions.map((decision, index) => {
               const label =
                 direction?.decisionLabels[language][index] ??
-                project.stack.find((technology) =>
+                stack.find((technology) =>
                   decision.includes(technology),
                 ) ??
                 (pt ? "Decisão de projeto" : "Project decision");
@@ -348,28 +345,15 @@ export function ProjectCase({ project, nextProject }: Props) {
                 {t(COPY.projects.confidential, language)}
               </p>
             )}
-            {project.demoUrl && (
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.liveLink}
-              >
-                {t(COPY.projects.liveDemo, language)}
-                <ArrowUpRight size={18} aria-hidden />
-              </a>
-            )}
           </div>
         </section>
+        )}
 
         <section
           className={styles.contact}
           aria-labelledby="case-contact-title"
           data-reveal
         >
-          <p className={styles.eyebrow}>
-            {pt ? "Contato" : "Contact"}
-          </p>
           <h2 id="case-contact-title">
             {pt ? "Tem um projeto parecido?" : "Have a similar project?"}
           </h2>
@@ -397,9 +381,6 @@ export function ProjectCase({ project, nextProject }: Props) {
             />
           </div>
           <div>
-            <span className={styles.eyebrow}>
-              {pt ? "Próximo projeto" : "Next project"}
-            </span>
             <h2>{nextProject.title}</h2>
             <p>{l(nextProject.category)}</p>
           </div>

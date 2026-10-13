@@ -61,9 +61,6 @@ export function Process({ c }: { c: Copy }) {
       <div className="container-site">
         <div className="sec-head">
           <div>
-            <p className="kicker">
-              {c("Processo", "Process")}
-            </p>
             <h2 id="process-title" className="h-big">
               {c("Como", "How we")} <em>{c("trabalhamos.", "work.")}</em>
             </h2>

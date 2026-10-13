@@ -12,28 +12,18 @@ const GROUPS = [
     id: "systems",
     pt: "Sistemas",
     en: "Systems",
-    slugs: ["empresa-capixaba", "cipritex"],
+    slugs: ["empresa-capixaba", "odontoapp"],
   },
   {
     id: "web",
     pt: "Websites e e-commerce",
     en: "Websites & e-commerce",
-    slugs: ["mameri", "will-market", "takki"],
+    slugs: ["mameri", "site-empresa-capixaba", "corujitos", "intimite"],
   },
-  { id: "apps", pt: "Aplicativos", en: "Apps", slugs: ["saldo-casa", "padel"] },
+  { id: "apps", pt: "Aplicativos", en: "Apps", slugs: ["saldo-casa"] },
 ];
-const ORDER = [
-  "mameri",
-  "empresa-capixaba",
-  "saldo-casa",
-  "takki",
-  "cipritex",
-  "padel",
-  "will-market",
-];
-const ordered = [...PROJECTS].sort(
-  (a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug),
-);
+// A ordem editorial é a da própria lista em data/projects.ts.
+const ordered = PROJECTS;
 
 export function ProjectsIndex() {
   const { language } = useLanguage();
@@ -47,9 +37,6 @@ export function ProjectsIndex() {
     <section className="projects-index section-space">
       <div className="container-site">
         <header className="projects-heading">
-          <p className="eyebrow">
-            {c("PORTFÓLIO", "PORTFOLIO")}
-          </p>
           <h1 className="h-section">
             {c("Projetos", "Projects")}
           </h1>
@@ -91,7 +78,7 @@ export function ProjectsIndex() {
             >
               <div className="portfolio-image">
                 <Image
-                  src={project.cover ?? project.poster}
+                  src={project.poster}
                   alt={`${project.title}, ${project.category[language]}`}
                   fill
                   sizes="(max-width: 767px) 100vw, 50vw"
@@ -100,7 +87,7 @@ export function ProjectsIndex() {
               </div>
               <div className="portfolio-caption">
                 <div>
-                  <p className="eyebrow">{project.category[language]}</p>
+                  <p className="portfolio-category">{project.category[language]}</p>
                   <h2>{project.title}</h2>
                   <p>{project.shortDesc[language]}</p>
                 </div>

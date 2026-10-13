@@ -60,9 +60,6 @@ export function Reach({ c }: { c: Copy }) {
     <section ref={sectionRef} id="alcance" className="rc" data-theme="dark" data-scene={status} aria-labelledby="reach-title">
       <div className="container-site rc-grid">
         <div className="rc-copy">
-          <p className="kicker rc-reveal">
-            {c("Atuação", "Where we work")}
-          </p>
           <h2 id="reach-title" className="h-big rc-reveal">
             {c("Atendimento remoto,", "Remote service,")} <em>{c("onde você estiver.", "wherever you are.")}</em>
           </h2>

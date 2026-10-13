@@ -1,20 +1,17 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import type { Copy } from "./types";
 import { ensureGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { getLenis } from "../motion/SmoothScroll";
-import { AutomationVisual } from "./ui/AutomationVisual";
+import { ServiceVisual, type ServiceVisualKind } from "./ui/ServiceVisuals";
 
 type Service = {
   key: string;
   tab: string;
-  label: string;
   title: string;
   text: string;
   items: string[];
-  image?: string;
-  alt?: string;
+  visual: ServiceVisualKind;
 };
 
 /**
@@ -31,8 +28,8 @@ export function Services({ c }: { c: Copy }) {
   const services: Service[] = [
     {
       key: "systems",
+      visual: "systems",
       tab: c("Sistemas", "Systems"),
-      label: c("Sistemas", "Systems"),
       title: c("Sistemas de gestão sob medida", "Custom management systems"),
       text: c(
         "ERPs, portais e ferramentas internas adaptados aos processos da sua empresa.",
@@ -43,13 +40,11 @@ export function Services({ c }: { c: Copy }) {
         c("Portais e áreas do cliente", "Portals and client areas"),
         c("Dashboards e relatórios", "Dashboards and reports"),
       ],
-      image: "/images/premium/capixaba-studio.webp",
-      alt: c("Sistema de gestão operacional em um notebook", "Operations management system on a laptop"),
     },
     {
       key: "products",
+      visual: "product",
       tab: c("Produtos", "Products"),
-      label: c("Produtos", "Products"),
       title: c("Produtos digitais e SaaS", "Digital products and SaaS"),
       text: c(
         "Planejamento, design e desenvolvimento de plataformas web e aplicativos.",
@@ -60,13 +55,11 @@ export function Services({ c }: { c: Copy }) {
         c("Web e mobile", "Web and mobile"),
         c("Assinaturas e pagamentos", "Subscriptions and payments"),
       ],
-      image: "/images/premium/saldocasa.webp",
-      alt: c("Aplicativo SaaS SaldoCasa no celular e no tablet", "SaldoCasa SaaS app on phone and tablet"),
     },
     {
       key: "web",
+      visual: "web",
       tab: c("Sites", "Websites"),
-      label: c("Sites", "Websites"),
       title: c("Sites institucionais", "Business websites"),
       text: c(
         "Sites rápidos, otimizados para o Google e preparados para gerar contatos.",
@@ -77,13 +70,11 @@ export function Services({ c }: { c: Copy }) {
         c("Experiências 3D e interativas", "3D and interactive experiences"),
         c("SEO técnico e performance", "Technical SEO and performance"),
       ],
-      image: "/images/premium/mameri-studio.webp",
-      alt: c("Site da Mameri Export em um notebook", "Mameri Export website on a laptop"),
     },
     {
       key: "automation",
+      visual: "automation",
       tab: c("Automação", "Automation"),
-      label: c("Automação", "Automation"),
       title: c("Integrações e automações", "Integrations and automation"),
       text: c(
         "Integração entre ERPs, pagamentos, WhatsApp e outras ferramentas para reduzir trabalho manual.",
@@ -141,7 +132,7 @@ export function Services({ c }: { c: Copy }) {
       { clipPath: "inset(0% 0% 0% 0% round 24px)", duration: 1, ease: "expo.inOut" },
       0,
     );
-    const img = media.querySelector("img, svg");
+    const img = media.querySelector(".svx-stage");
     if (img) tl.fromTo(img, { scale: 1.18 }, { scale: 1, duration: 1.4, ease: "expo.out" }, 0);
     return () => {
       tl.kill();
@@ -162,9 +153,6 @@ export function Services({ c }: { c: Copy }) {
   return (
     <section id="servicos" className="sv" data-theme="dark" aria-labelledby="services-title">
       <div className="container-site sv-head">
-        <p className="kicker">
-          {c("Serviços", "Services")}
-        </p>
         <h2 id="services-title" className="h-big">
           {c("O que a MoreliDev", "What MoreliDev")} <em>{c("desenvolve.", "builds.")}</em>
         </h2>
@@ -173,18 +161,13 @@ export function Services({ c }: { c: Copy }) {
       <div className="sv-track" ref={trackRef} style={{ ["--n" as string]: total }}>
         <div className="sv-pin">
           <div className="sv-ambient" aria-hidden>
-            {services.map((s, i) =>
-              s.image ? (
-                <div
-                  key={s.key}
-                  className="sv-ambient-img"
-                  data-on={i === active || undefined}
-                  style={{ backgroundImage: `url(${s.image})` }}
-                />
-              ) : (
-                <div key={s.key} className="sv-ambient-img sv-ambient-img--flow" data-on={i === active || undefined} />
-              ),
-            )}
+            {services.map((s, i) => (
+              <div
+                key={s.key}
+                className={`sv-ambient-img sv-ambient-img--${s.visual}`}
+                data-on={i === active || undefined}
+              />
+            ))}
           </div>
 
           <div className="container-site sv-stage">
@@ -196,9 +179,6 @@ export function Services({ c }: { c: Copy }) {
                 data-on={i === active || undefined}
               >
                 <div className="sv-copy">
-                  <p className="sv-label num" data-stagger>
-                    {s.label}
-                  </p>
                   <h3 data-stagger>{s.title}</h3>
                   <p className="sv-text" data-stagger>
                     {s.text}
@@ -210,11 +190,8 @@ export function Services({ c }: { c: Copy }) {
                   </ul>
                 </div>
                 <div className="sv-media" data-media={i}>
-                  {s.image ? (
-                    <Image src={s.image} alt={s.alt ?? ""} fill sizes="(max-width: 1023px) 92vw, 50vw" />
-                  ) : (
-                    <AutomationVisual c={c} />
-                  )}
+                  <ServiceVisual kind={s.visual} c={c} />
+
                 </div>
               </article>
             ))}
