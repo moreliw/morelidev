@@ -33,6 +33,34 @@ A impressão digital da chave recusada no incidente de 06/09/2026 é `SHA256:72v
 
 O workflow **Validate production image** compila a imagem em Linux e inicia um container descartável com banco e JWT exclusivos de teste. Verifica migrations, saúde e revisão, home, case Empresa Capixaba, bloqueio da API administrativa e gravação de contato. O container de teste é removido ao final e não acessa dados de produção.
 
+## Painel de acessos
+
+`https://morelidev.com/painel/` mostra as visitas do site: visitantes, origem, aparelhos, cidade aproximada, páginas e projetos mais vistos, jornada até o pedido de orçamento, cliques no WhatsApp e no e-mail, e as visitas recentes. É o mesmo modelo do painel Corujitos.
+
+Como funciona:
+
+- O site envia beacons sem cookies para `/e` (`web/src/lib/analytics.ts`). O Nginx responde 204 e grava cada beacon em `/var/log/nginx/morelidev/analytics.log`. Nenhum dado de visita passa pela aplicação ou pelo banco.
+- `morelidev-stats` (`deploy/painel/morelidev-stats.py`) lê esse log a cada 5 minutos pelo cron e gera `/var/www/morelidev-painel/stats.json`. O JSON não contém IP nem user agent; visitantes únicos usam um hash com sal guardado em `/var/lib/morelidev-stats`.
+- A cidade aproximada vem da base DB-IP Lite (CC BY 4.0). A cópia do painel Corujitos é reaproveitada quando existe.
+- Os logs giram por semana e ficam guardados por 60 semanas (`/etc/logrotate.d/morelidev-analytics`).
+
+A instalação é idempotente e roda a cada publicação (`deploy/painel/setup.sh`, chamado por `configure-edge.sh`). Em desenvolvimento os eventos aparecem só no console do navegador.
+
+### Senha
+
+Na primeira publicação o script cria o usuário `morelidev` com uma senha aleatória e grava as credenciais em `/root/morelidev-painel-acesso.txt` (permissão 600). Elas não aparecem nos logs do GitHub Actions. Para ler:
+
+```bash
+ssh root@morelidev.com cat /root/morelidev-painel-acesso.txt
+```
+
+Para trocar a senha (o deploy seguinte preserva o arquivo existente):
+
+```bash
+ssh -t root@morelidev.com 'printf "morelidev:%s
+" "$(openssl passwd -apr1)" > /etc/nginx/morelidev-painel.htpasswd'
+```
+
 ## Recuperação
 
 Os backups ficam em `/app/data/backups` dentro do volume do banco. Não executar `docker compose down -v`. As imagens têm a revisão Git na tag. Uma reversão precisa verificar compatibilidade do schema antes de restaurar banco ou iniciar imagem anterior; nenhum restore destrutivo é automático.

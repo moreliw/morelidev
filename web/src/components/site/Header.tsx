@@ -110,6 +110,8 @@ export function Header() {
             type="button"
             className="language-toggle"
             data-cursor="link"
+            data-track="lg"
+            data-track-value={pt ? "en" : "pt"}
             onClick={() => setLanguage(pt ? "en" : "pt")}
             aria-label={pt ? "Switch to English" : "Mudar para português"}
           >

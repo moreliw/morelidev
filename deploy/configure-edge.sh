@@ -10,6 +10,9 @@ target_config="$(readlink -f "$enabled_config")"
   exit 1
 }
 
+# O painel de acessos precisa do diretório de log antes do `nginx -t`.
+bash "$(pwd)/deploy/painel/setup.sh"
+
 backup_dir="/var/backups/morelidev"
 stale_enabled_backup="${enabled_config}.pre-deploy"
 install -d -m 0700 "$backup_dir"

@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { COPY, t } from "@/content/site";
+import { track, trackOnce } from "@/lib/analytics";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -73,6 +74,7 @@ export function ContactForm() {
         }),
       });
       if (!res.ok) throw new Error("server");
+      track("lead", { c: form.company ? 1 : 0, ph: form.phone ? 1 : 0 });
       setStatus("success");
       requestAnimationFrame(() => {
         successRef.current?.focus();
@@ -141,6 +143,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      onFocus={() => trackOnce("form-start", "fs")}
       noValidate
       aria-busy={status === "loading"}
       className="space-y-4"

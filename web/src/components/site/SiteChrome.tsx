@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { SmoothScroll } from "./motion/SmoothScroll";
 import { CustomCursor } from "./motion/CustomCursor";
+import { Analytics } from "./Analytics";
 
 /**
  * Cabeçalho + infraestrutura de motion do site público (scroll suave,
@@ -13,6 +14,7 @@ export function SiteChrome() {
       <Header />
       <SmoothScroll />
       <CustomCursor />
+      <Analytics />
     </>
   );
 }
